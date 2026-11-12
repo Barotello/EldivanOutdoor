@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etkinlikler | Eldivan Outdoor</title>
+<link rel="icon" href="images/favicon-32.png" type="image/png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e3d2f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Eldivan Outdoor">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-bar">
+    <a href="index.html" class="logo">
+      <img src="images/logo.jpg" alt="Eldivan Outdoor logo">
+      Eldivan Outdoor
+    </a>
+    <button class="nav-toggle" aria-label="Menüyü aç/kapat">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Ana Sayfa</a></li>
+      <li><a href="etkinlikler.html" class="active">Etkinlikler</a></li>
+      <li><a href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
+      <li><a href="biz-kimiz.html">Biz Kimiz</a></li>
+      <li><a href="gruplar.html">Gruplar</a></li>
+      <li><a href="duyurular.html">Duyurular</a></li>
+      <li><a href="blog/index.html">Blog</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
+    </ul>
+    <img src="images/ataturk-gozler.jpg" alt="Mustafa Kemal Atatürk'ün gözleri" title="Mustafa Kemal Atatürk" class="nav-eyes" width="103" height="38">
+  </nav>
+</header>
+
+<div class="page-header" style="--header-image: url('/images/yuruyus.jpg');">
+  <h1>Etkinlikler</h1>
+  <p>Yaklaşan etkinliklerimize katılın, geçmiş etkinliklerimize göz atın.</p>
+</div>
+
+<section>
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>Yaklaşan Etkinlikler</h2>
+      <p>2026 Kasım ayında doğayla iç içe, bol hareketli ve keyifli etkinliklerle bir aradayız!</p>
+    </div>
+    <!--
+      Yaklaşan etkinlik kartları. Her kartta data-tarih (YYYY-AA-GG) olmalı: o gün bitince
+      js/etkinlikler.js kartı kendiliğinden "Geçmiş Etkinlikler"e taşır.
+      İsteğe bağlı data-gecmis-not: geçmişe taşınınca kartın açıklaması yerine yazılacak not.
+      Çok günlü etkinliklerde data-tarih son gün olmalı.
+    -->
+    <div class="grid reveal" id="yaklasan">
+      <div class="card" data-tarih="2026-11-13">
+        <div class="card-img-wrap"><img src="images/grup.jpg" alt="Kulüp üyeleri bir arada" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge-outdoor badge-easy">☕ Kulüp &amp; Kültür</span>
+          <div class="card-meta">13 Kasım 2026 &middot; Kulüp Binası</div>
+          <h3>Çay Sohbeti</h3>
+          <p>Kulüp binamızda, “Doğada Çöp Kültürü” üzerine keyifli bir sohbet.</p>
+          <div><a href="https://docs.google.com/forms/d/e/1FAIpQLSc99TLGESkhf27cYMYnMkWAaMjGfMo0QPV2OrYlWa9GeoflSA/viewform" target="_blank" rel="noopener" class="btn" style="width:100%; text-align:center;">Başvuru Formu</a></div>
+        </div>
+      </div>
+      <div class="card" data-tarih="2026-11-22">
+        <div class="card-img-wrap"><img src="images/offroad.jpg" alt="ATV, UTV ve enduro arazi sürüşü" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge-outdoor badge-hard">🏍️ Adrenalin &amp; Enduro</span>
+          <div class="card-meta">22 Kasım 2026 &middot; Koyunbaba Barajı</div>
+          <h3>ATV, UTV ve Enduro Sürüş Etkinliği</h3>
+          <p>Koyunbaba Barajı’nda macera ve keşif dolu bir sürüş.</p>
+          <a href="https://wa.me/905000000000?text=22%20Kas%C4%B1m%20ATV%20UTV%20ve%20Enduro%20etkinli%C4%9Fi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="quick-whatsapp-btn">💬 WhatsApp ile Katıl</a>
+        </div>
+      </div>
+      <div class="card" data-tarih="2026-11-29">
+        <div class="card-img-wrap"><img src="images/yuruyus.jpg" alt="Öğretmenler Günü doğa yürüyüşü" loading="lazy"></div>
+        <div class="card-body">
+          <span class="badge-outdoor badge-medium">🥾 Doğa Yürüyüşü</span>
+          <div class="card-meta">29 Kasım 2026</div>
+          <h3>Yolumuzu Aydınlatanlarla Yürüyoruz</h3>
+          <p>Öğretmenler Günü’ne özel doğa yürüyüşü.</p>
+          <div><a href="https://docs.google.com/forms/d/e/1FAIpQLSf6KpIHtBC2Eeec9Ner4n-gGb7o5VzCowA9cgM_Yd5aiL6XEQ/viewform" target="_blank" rel="noopener" class="btn" style="width:100%; text-align:center;">Başvuru Formu</a></div>
+        </div>
+      </div>
+    </div>
+    <p id="yaklasan-bos" class="reveal" style="text-align:center; color: var(--muted);" hidden>
+      Yeni etkinlik programımız çok yakında burada olacak!
+    </p>
+    <p style="text-align:center; color: var(--muted); margin-top: 2rem;">
+      Tüm doğa, bisiklet ve motor sporları tutkunlarını etkinliklerimize bekliyoruz! Güncel duyurular için <a href="duyurular.html">Duyurular</a> sayfamızı takip edebilirsiniz.
+    </p>
+  </div>
+</section>
+
+<section id="gecmis" style="background: var(--sand-dark);">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>Geçmiş Etkinlikler</h2>
+      <p>2026 yılında gerçekleştirdiğimiz <strong id="gecmis-toplam">70</strong> etkinlik. Ay başlıklarına tıklayarak ayrıntıları görebilirsiniz.</p>
+    </div>
+    <div class="event-archive reveal" id="gecmis-arsiv">
+
+      <details class="event-month" data-ay="2026-11" open>
+        <summary>Kasım 2026 <span class="count">2 etkinlik</span></summary>
+        <ul>
+          <li data-tarih="2026-11-01"><span class="d">1 Kasım</span><span>Türkiye Pedallıyor <span class="w">Cumhuriyet Bayramı kutlamaları ve COP31 etkinlikleri kapsamında bisiklet turu</span></span></li>
+          <li data-tarih="2026-11-08"><span class="d">8 Kasım</span><span>100 Palamut, 100 Umut <span class="w">Geleceğe Nefes, Dünyaya Barış olmak için Milli Ağaçlandırma Günü’ne özel fidanlar dikildi.</span></span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Ekim 2026 <span class="count">7 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">3–4 Ekim</span><span>@canozkarahisar ile Kamp <span class="w">Ankara, Işık Dağı Kamp Alanı</span></span></li>
+          <li><span class="d">4 Ekim</span><span>Bisiklet Performans Turu <span class="w">Çankırı</span></span></li>
+          <li><span class="d">10–11 Ekim</span><span>@dogayadair18 ile Kamp <span class="w">Çankırı, Ilgaz Dağı Tabiat Parkı</span></span></li>
+          <li><span class="d">10 Ekim</span><span>Ilgaz Dağı ATV &amp; Enduro Motor Sürüşü <span class="w">Yeni rota keşfi</span></span></li>
+          <li><span class="d">11 Ekim</span><span>Yalova Granfondo Bisiklet Turu’na Katılım <span class="w">@sporlayalova</span></span></li>
+          <li><span class="d">18 Ekim</span><span>ATV &amp; UTV &amp; Enduro Motor Sürüş Etkinliği <span class="w">Eldivan / Çankırı</span></span></li>
+          <li><span class="d">29 Ekim</span><span>Cumhuriyet Bayramı Kortej Sürüşü</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Eylül 2026 <span class="count">7 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">5–6 Eylül</span><span>Çankırı Motosiklet Derneği Kamp Etkinliği <span class="w">@cankirimotosiklet</span></span></li>
+          <li><span class="d">12 Eylül</span><span>Doğa Yürüyüşü Etkinliği</span></li>
+          <li><span class="d">13 Eylül</span><span>Bisiklet Sürüş Etkinliği</span></li>
+          <li><span class="d">26 Eylül</span><span>Bisiklet, Doğa ve Motor Sporları Severler Tanışma Etkinliği</span></li>
+          <li><span class="d">26 Eylül</span><span>Amatör Olta Balıkçılığı Etkinliği</span></li>
+          <li><span class="d">26 Eylül</span><span>Amatör Kano Etkinliği</span></li>
+          <li><span class="d">27 Eylül</span><span>Genel Kurul Toplantısı</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Ağustos 2026 <span class="count">9 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">1 Ağustos</span><span>Kano Sürüşü</span></li>
+          <li><span class="d">2 Ağustos</span><span>Enduro Keşif Turu</span></li>
+          <li><span class="d">3 Ağustos</span><span>“Kadrajımdan Eldivan Outdoor” Fotoğraf Yarışması Sonuçlarının Açıklanması</span></li>
+          <li><span class="d">4–16 Ağustos</span><span>Çankırı Tuz Festivali Spor Müsabakalarına Katılım</span></li>
+          <li><span class="d">8 Ağustos</span><span>Aile Kampı &amp; DKMP Etkinliğine Bireysel Katılım</span></li>
+          <li><span class="d">14–16 Ağustos</span><span>Çankırı Tuz Festivali Kulüp Standı</span></li>
+          <li><span class="d">23 Ağustos</span><span>Başkent Granfondo’ya Katılım</span></li>
+          <li><span class="d">29 Ağustos</span><span>Zafer Bayramı Bisiklet Turu</span></li>
+          <li><span class="d">30 Ağustos</span><span>Zafer Bayramı Kutlamalarına Katılım ve Kortej Sürüşü <span class="w">Off-road, ATV, Enduro, UTV</span></span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Temmuz 2026 <span class="count">10 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">4 Temmuz</span><span>ATV &amp; Enduro Motor Sürüşü / Konvoy</span></li>
+          <li><span class="d">6 Temmuz</span><span>Seydi Köyü Bisiklet Turu</span></li>
+          <li><span class="d">7 Temmuz</span><span>Ekinne Barajı Bisiklet Turu</span></li>
+          <li><span class="d">8 Temmuz</span><span>Enduro Sürüşü</span></li>
+          <li><span class="d">12 Temmuz</span><span>Doğa Yürüyüşü</span></li>
+          <li><span class="d">17 Temmuz</span><span>Çorba İkramı <span class="w">Eldivan Büyük Cami, sabah namazının ardından</span></span></li>
+          <li><span class="d">17–19 Temmuz</span><span>Bisiklet Temalı Yaz Kampı <span class="w">Kadın Çayırı Mesire Alanı, Ilgaz</span></span></li>
+          <li><span class="d">24 Temmuz</span><span>Kitap Okuma Şenliği <span class="w">Eldivan Kaymakamlık Binası</span></span></li>
+          <li><span class="d">24 Temmuz</span><span>Açık Hava Sineması <span class="w">Eldivan Kaymakamlık Binası</span></span></li>
+          <li><span class="d">31 Temmuz</span><span>“Kadrajımdan Eldivan Outdoor” Fotoğraf Yarışması <span class="w">Bisiklet, doğa ve motor sporları temalı fotoğraf yarışması</span></span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Haziran 2026 <span class="count">8 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">13 Haziran</span><span>Çocuk Parkı Temizleme Etkinliği <span class="w">Ahmatlar odası altındaki park</span></span></li>
+          <li><span class="d">14 Haziran</span><span>Kulüp Binasında Milli Maç Coşkusu ve Kahvaltı</span></li>
+          <li><span class="d">14 Haziran</span><span>Doğa Yürüyüşü Etkinliği</span></li>
+          <li><span class="d">14 Haziran</span><span>13. Geleneksel Yeşilay Bisiklet Turu – Eldivan Ayağı</span></li>
+          <li><span class="d">17 Haziran</span><span>Açık Hava Sineması Etkinliği</span></li>
+          <li><span class="d">18–21 Haziran</span><span>Eldivan Kiraz Festivali <span class="w">Kulüp tanıtım ve satış standı; bisiklet, motosiklet, ATV ve UTV sergisi; çocuklara yönelik etkinlikler</span></span></li>
+          <li><span class="d">26–30 Haziran</span><span>Kamp Etkinliği <span class="w">Eldivan Karadere Göleti</span></span></li>
+          <li><span class="d">27 Haziran</span><span>Bisiklet Turu</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Mayıs 2026 <span class="count">11 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">1 Mayıs</span><span>Yapraklı Bisiklet Turu</span></li>
+          <li><span class="d">3 Mayıs</span><span>Orta / Sakaeli Enduro &amp; Offroad Sürüş</span></li>
+          <li><span class="d">9–10 Mayıs</span><span>Kamp <span class="w">Bolu, Mengen, Şirinyazı</span></span></li>
+          <li><span class="d">17 Mayıs</span><span>Eldivan Doğa Yürüyüşü</span></li>
+          <li><span class="d">19 Mayıs</span><span>Gençlik ve Spor Bayramı Kutlamaları <span class="w">Enduro &amp; Offroad gösterileri, Eldivan içi bisiklet turu</span></span></li>
+          <li><span class="d">23 Mayıs</span><span>Uçurtma Şenliği <span class="w">Eldivan, Cemeli</span></span></li>
+          <li><span class="d">24 Mayıs</span><span>Orman Yürüyüşü ve Mantar Toplama</span></li>
+          <li><span class="d">28 Mayıs</span><span>Bayramlaşma ve Mangal Etkinliği</span></li>
+          <li><span class="d">29 Mayıs</span><span>Çocuklara Yönelik ATV Sürüş Etkinliği</span></li>
+          <li><span class="d">29 Mayıs</span><span>Açık Hava Sinema Keyfi</span></li>
+          <li><span class="d">31 Mayıs</span><span>Enduro &amp; Offroad Sürüş</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Nisan 2026 <span class="count">5 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">2 Nisan</span><span>Bisiklet Sürüşü <span class="w">Çankırı – Eldivan – Maruf Köyü – Korgun – Çankırı</span></span></li>
+          <li><span class="d">5 Nisan</span><span>Korgun Bisiklet Turu</span></li>
+          <li><span class="d">12 Nisan</span><span>Enduro &amp; Offroad Sürüş Etkinliği</span></li>
+          <li><span class="d">23 Nisan</span><span>Ulusal Egemenlik ve Çocuk Bayramı’na Özel İlçe İçi Bisiklet Turu</span></li>
+          <li><span class="d">26 Nisan</span><span>Doğa Yürüyüşü ve Mantar Toplama Etkinliği</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Mart 2026 <span class="count">5 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">19 Mart</span><span>Çocuklara Yönelik ATV Sürüş Etkinliği</span></li>
+          <li><span class="d">22 Mart</span><span>Enduro &amp; Offroad Sürüş</span></li>
+          <li><span class="d">25–29 Mart</span><span>Kamp <span class="w">Eldivan Karadere Göleti</span></span></li>
+          <li><span class="d">28 Mart</span><span>Fidan Dikim Etkinliği</span></li>
+          <li><span class="d">29 Mart</span><span>Doğa Yürüyüşü</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Şubat 2026 <span class="count">3 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">4 Şubat</span><span>Çocuklara Yönelik Kızak-Kayma Etkinliği</span></li>
+          <li><span class="d">8 Şubat</span><span>Doğa Yürüyüşü</span></li>
+          <li><span class="d">15 Şubat</span><span>Enduro &amp; Offroad Sürüş</span></li>
+        </ul>
+      </details>
+
+      <details class="event-month">
+        <summary>Ocak 2026 <span class="count">3 etkinlik</span></summary>
+        <ul>
+          <li><span class="d">10–11 Ocak</span><span>Kış Kampı Etkinliği</span></li>
+          <li><span class="d">23 Ocak</span><span>Oryantiring / Yönbul Eğitimi</span></li>
+          <li><span class="d">24 Ocak</span><span>Enduro &amp; Offroad Sürüş</span></li>
+        </ul>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>Eldivan Outdoor</h4>
+      <p>Doğa ve Motor Sporları Kulübü</p>
+    </div>
+    <div class="footer-col">
+      <h4>Bağlantılar</h4>
+      <ul>
+        <li><a href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li><a href="gruplar.html">Gruplar</a></li>
+        <li><a href="blog/index.html">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>İletişim</h4>
+      <ul>
+        <li><a href="iletisim.html">Bize Ulaşın</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Eldivan Doğa ve Motor Sporları Kulübü. Hobi amaçlı, ticari olmayan tanıtım sitesi. &middot; <a href="fotograf-kaynaklari.html">Fotoğraf kaynakları</a> &middot; <a href="biz-kimiz.html#logo">Kulüp logosu</a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/anma.js"></script>
+<script src="js/etkinlikler.js"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"2f9fbaf9dd0447b1acfb2c462acf7929","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

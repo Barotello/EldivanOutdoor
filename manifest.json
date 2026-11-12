@@ -1,0 +1,28 @@
+{
+  "name": "Eldivan Doğa ve Motor Sporları Kulübü",
+  "short_name": "Eldivan Outdoor",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#14291f",
+  "theme_color": "#1e3d2f",
+  "orientation": "portrait-primary",
+  "description": "Eldivan Doğa ve Motor Sporları Kulübü - Bisiklet, enduro, kamp, yürüyüş ve outdoor aktiviteleri.",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "images/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
