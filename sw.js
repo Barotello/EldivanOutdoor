@@ -12,7 +12,6 @@ const ASSETS_TO_CACHE = [
   '/css/style.css',
   '/js/main.js',
   '/images/logo.jpg',
-  '/images/ataturk-gozler.jpg',
   '/images/favicon-32.png',
   '/images/apple-touch-icon.png'
 ];
@@ -74,3 +73,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+

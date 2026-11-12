@@ -715,215 +715,297 @@ article.post p { margin-bottom: 1.2rem; }
     flex-shrink: 0;
   }
   .nav-eyes {
-    height: 30px;
-    width: auto;
-    margin: 0 0.25rem 0 auto;
-    border-radius: 4px;
-    opacity: 0.92;
-    flex-shrink: 0;
+    display: none !important;
   }
   .nav-toggle {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 8px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    gap: 4px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     cursor: pointer;
     flex-shrink: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  }
+  .nav-toggle:hover, .nav-toggle:active {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
+  }
+  /* 3 Nokta Menü Tasarımı */
+  .nav-toggle span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease, width 0.25s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+  .nav-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+  }
+  .nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+  }
+
+  /* Eski dikey dropdown gizlenir, ortalanmış Liquid Glass modal kullanılır */
+  .nav-links { display: none !important; }
+}
+
+@media (min-width: 861px) {
+  .nav-eyes { display: none !important; }
+  .nav-toggle {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  }
+  .nav-toggle:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: scale(1.05);
   }
   .nav-toggle span {
     display: block;
-    width: 22px;
+    width: 5px;
+    height: 5px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease, width 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    width: 18px;
     height: 2px;
-    background: var(--white);
-    margin: 2.5px 0;
-    transition: transform 0.2s ease, opacity 0.2s ease;
     border-radius: 2px;
   }
-  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-toggle.open span:nth-child(2) { opacity: 0; }
-  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* Eski dikey dropdown gizlenir, modern Drawer kullanılır */
-  .nav-links { display: none !important; }
+  .nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+  }
 }
 
 @media (max-width: 360px) {
   .logo img { width: 32px; height: 32px; }
-  .nav-eyes { height: 24px; }
-  .nav-toggle { width: 40px; height: 40px; }
+  .nav-toggle { width: 38px; height: 38px; }
 }
 
-/* 2. Modern Mobil Çekmece Menü (Off-Canvas Drawer) */
+/* 2. Ekranın Ortasında Açılan Liquid Glass Menü Modalı */
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: rgba(8, 18, 13, 0.68);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.28s ease, visibility 0.28s ease;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .drawer-backdrop.active {
   opacity: 1;
   visibility: visible;
 }
 
-.mobile-drawer {
+.mobile-drawer.liquid-glass-modal {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(84vw, 340px);
-  background: #12221a;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  width: min(92vw, 420px);
+  max-height: min(88vh, 680px);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(47, 90, 68, 0.45), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(181, 98, 46, 0.2), transparent 45%),
+    linear-gradient(145deg, rgba(24, 48, 36, 0.84) 0%, rgba(14, 28, 21, 0.94) 100%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.35),
+    inset 0 -1.5px 2px rgba(0, 0, 0, 0.3);
   color: var(--white);
   z-index: 1001;
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
-}
-.mobile-drawer.open {
-  transform: translateX(0);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.drawer-header {
+.mobile-drawer.liquid-glass-modal.open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Glass Header */
+.glass-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 1.25rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.2);
+  padding: 1.15rem 1.35rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
 }
-.drawer-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.drawer-brand img {
+.glass-logo {
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-.drawer-title {
-  font-family: "Fraunces", Georgia, serif;
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: #ffffff;
-}
-.drawer-sub {
-  font-size: 0.75rem;
-  color: #a9c2af;
-}
-.drawer-close {
+.glass-close {
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 1.5rem;
-  line-height: 1;
-  width: 38px;
-  height: 38px;
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
 }
-.drawer-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+.glass-close:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: rotate(90deg);
 }
 
-.drawer-body {
+/* Glass Body & Nav */
+.glass-body {
   padding: 1rem 1.25rem;
   flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
-.drawer-nav {
+.glass-nav {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.45rem;
 }
-.drawer-nav a {
+.glass-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
-  color: #d6e3d9;
+  padding: 0.7rem 1.1rem;
+  color: #e2ede5;
   font-weight: 500;
-  font-size: 0.98rem;
-  border-radius: 8px;
-  transition: all 0.15s ease;
-  min-height: 46px;
+  font-size: 0.95rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  min-height: 44px;
 }
-.drawer-nav a:hover,
-.drawer-nav a.active {
-  background: rgba(255, 255, 255, 0.08);
+.glass-item:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.28);
   color: #ffffff;
-  padding-left: 1.2rem;
+  transform: translateY(-1.5px) scale(1.01);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
-.drawer-nav a.active {
-  border-left: 3px solid var(--accent);
-  background: rgba(181, 98, 46, 0.15);
+.glass-item.active {
+  background: linear-gradient(90deg, rgba(181, 98, 46, 0.38) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(181, 98, 46, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
 }
 
-.drawer-cta-box {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Glass CTA Box */
+.glass-cta-box {
+  margin-top: 1.1rem;
+  padding: 1.1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.2);
   text-align: center;
 }
-.drawer-cta-title {
-  font-weight: 600;
-  font-size: 0.92rem;
-  color: #ffffff;
-  margin-bottom: 0.35rem;
-}
-.drawer-cta-desc {
-  font-size: 0.8rem;
-  color: #b9cabd;
-  margin: 0 0 0.85rem;
-  line-height: 1.4;
-}
-.drawer-whatsapp-btn {
+.glass-whatsapp {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  background: #25D366;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.9) 0%, rgba(20, 160, 75, 0.95) 100%);
   color: #ffffff !important;
   font-weight: 600;
-  font-size: 0.88rem;
-  padding: 0.65rem 1rem;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.2rem;
   border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  min-height: 46px;
+  transition: all 0.2s ease;
+}
+.glass-whatsapp:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 10px 26px rgba(37, 211, 102, 0.45);
+  background: linear-gradient(135deg, rgba(46, 222, 112, 0.95) 0%, rgba(22, 175, 82, 1) 100%);
 }
 
-.drawer-footer {
-  padding: 1rem 1.25rem;
+/* Glass Footer */
+.glass-footer {
+  padding: 0.85rem 1.25rem;
+  background: rgba(0, 0, 0, 0.22);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: #839786;
-}
-.drawer-eyes {
-  height: 24px;
-  width: auto;
-  border-radius: 4px;
-  opacity: 0.85;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: #9cb5a2;
 }
 
 /* 3. Sabit Alt Navigasyon Çubuğu (Sticky Bottom Navigation Bar) */
