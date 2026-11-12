@@ -182,6 +182,78 @@
       background: rgba(0, 0, 0, .75);
       transform: scale(1.04);
     }
+
+    /* ==================== REACT BITS: CARD SPREAD (CARD-SPREAD-TW) ==================== */
+    .card-spread-deck {
+      position: relative;
+      width: 100%;
+      height: 330px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      cursor: pointer;
+      user-select: none;
+      touch-action: pan-y;
+      margin: 1rem 0 0.75rem;
+    }
+
+    .spread-card {
+      position: absolute;
+      width: 155px;
+      height: 240px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+      transform-origin: 50% 120%;
+      transition: transform 0.48s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.25s ease;
+      will-change: transform;
+      cursor: pointer;
+    }
+
+    /* Stacked (Kapalı / Deste) Durumu */
+    .spread-card[data-idx="0"] { transform: rotate(-5deg) translateX(-4px) translateY(2px); z-index: 1; }
+    .spread-card[data-idx="1"] { transform: rotate(-3deg) translateX(-2px) translateY(1px); z-index: 2; }
+    .spread-card[data-idx="2"] { transform: rotate(-1deg) translateX(-1px) translateY(0px); z-index: 3; }
+    .spread-card[data-idx="3"] { transform: rotate(1deg) translateX(1px) translateY(0px); z-index: 4; }
+    .spread-card[data-idx="4"] { transform: rotate(3deg) translateX(2px) translateY(1px); z-index: 5; }
+    .spread-card[data-idx="5"] { transform: rotate(5deg) translateX(4px) translateY(2px); z-index: 6; }
+
+    /* Fanned / Spread (Açık / Yayılmış) Durumu */
+    .card-spread-deck.is-spread .spread-card[data-idx="0"] {
+      transform: rotate(-22deg) translateX(-92px) translateY(16px);
+      z-index: 1;
+    }
+    .card-spread-deck.is-spread .spread-card[data-idx="1"] {
+      transform: rotate(-13deg) translateX(-55px) translateY(6px);
+      z-index: 2;
+    }
+    .card-spread-deck.is-spread .spread-card[data-idx="2"] {
+      transform: rotate(-4deg) translateX(-18px) translateY(0px);
+      z-index: 3;
+    }
+    .card-spread-deck.is-spread .spread-card[data-idx="3"] {
+      transform: rotate(4deg) translateX(18px) translateY(0px);
+      z-index: 4;
+    }
+    .card-spread-deck.is-spread .spread-card[data-idx="4"] {
+      transform: rotate(13deg) translateX(55px) translateY(6px);
+      z-index: 5;
+    }
+    .card-spread-deck.is-spread .spread-card[data-idx="5"] {
+      transform: rotate(22deg) translateX(92px) translateY(16px);
+      z-index: 6;
+    }
+
+    /* Kart Üzerine Gelindiğinde / Seçildiğinde (Lift & Pop Out) */
+    .card-spread-deck .spread-card:hover,
+    .card-spread-deck .spread-card.is-active {
+      transform: rotate(0deg) scale(1.12) translateY(-24px) !important;
+      z-index: 50 !important;
+      border-color: #ffffff !important;
+      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.45), 0 0 0 3px #C25E2E;
+    }
   </style>
 </head>
 <body class="bg-[#f0f2f5] text-ink min-h-screen font-body antialiased flex flex-col selection:bg-accent/20 selection:text-accent overflow-hidden">
@@ -246,10 +318,10 @@
     <!-- Ana İçerik -->
     <main class="flex-1 flex flex-col">
 
-      <!-- ==================== BÖLÜM 1: RADYAL PETAL KEŞİF EKRANI (REFERANS SOL EKRAN) ==================== -->
+      <!-- ==================== BÖLÜM 1: KEŞFET & CARD SPREAD (REACT BITS PRO TASARIMI) ==================== -->
       <section class="px-5 pt-5 pb-6">
         <!-- Başlık ve Koordinatlar -->
-        <div class="flex items-start justify-between mb-4">
+        <div class="flex items-start justify-between mb-3">
           <div>
             <h1 class="font-headline text-[28px] font-extrabold tracking-tight text-ink leading-[1.15]">
               Doğanın <br>
@@ -268,66 +340,160 @@
           </div>
         </div>
 
-        <!-- RADYAL PETAL KEŞİF MERKEZİ (6'lı Çiçek/Petal Görsel Düzeni) -->
-        <div class="relative w-[340px] h-[340px] mx-auto my-3 flex items-center justify-center">
-          
-          <!-- Arkadaki minimalist topoğrafik dairesel kılavuz çizgileri -->
-          <div class="absolute inset-0 rounded-full border border-dashed border-light-outline-variant/70 pointer-events-none"></div>
-          <div class="absolute inset-6 rounded-full border border-light-outline-variant/40 pointer-events-none"></div>
+        <!-- Üst Kontrol & Yayma Çubuğu -->
+        <div class="flex items-center justify-between pt-1 pb-1">
+          <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold tracking-wider text-muted uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+            <span>DİSİPLİNLERİ KEŞFET &middot; 6 ALAN</span>
+          </div>
 
-          <!-- 1. Petal: ÜST (Dağ & Zirve / Yürüyüş) -->
-          <a href="#etkinlikler" class="absolute top-0 left-1/2 -translate-x-1/2 w-[98px] h-[104px] petal-top overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/grup.jpg" alt="Dağ Zirve" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/60 flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Zirve</span>
+          <!-- Kartları Aç / Kapat Butonu -->
+          <button id="spreadToggleBtn" type="button" class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-sand-dark text-ink font-mono-tech text-[11px] font-bold border border-black/10 hover:bg-ink hover:text-white transition-all active:scale-95 shadow-sm">
+            <span id="spreadToggleIcon" class="material-symbols-outlined text-[15px]">layers</span>
+            <span id="spreadToggleText">Desteyi Topla</span>
+          </button>
+        </div>
+
+        <!-- REACT BITS CARD SPREAD DESTESİ (FANNED DECK) -->
+        <div id="cardSpreadDeck" class="card-spread-deck is-spread" title="Kartları açmak veya kapatmak için dokunun">
+
+          <!-- 1. KART: ZİRVE (Dağ & Yürüyüş) -->
+          <div class="spread-card group" data-idx="0">
+            <img src="images/grup.jpg" alt="Zirve Tırmanışı" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">01 / ZİRVE</span>
+                <span class="material-symbols-outlined text-[18px]">landscape</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">1.420M ZİRVE</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Zirve Tırmanışı</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>14.2 KM</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- 2. Petal: SAĞ ÜST (Kamp & Çadır) -->
-          <a href="#etkinlikler" class="absolute top-[48px] right-[14px] w-[96px] h-[98px] petal-top-right overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/kamp.jpg" alt="Kamp ve Çadır" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Kamp</span>
+          <!-- 2. KART: ENDURO (Motosiklet) -->
+          <div class="spread-card group" data-idx="1">
+            <img src="images/enduro.jpg" alt="Enduro Motosiklet" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">02 / ENDURO</span>
+                <span class="material-symbols-outlined text-[18px]">sports_motorsports</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">TOPRAK PARKUR</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Enduro Rotaları</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>18.5 KM</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- 3. Petal: SAĞ ALT (Teknik Ekipman & Karabin / Oryantiring) -->
-          <a href="#etkinlikler" class="absolute bottom-[48px] right-[14px] w-[96px] h-[98px] petal-bottom-right overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/oryantiring.jpg" alt="Ekipman &amp; Oryantiring" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Parkur</span>
+          <!-- 3. KART: KAMP (Çadır & Yayla) -->
+          <div class="spread-card group is-active" data-idx="2">
+            <img src="images/kamp.jpg" alt="Yayla Kampı" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">03 / KAMP</span>
+                <span class="material-symbols-outlined text-[18px]">camping</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">YILDIZLI GECE</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Yayla Kampı</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>YAYLA HATTI</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- 4. Petal: ALT (Off-road & Dağ Yolu) -->
-          <a href="#etkinlikler" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[98px] h-[104px] petal-bottom overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/offroad.jpg" alt="Off-road" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Off-road</span>
+          <!-- 4. KART: BİSİKLET (Dağ Bisikleti) -->
+          <div class="spread-card group" data-idx="3">
+            <img src="images/bisiklet.jpg" alt="Dağ Bisikleti" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">04 / BİSİKLET</span>
+                <span class="material-symbols-outlined text-[18px]">directions_bike</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">ORMAN PARKURU</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Dağ Bisikleti</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>16.0 KM</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- 5. Petal: SOL ALT (Bisiklet & Patika) -->
-          <a href="#etkinlikler" class="absolute bottom-[48px] left-[14px] w-[96px] h-[98px] petal-bottom-left overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/bisiklet.jpg" alt="Bisiklet" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Bisiklet</span>
+          <!-- 5. KART: OFF-ROAD (4x4 & ATV) -->
+          <div class="spread-card group" data-idx="4">
+            <img src="images/offroad.jpg" alt="Off-road 4x4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">05 / OFF-ROAD</span>
+                <span class="material-symbols-outlined text-[18px]">minor_crash</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">ZORLU ARAZİ</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Off-Road 4x4</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>KOYUNBABA</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- 6. Petal: SOL ÜST (Enduro & Motosiklet) -->
-          <a href="#etkinlikler" class="absolute top-[48px] left-[14px] w-[96px] h-[98px] petal-top-left overflow-hidden shadow-sm group border border-white hover:scale-105 transition-transform duration-200">
-            <img src="images/enduro.jpg" alt="Enduro" class="w-full h-full object-cover group-hover:brightness-105" loading="lazy">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-2">
-              <span class="text-[10px] font-bold text-white uppercase tracking-wider">Enduro</span>
+          <!-- 6. KART: PARKUR (Oryantiring) -->
+          <div class="spread-card group" data-idx="5">
+            <img src="images/oryantiring.jpg" alt="Oryantiring ve Parkur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
+              <div class="flex items-center justify-between text-white">
+                <span class="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">06 / PARKUR</span>
+                <span class="material-symbols-outlined text-[18px]">explore</span>
+              </div>
+              <div>
+                <div class="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">ORYANTİRİNG</div>
+                <h3 class="font-headline font-extrabold text-white text-[15px] leading-tight mt-0.5">Doğa Parkuru</h3>
+                <div class="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
+                  <span>18 NOKTA</span>
+                  <span class="text-accent underline font-bold">SEÇ &rarr;</span>
+                </div>
+              </div>
             </div>
-          </a>
+          </div>
 
-          <!-- MERKEZ: SİYAH YUVARLAK "KEŞFET" BUTONU -->
-          <a href="#etkinlikler" class="relative z-20 w-[94px] h-[94px] rounded-full bg-ink text-white flex flex-col items-center justify-center shadow-xl active:scale-95 transition-transform border-[3px] border-white group">
-            <span class="material-symbols-outlined text-[26px] text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">north_east</span>
-            <span class="text-[11px] font-bold tracking-widest uppercase mt-0.5">KEŞFET</span>
-          </a>
+        </div>
+
+        <!-- Etkileşimli Seçili Kart Bilgi Paneli (Focus Banner) -->
+        <div id="cardSpreadInfoBox" class="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm transition-all duration-300">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span id="cardSpreadBadge" class="text-[10px] font-mono-tech font-bold uppercase tracking-wider text-accent block mb-1">
+                03 / YAYLA KAMPI
+              </span>
+              <h3 id="cardSpreadTitle" class="font-headline font-extrabold text-ink text-[17px] leading-snug">
+                Yayla Kampı &amp; Çadır
+              </h3>
+              <p id="cardSpreadDesc" class="text-muted text-[12px] leading-relaxed mt-1">
+                Yıldızların altında, doğanın kalbinde huzurlu çadır ve karavan kampı deneyimi.
+              </p>
+              <div id="cardSpreadMeta" class="text-[10px] font-mono-tech text-muted/80 mt-2 font-semibold">
+                ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN
+              </div>
+            </div>
+            <a href="hizmetlerimiz.html" class="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md" title="Detaylı Bilgi">
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </a>
+          </div>
         </div>
 
         <!-- Saha Notu & Rota Bilgisi (FIELD NOTE / KULÜP BİRİMİ) -->
@@ -867,6 +1033,114 @@
       } else {
         play();
       }
+    })();
+
+    // 4. React Bits: Card Spread (Card-Spread-TW) Etkileşim Denetleyicisi
+    (function initCardSpread() {
+      var deck = document.getElementById('cardSpreadDeck');
+      var toggleBtn = document.getElementById('spreadToggleBtn');
+      var toggleText = document.getElementById('spreadToggleText');
+      var toggleIcon = document.getElementById('spreadToggleIcon');
+      var cards = document.querySelectorAll('.spread-card');
+      var infoBadge = document.getElementById('cardSpreadBadge');
+      var infoTitle = document.getElementById('cardSpreadTitle');
+      var infoDesc = document.getElementById('cardSpreadDesc');
+      var infoMeta = document.getElementById('cardSpreadMeta');
+
+      var cardData = [
+        {
+          badge: '01 / ZİRVE & TIRMANIŞ',
+          title: 'Eldivan Zirve Tırmanışı',
+          desc: 'Eldivan Dağı ve yaylalarında çam ormanları eşliğinde teknik doğa yürüyüşü rotası.',
+          meta: 'RAKIM 1.420M · MESAFE 14.2 KM · ORTA SEVİYE'
+        },
+        {
+          badge: '02 / ENDURO MOTOSİKLET',
+          title: 'Enduro & Toprak Parkur',
+          desc: 'Koyunbaba Barajı ve dik yamaçlarda yüksek adrenalinli motosiklet sürüşü.',
+          meta: 'MESAFE 18.5 KM · ZORLU ZEMİN · KORUMALI EKİPMAN'
+        },
+        {
+          badge: '03 / YAYLA KAMPI',
+          title: 'Yayla Kampı & Çadır',
+          desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır ve karavan kampı deneyimi.',
+          meta: 'ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN'
+        },
+        {
+          badge: '04 / DAĞ BİSİKLETİ',
+          title: 'Rehberli Dağ Bisikleti',
+          desc: 'Eldivan köy parkurları ve orman içi single-track parkurlarında bisiklet turları.',
+          meta: 'MESAFE 16.0 KM · İNİŞ / ÇIKIŞ 380M · KASK ZORUNLU'
+        },
+        {
+          badge: '05 / OFF-ROAD 4X4',
+          title: 'Off-Road & ATV/UTV',
+          desc: 'Zorlu arazi şartlarında, dere yatakları ve tepelerde 4x4 arazi aracı keşifleri.',
+          meta: 'ÇAMUR / TAŞLIK ZEMİN · VİNÇ & KURTARMA EKİBİ'
+        },
+        {
+          badge: '06 / PARKUR & ORYANTİRİNG',
+          title: 'Doğa Parkuru & Oryantiring',
+          desc: 'Harita ve pusula ile hedefleri bulma, açık hava oryantiring ve takım etkinlikleri.',
+          meta: 'HEDEF NOKTALARI: 18 · TÜM YAŞ GRUPLARI İÇİN UYGUN'
+        }
+      ];
+
+      if (!deck) return;
+
+      function setCardActive(idx) {
+        cards.forEach(function(c, i) {
+          if (i === idx) {
+            c.classList.add('is-active');
+          } else {
+            c.classList.remove('is-active');
+          }
+        });
+        var data = cardData[idx];
+        if (data && infoTitle) {
+          if (infoBadge) infoBadge.textContent = data.badge;
+          if (infoTitle) infoTitle.textContent = data.title;
+          if (infoDesc) infoDesc.textContent = data.desc;
+          if (infoMeta) infoMeta.textContent = data.meta;
+        }
+      }
+
+      // Varsayılan aktif kart: 2 (Kamp)
+      setCardActive(2);
+
+      function toggleSpread() {
+        deck.classList.toggle('is-spread');
+        var isSpread = deck.classList.contains('is-spread');
+        if (toggleText) toggleText.textContent = isSpread ? 'Desteyi Topla' : 'Kartları Yay';
+        if (toggleIcon) toggleIcon.textContent = isSpread ? 'layers' : 'view_carousel';
+      }
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleSpread();
+        });
+      }
+
+      cards.forEach(function(card, idx) {
+        card.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (!deck.classList.contains('is-spread')) {
+            deck.classList.add('is-spread');
+            if (toggleText) toggleText.textContent = 'Desteyi Topla';
+            if (toggleIcon) toggleIcon.textContent = 'layers';
+          }
+          setCardActive(idx);
+        });
+
+        card.addEventListener('mouseenter', function() {
+          setCardActive(idx);
+        });
+      });
+
+      deck.addEventListener('click', function() {
+        toggleSpread();
+      });
     })();
   </script>
 </body>
