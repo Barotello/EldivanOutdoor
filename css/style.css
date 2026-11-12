@@ -1570,11 +1570,12 @@ article.post p { margin-bottom: 1.2rem; }
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 0.4rem;
+  padding: 0 0.5rem;
   z-index: 990;
 }
 
-.dock-item {
+.dock-item, .bottom-nav-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1583,34 +1584,61 @@ article.post p { margin-bottom: 1.2rem; }
   text-decoration: none;
   font-size: 0.68rem;
   font-weight: 600;
-  padding: 0.35rem 0.65rem;
+  padding: 0.35rem 0.55rem;
   border-radius: 999px;
-  transition: all 0.2s ease;
-  min-width: 56px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 58px;
   background: none;
   border: none;
   cursor: pointer;
-  font-family: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  letter-spacing: -0.01em;
 }
-.dock-item svg {
-  width: 20px;
-  height: 20px;
-  margin-bottom: 2px;
-  fill: currentColor;
-  transition: transform 0.2s ease, fill 0.2s ease;
+
+.dock-icon {
+  width: 21px;
+  height: 21px;
+  margin-bottom: 2.5px;
+  transition: transform 0.2s ease, stroke 0.2s ease, fill 0.2s ease;
 }
-.dock-item:hover, .dock-item.active {
+
+.dock-item:hover, .bottom-nav-item:hover {
   color: #111814;
+  transform: translateY(-1.5px);
 }
-.dock-item.active svg {
+
+.dock-item.active, .bottom-nav-item.active {
+  color: #111814;
+  font-weight: 700;
+}
+
+.dock-item.active .dock-icon, .bottom-nav-item.active .dock-icon {
+  stroke: #111814;
+  color: #111814;
   transform: translateY(-2px);
-  fill: #1e3d2f;
 }
-.dock-item.highlight {
-  color: #25D366;
+
+/* Aktif sekmeye referans görseldeki pembe telemetri mikro-noktası */
+.dock-item.active::after, .bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: 3.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ff2d55;
+  box-shadow: 0 0 6px rgba(255, 45, 85, 0.6);
 }
-.dock-item.highlight svg {
-  fill: #25D366;
+
+.dock-item.highlight, .bottom-nav-item.highlight {
+  color: #059669;
 }
+.dock-item.highlight .dock-icon, .bottom-nav-item.highlight .dock-icon {
+  stroke: #059669;
+}
+.dock-item.highlight:hover, .bottom-nav-item.highlight:hover {
+  color: #047857;
+}
+
 
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ELDIVAN. | Doğa & Motor Sporları Kulübü</title>
-<meta name="description" content="Eldivan Doğa ve Motor Sporları Kulübü - Dağ bisikleti, enduro motosiklet, off-road, kamp, zirve yürüyüşü ve açık hava aktiviteleri.">
+<meta name="description" content="Eldivan Doğa ve Motor Sporları Kulübü - Dağ bisikleti, enduro motosiklet, off-road, kamp, zirve yürüyüşü ve açık hava sporları.">
 <link rel="icon" href="images/favicon-32.png" type="image/png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
@@ -17,9 +17,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="outside-theme" style="background:#f6f7f9; color:#111814; padding-bottom: 90px;">
+<body class="outside-theme" style="background:#f6f7f9; color:#111814; padding-bottom: 95px;">
 
-<!-- Minimalist Üst Navigasyon (Outside Style) -->
+<!-- Minimalist Üst Navigasyon -->
 <header class="outside-header">
   <div class="outside-header-inner">
     <a href="index.html" class="outside-brand">
@@ -31,20 +31,20 @@
   </div>
 </header>
 
-<!-- Ana Ekran Başlığı & Koordinat Verisi (Sol Ekran Tasarımı) -->
+<!-- Ana Ekran Başlığı & Koordinat Verisi (Türkçe & Teknik Düzen) -->
 <section class="outside-hero-wrap">
   <div class="outdoor-headline-meta-grid">
     <div class="outdoor-headline-block">
       <h1 class="outdoor-headline">
-        Built for<br>
-        <span class="outdoor-subline">somewhere else<span class="pink-mark">.</span></span>
+        Doğa için<br>
+        <span class="outdoor-subline">tasarlandı<span class="pink-mark">.</span></span>
       </h1>
       <div class="outdoor-brand-sub">Eldivan Doğa &amp; Motor Sporları</div>
     </div>
     <div class="outdoor-telemetry-meta">
-      <div><span class="pink-mark">+</span> 40.5489° N</div>
-      <div>&nbsp; 33.5042° E</div>
-      <div class="meta-elev">ELEV. 1,420M</div>
+      <div><span class="pink-mark">+</span> 40.5489° K</div>
+      <div>&nbsp; 33.5042° D</div>
+      <div class="meta-elev">RAKIM 1.420M</div>
     </div>
   </div>
 </section>
@@ -72,7 +72,7 @@
     <circle cx="180" cy="180" r="162" fill="none" stroke="rgba(0,0,0,0.04)" stroke-width="1"/>
 
     <!-- 1. Petal (Üst - 0°): Zirve & Doğa Yürüyüşü -->
-    <g class="radial-petal" data-sport="Zirve & Doğa Yürüyüşü" data-info="Eldivan Dağı orman patikaları ve zirve rotaları.">
+    <g class="radial-petal" data-sport="Zirve & Doğa Yürüyüşü" data-info="Eldivan Dağı orman patikaları, yaylalar ve zirve rotaları.">
       <image href="images/yuruyus.jpg" x="125" y="15" width="110" height="130" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-0)" />
       <use href="#petal-path" fill="none" stroke="#ffffff" stroke-width="2.2" />
     </g>
@@ -90,7 +90,7 @@
     </g>
 
     <!-- 4. Petal (Alt - 180°): Dağ Bisikleti -->
-    <g class="radial-petal" data-sport="Dağ Bisikleti" data-info="Rehberli orman yolları ve köy parkurlarında bisiklet turları.">
+    <g class="radial-petal" data-sport="Dağ Bisikleti" data-info="Rehberli orman yolları ve köy parkurlarında doğa bisikleti turları.">
       <image href="images/bisiklet.jpg" x="125" y="215" width="110" height="130" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp-180)" />
       <use href="#petal-path" transform="rotate(180 180 180)" fill="none" stroke="#ffffff" stroke-width="2.2" />
     </g>
@@ -111,7 +111,7 @@
     <g class="radial-center-btn" id="explore-btn" onclick="document.getElementById('etkinlikler-bolumu').scrollIntoView({behavior:'smooth'})">
       <circle cx="180" cy="180" r="46" fill="#111814" stroke="#ffffff" stroke-width="2.5" />
       <text x="180" y="170" text-anchor="middle" fill="#ffffff" font-size="22" font-family="-apple-system, sans-serif" font-weight="300">↗</text>
-      <text x="180" y="195" text-anchor="middle" fill="#ffffff" font-size="9.5" font-weight="700" font-family="-apple-system, sans-serif" letter-spacing="1.5">EXPLORE</text>
+      <text x="180" y="195" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="700" font-family="-apple-system, sans-serif" letter-spacing="1.5">KEŞFET</text>
     </g>
   </svg>
 </section>
@@ -122,28 +122,28 @@
     <div class="petal-info-title" id="banner-title">Aktivite</div>
     <div class="petal-info-desc" id="banner-desc">Detay</div>
   </div>
-  <a href="hizmetlerimiz.html" class="petal-info-btn">İncele &rarr;</a>
+  <a href="hizmetlerimiz.html" class="petal-info-btn">Detayları Gör &rarr;</a>
 </div>
 
-<!-- Saha Notları ve Telemetri Veri Bloğu (Sol Ekrandaki 2 Sütunlu Alan) -->
+<!-- Saha Notları ve Telemetri Veri Bloğu (Türkçe & Teknik Düzen) -->
 <section class="field-notes-box">
   <div>
-    <div class="field-note-title"><span class="pink-dot">•</span> FIELD NOTE</div>
-    <div class="field-data-row">TRAIL 04 — RIDGE LOOP</div>
-    <div class="field-data-row">DISTANCE 14.8 KM</div>
-    <div class="field-data-row">DIFFICULTY MODERATE</div>
-    <div class="field-data-row">CONDITION DRY &amp; CLEAR</div>
+    <div class="field-note-title"><span class="pink-dot">•</span> SAHA NOTU</div>
+    <div class="field-data-row"><strong>PARKUR 04</strong> — SIRT DÖNGÜSÜ</div>
+    <div class="field-data-row"><strong>MESAFE</strong> 14.8 KM</div>
+    <div class="field-data-row"><strong>ZORLUK</strong> ORTA SEVİYE</div>
+    <div class="field-data-row"><strong>ZEMİN</strong> KURU &amp; AÇIK</div>
   </div>
   <div>
-    <div class="field-note-title"><span class="pink-mark">+</span> SURVEY UNIT</div>
-    <div class="field-data-row">TRAIL / 018 ELDİVAN</div>
-    <div class="field-data-row">ZONE 08A ÇANKIRI</div>
-    <div class="field-data-row">DATUM WGS84</div>
-    <div class="field-data-row">STATUS ACTIVE</div>
+    <div class="field-note-title"><span class="pink-mark">+</span> KULÜP BİRİMİ</div>
+    <div class="field-data-row"><strong>PARKUR</strong> / 018 ELDİVAN</div>
+    <div class="field-data-row"><strong>BÖLGE</strong> 08A ÇANKIRI</div>
+    <div class="field-data-row"><strong>DATUM</strong> WGS84</div>
+    <div class="field-data-row"><strong>DURUM</strong> AKTİF</div>
   </div>
 </section>
 
-<!-- Canlı Hava ve İrtifa Durumu Kartı (Orta Ekran Konsepti) -->
+<!-- Canlı Hava ve İrtifa Durumu Kartı -->
 <section class="weather-status-card">
   <div class="weather-card-inner">
     <div class="weather-metric">
@@ -153,7 +153,7 @@
     </div>
     <div class="weather-metric">
       <div class="weather-label">Rakım</div>
-      <div class="weather-value">1,420M</div>
+      <div class="weather-value">1.420M</div>
       <div class="weather-sub">Eldivan Yaylası</div>
     </div>
     <div class="weather-metric">
@@ -164,17 +164,17 @@
   </div>
 </section>
 
-<!-- Öne Çıkan Etkinlik Kartı (Storm Shell 02 Kart Düzeni) -->
+<!-- Öne Çıkan Etkinlik Kartı -->
 <section class="recommended-card-section" id="etkinlikler-bolumu">
   <div class="recommended-card">
     <img src="images/offroad.jpg" alt="Enduro Sürüş Etkinliği" class="recommended-img" loading="lazy">
     <div style="flex:1;">
-      <div class="recommended-badge">RECOMMENDED &middot; 22 KASIM</div>
+      <div class="recommended-badge">ÖNERİLEN ETKİNLİK &middot; 22 KASIM</div>
       <h3 class="recommended-title">ATV, UTV ve Enduro Sürüşü</h3>
       <p class="recommended-desc">Koyunbaba Barajı çevresinde adrenalin dolu keşif parkuru.</p>
-      <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
-        <a href="etkinlikler.html" style="font-weight:700; font-size:0.82rem; color:#111814; text-decoration:none;">DETAYLAR &rarr;</a>
-        <a href="https://wa.me/905000000000?text=22%20Kas%C4%B1m%20Enduro%20etkinli%C4%9Fi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" style="font-weight:700; font-size:0.78rem; color:#25D366; text-decoration:none; margin-left:auto;">💬 WhatsApp Katıl</a>
+      <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap; margin-top: 0.5rem;">
+        <a href="etkinlikler.html" style="font-weight:700; font-size:0.82rem; color:#111814; text-decoration:none;">DETAYLARI GÖR &rarr;</a>
+        <a href="https://wa.me/905000000000?text=22%20Kas%C4%B1m%20Enduro%20etkinli%C4%9Fi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" style="font-weight:700; font-size:0.8rem; color:#059669; text-decoration:none; margin-left:auto;">💬 WhatsApp ile Katıl</a>
       </div>
     </div>
   </div>
@@ -195,26 +195,55 @@
   </div>
 </section>
 
-<!-- Referans Tasarımdaki Beyaz Yüzen Kapsül Navigasyon (Floating Dock) -->
+<!-- Tasarıma Uygun Çizgisel (Outline) SVG İkonlu Yüzen Kapsül Navigasyon (Floating Dock) -->
 <nav class="floating-dock-nav" aria-label="Hızlı Rotalar ve Gezinme">
-  <a href="index.html" class="dock-item active">
-    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  <!-- 1. Ana Ekran -->
+  <a href="index.html" class="dock-item active" title="Ana Ekran">
+    <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1V9.5z"/>
+    </svg>
     <span>Ana Ekran</span>
   </a>
-  <a href="etkinlikler.html" class="dock-item">
-    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+
+  <!-- 2. Etkinlikler -->
+  <a href="etkinlikler.html" class="dock-item" title="Etkinlikler">
+    <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="3" ry="3"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+      <circle cx="8.5" cy="15" r="1" fill="currentColor"/>
+      <circle cx="12" cy="15" r="1" fill="currentColor"/>
+      <circle cx="15.5" cy="15" r="1" fill="currentColor"/>
+    </svg>
     <span>Etkinlik</span>
   </a>
-  <a href="hizmetlerimiz.html" class="dock-item">
-    <svg viewBox="0 0 24 24"><path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2L7 10l-6 8h22L14 6z"/></svg>
+
+  <!-- 3. Rotalar -->
+  <a href="hizmetlerimiz.html" class="dock-item" title="Rotalar & Aktiviteler">
+    <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 3l4 8 5-5 5 15H2L8 3z"/>
+      <path d="M4.5 15.5h9"/>
+    </svg>
     <span>Rotalar</span>
   </a>
-  <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="dock-item highlight">
-    <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.49.08-1.12.11-3.64-.93-3.23-1.33-5.3-4.63-5.46-4.85-.16-.21-1.31-1.74-1.31-3.32s.83-2.36 1.12-2.68c.3-.32.65-.4 0.87-.4.22 0 .43 0 .62.01.2.01.47-.08.73.55.27.65.92 2.25 1 2.42.08.16.14.36.03.58-.11.21-.16.35-.33.54-.16.2-.35.44-.5.59-.16.16-.33.34-.14.67.19.32.84 1.38 1.8 2.24 1.24 1.1 2.29 1.44 2.62 1.6.32.16.51.14.7-.08.2-.22.84-.98 1.07-1.32.22-.34.45-.28.75-.17.31.11 1.95.92 2.29 1.09.33.16.55.25.63.39.08.14.08.82-.16 1.5z"/></svg>
+
+  <!-- 4. WhatsApp -->
+  <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="dock-item highlight" title="WhatsApp Hattı">
+    <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      <path d="M10 9a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2" stroke-width="1.5"/>
+    </svg>
     <span>WhatsApp</span>
   </a>
-  <button type="button" class="dock-item js-open-drawer" aria-label="Menü">
-    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+
+  <!-- 5. Menü (3 Nokta) -->
+  <button type="button" class="dock-item js-open-drawer" aria-label="Menü" title="Menü">
+    <svg viewBox="0 0 24 24" class="dock-icon" fill="currentColor">
+      <circle cx="12" cy="5" r="1.8"/>
+      <circle cx="12" cy="12" r="1.8"/>
+      <circle cx="12" cy="19" r="1.8"/>
+    </svg>
     <span>Menü</span>
   </button>
 </nav>

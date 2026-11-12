@@ -132,24 +132,44 @@ document.addEventListener("DOMContentLoaded", function () {
     var isServices = currentPath === "hizmetlerimiz.html" || currentPath === "gruplar.html";
 
     bottomBar.innerHTML = `
-      <a href="${prefix}index.html" class="bottom-nav-item ${isHome ? 'active' : ''}">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        <span>Ana Sayfa</span>
+      <a href="${prefix}index.html" class="bottom-nav-item ${isHome ? 'active' : ''}" title="Ana Ekran">
+        <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1V9.5z"/>
+        </svg>
+        <span>Ana Ekran</span>
       </a>
-      <a href="${prefix}etkinlikler.html" class="bottom-nav-item ${isEvents ? 'active' : ''}">
-        <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-        <span>Etkinlikler</span>
+      <a href="${prefix}etkinlikler.html" class="bottom-nav-item ${isEvents ? 'active' : ''}" title="Etkinlik">
+        <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="3" ry="3"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <circle cx="8.5" cy="15" r="1" fill="currentColor"/>
+          <circle cx="12" cy="15" r="1" fill="currentColor"/>
+          <circle cx="15.5" cy="15" r="1" fill="currentColor"/>
+        </svg>
+        <span>Etkinlik</span>
       </a>
-      <a href="${prefix}hizmetlerimiz.html" class="bottom-nav-item ${isServices ? 'active' : ''}">
-        <svg viewBox="0 0 24 24"><path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2L7 10l-6 8h22L14 6z"/></svg>
-        <span>Aktiviteler</span>
+      <a href="${prefix}hizmetlerimiz.html" class="bottom-nav-item ${isServices ? 'active' : ''}" title="Rotalar">
+        <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3l4 8 5-5 5 15H2L8 3z"/>
+          <path d="M4.5 15.5h9"/>
+        </svg>
+        <span>Rotalar</span>
       </a>
-      <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="bottom-nav-item highlight" aria-label="WhatsApp İletişim">
-        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.39 1.3-1.92 1.38-.49.08-1.12.11-3.64-.93-3.23-1.33-5.3-4.63-5.46-4.85-.16-.21-1.31-1.74-1.31-3.32s.83-2.36 1.12-2.68c.3-.32.65-.4 0.87-.4.22 0 .43 0 .62.01.2.01.47-.08.73.55.27.65.92 2.25 1 2.42.08.16.14.36.03.58-.11.21-.16.35-.33.54-.16.2-.35.44-.5.59-.16.16-.33.34-.14.67.19.32.84 1.38 1.8 2.24 1.24 1.1 2.29 1.44 2.62 1.6.32.16.51.14.7-.08.2-.22.84-.98 1.07-1.32.22-.34.45-.28.75-.17.31.11 1.95.92 2.29 1.09.33.16.55.25.63.39.08.14.08.82-.16 1.5z"/></svg>
+      <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="bottom-nav-item highlight" title="WhatsApp Hattı">
+        <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          <path d="M10 9a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2" stroke-width="1.5"/>
+        </svg>
         <span>WhatsApp</span>
       </a>
-      <button type="button" class="bottom-nav-item js-open-drawer" aria-label="3 Nokta Menü">
-        <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      <button type="button" class="bottom-nav-item js-open-drawer" aria-label="Menü" title="Menü">
+        <svg viewBox="0 0 24 24" class="dock-icon" fill="currentColor">
+          <circle cx="12" cy="5" r="1.8"/>
+          <circle cx="12" cy="12" r="1.8"/>
+          <circle cx="12" cy="19" r="1.8"/>
+        </svg>
         <span>Menü</span>
       </button>
     `;
