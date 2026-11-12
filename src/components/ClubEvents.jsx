@@ -96,12 +96,9 @@ export default function ClubEvents() {
             key={event.id}
             className="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm"
           >
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center mb-2">
               <span className="px-2 py-0.5 rounded-full bg-forest text-white font-mono-tech text-[9px] font-bold uppercase">
                 {event.badge}
-              </span>
-              <span className="font-mono-tech text-[10px] text-emerald-700 font-bold">
-                {event.quota}
               </span>
             </div>
 
