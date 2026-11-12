@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowRight, Mountain, Bike, Tent, Activity, Compass, MapPin } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Motorbike01Icon } from '@hugeicons/core-free-icons';
 import { CARDS_DATA } from '../data/mockData';
 
 const ICON_MAP = {
@@ -172,24 +174,69 @@ export default function CardDeck({ onSelectFilter }) {
         })}
       </div>
 
-      {/* Deste Sayfa / Nokta Göstergesi */}
-      <div className="flex items-center justify-center gap-1.5 mb-3" aria-label="Deste İlerleme Göstergesi">
-        {CARDS_DATA.map((_, dotIdx) => (
-          <button
-            key={dotIdx}
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              goToCard(dotIdx);
-            }}
-            className={`transition-all duration-300 ${
-              dotIdx === currentIndex
-                ? 'w-6 h-1.5 rounded-full bg-accent'
-                : 'w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40'
-            }`}
-            aria-label={`${dotIdx + 1}. Kart`}
+      {/* Enduro Parkur İlerleme Çizgisi & İlerleyen Motor Simgesi */}
+      <div className="w-full max-w-[280px] mx-auto px-4 my-3.5 select-none" aria-label="Deste İlerleme Göstergesi">
+        <div className="relative h-8 flex items-center justify-between">
+          {/* Zemin Düz Çizgisi */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[3px] bg-black/10 rounded-full" />
+
+          {/* İlerleme Çizgisi (Geçilen Yol) */}
+          <div
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-[3px] bg-accent rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${(currentIndex / (CARDS_DATA.length - 1)) * 100}%` }}
           />
-        ))}
+
+          {/* İstasyon Noktaları (Tıklanabilir Duraklar) */}
+          {CARDS_DATA.map((_, dotIdx) => {
+            const isPassed = dotIdx <= currentIndex;
+            const isCurrent = dotIdx === currentIndex;
+            return (
+              <button
+                key={dotIdx}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goToCard(dotIdx);
+                }}
+                className={`relative z-10 w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none ${
+                  isCurrent
+                    ? 'bg-accent scale-125 ring-2 ring-accent/30'
+                    : isPassed
+                    ? 'bg-accent'
+                    : 'bg-black/20 hover:bg-black/40'
+                }`}
+                aria-label={`${dotIdx + 1}. Parkur`}
+                title={CARDS_DATA[dotIdx].title}
+              />
+            );
+          })}
+
+          {/* Çizgi Üzerinde İlerleyen Motor Simgesi */}
+          <div
+            className="absolute z-20 pointer-events-none transition-all duration-500 ease-out flex items-center justify-center"
+            style={{
+              left: `${(currentIndex / (CARDS_DATA.length - 1)) * 100}%`,
+              top: '50%',
+              transform: 'translate(-50%, -90%)'
+            }}
+          >
+            <div className="relative text-[#1F3A2E] drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex items-center justify-center">
+              <HugeiconsIcon icon={Motorbike01Icon} size={22} strokeWidth={2.4} />
+              {/* Tekerlek temas/ışık vurgusu */}
+              <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-3 h-0.5 bg-accent/60 rounded-full blur-[0.5px]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Alt Sayaç & Parkur Başlığı */}
+        <div className="flex items-center justify-between text-[10px] font-mono-tech text-muted font-bold mt-1 px-0.5">
+          <span className="uppercase text-accent tracking-wider">
+            KEŞİF 0{currentIndex + 1} / 0{CARDS_DATA.length}
+          </span>
+          <span className="text-ink/75 font-semibold truncate max-w-[170px]">
+            {activeData.title}
+          </span>
+        </div>
       </div>
 
       {/* Etkileşimli Seçili Kart Bilgi Paneli (Focus Banner) */}
