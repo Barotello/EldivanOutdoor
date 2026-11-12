@@ -268,13 +268,12 @@ export function AppSidebar({ onReplaySplash, ...props }) {
             </button>
           </div>
 
-          {/* 3D ProfileCard Bileşeni */}
+          {/* 3D ProfileCard Bileşeni (Görsel referansına tam uyumlu: Osman Ördek, altında Kurucu) */}
           <div onClick={(e) => e.stopPropagation()} className="animate-in zoom-in-95 duration-200">
             <ProfileCard
               avatarUrl="/images/osman.jpg"
-              miniAvatarUrl="/images/app-icon.png"
               name="Osman Ördek"
-              title="Kurucu"
+              title=""
               handle="Kurucu"
               status=""
               contactText=""
@@ -282,7 +281,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
               theme="dark"
               enableTilt={true}
               enableMobileTilt={true}
-              radius={18}
+              radius={20}
             />
           </div>
         </div>,

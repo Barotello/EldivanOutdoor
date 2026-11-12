@@ -8,16 +8,16 @@ import './ProfileCard.css';
 
 const THEMES = {
   dark: {
-    '--pc-frame': 'rgba(38, 35, 46, 0.66)',
-    '--pc-frame-edge': 'rgba(255, 255, 255, 0.08)',
-    '--pc-frame-highlight': 'rgba(255, 255, 255, 0.07)',
-    '--pc-frame-shadow': '0 22px 44px -20px rgba(0, 0, 0, 0.8), 0 6px 16px -8px rgba(0, 0, 0, 0.5)',
-    '--pc-tile': 'linear-gradient(180deg, #3a3644 0%, #27242f 100%)',
-    '--pc-tile-edge': 'rgba(255, 255, 255, 0.07)',
+    '--pc-frame': '#1e1c24',
+    '--pc-frame-edge': 'rgba(255, 255, 255, 0.12)',
+    '--pc-frame-highlight': 'rgba(255, 255, 255, 0.08)',
+    '--pc-frame-shadow': '0 24px 48px -18px rgba(0, 0, 0, 0.85), 0 8px 20px -8px rgba(0, 0, 0, 0.6)',
+    '--pc-tile': 'linear-gradient(180deg, #2c2836 0%, #1a1822 100%)',
+    '--pc-tile-edge': 'rgba(255, 255, 255, 0.09)',
     '--pc-tile-highlight': 'rgba(255, 255, 255, 0.12)',
-    '--pc-tile-shadow': '0 4px 10px -4px rgba(0, 0, 0, 0.7)',
-    '--pc-ink': '#f4f4f5',
-    '--pc-muted': 'rgba(244, 244, 245, 0.6)',
+    '--pc-tile-shadow': '0 6px 14px -4px rgba(0, 0, 0, 0.75)',
+    '--pc-ink': '#ffffff',
+    '--pc-muted': 'rgba(255, 255, 255, 0.65)',
     '--pc-hover': 'brightness(1.12)',
     '--pc-press': 'brightness(0.8)',
     '--pc-shade': 'rgba(0, 0, 0, 0.4)'
