@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
 
       <div class="drawer-footer glass-footer">
-        <div>ELDIVAN OUTDOOR &middot; 40.5489° N, 33.5042° E</div>
+        <div>ELDIVAN OUTDOOR &middot; 40.5489° K, 33.5042° D</div>
       </div>
     `;
 
@@ -120,11 +120,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // 4. Sabit Alt Navigasyon Çubuğu (Mobile Bottom Navigation Bar)
-  var bottomBar = document.querySelector(".mobile-bottom-bar, .floating-dock-nav");
+  // 4. Sabit Alt Navigasyon Çubuğu (Yüzen Kapsül Floating Dock)
+  var bottomBar = document.querySelector(".floating-dock-nav, .mobile-bottom-bar");
   if (!bottomBar) {
     bottomBar = document.createElement("nav");
-    bottomBar.className = "mobile-bottom-bar";
+    bottomBar.className = "floating-dock-nav";
     bottomBar.setAttribute("aria-label", "Hızlı Mobil Gezinme");
 
     var isHome = currentPath === "index.html" || currentPath === "";
@@ -132,13 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var isServices = currentPath === "hizmetlerimiz.html" || currentPath === "gruplar.html";
 
     bottomBar.innerHTML = `
-      <a href="${prefix}index.html" class="bottom-nav-item ${isHome ? 'active' : ''}" title="Ana Ekran">
+      <a href="${prefix}index.html" class="dock-item ${isHome ? 'active' : ''}" title="Ana Ekran">
         <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H4a1 1 0 0 1-1-1V9.5z"/>
         </svg>
         <span>Ana Ekran</span>
       </a>
-      <a href="${prefix}etkinlikler.html" class="bottom-nav-item ${isEvents ? 'active' : ''}" title="Etkinlik">
+      <a href="${prefix}etkinlikler.html" class="dock-item ${isEvents ? 'active' : ''}" title="Etkinlik">
         <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="3" ry="3"/>
           <line x1="16" y1="2" x2="16" y2="6"/>
@@ -150,21 +150,21 @@ document.addEventListener("DOMContentLoaded", function () {
         </svg>
         <span>Etkinlik</span>
       </a>
-      <a href="${prefix}hizmetlerimiz.html" class="bottom-nav-item ${isServices ? 'active' : ''}" title="Rotalar">
+      <a href="${prefix}hizmetlerimiz.html" class="dock-item ${isServices ? 'active' : ''}" title="Rotalar">
         <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M8 3l4 8 5-5 5 15H2L8 3z"/>
           <path d="M4.5 15.5h9"/>
         </svg>
         <span>Rotalar</span>
       </a>
-      <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="bottom-nav-item highlight" title="WhatsApp Hattı">
+      <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="dock-item highlight" title="WhatsApp Hattı">
         <svg viewBox="0 0 24 24" class="dock-icon" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
           <path d="M10 9a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2" stroke-width="1.5"/>
         </svg>
         <span>WhatsApp</span>
       </a>
-      <button type="button" class="bottom-nav-item js-open-drawer" aria-label="Menü" title="Menü">
+      <button type="button" class="dock-item js-open-drawer" aria-label="Menü" title="Menü">
         <svg viewBox="0 0 24 24" class="dock-icon" fill="currentColor">
           <circle cx="12" cy="5" r="1.8"/>
           <circle cx="12" cy="12" r="1.8"/>

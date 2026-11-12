@@ -680,10 +680,10 @@ article.post p { margin-bottom: 1.2rem; }
    Mobil ve Açık Hava (Outdoor) Ergonomisi & PWA Stilleri
    ========================================================================== */
 
-/* Mobil Ekranlarda Alt Navigasyon İçin Güvenli Alan */
+/* Mobil Ekranlarda Alt Yüzen Dock İçin Güvenli Alan */
 @media (max-width: 860px) {
   body {
-    padding-bottom: calc(64px + var(--safe-bottom));
+    padding-bottom: calc(88px + var(--safe-bottom));
   }
 }
 
