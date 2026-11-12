@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
     drawer.innerHTML = `
       <div class="drawer-header glass-header">
         <div class="drawer-brand">
-          <img src="${prefix}images/logo.jpg" alt="Logo" width="40" height="40" class="glass-logo">
+          <img src="${prefix}images/logo.jpg" alt="Logo" width="38" height="38" class="glass-logo">
           <div>
-            <div class="drawer-title">Eldivan Outdoor</div>
-            <div class="drawer-sub">Doğa & Motor Sporları</div>
+            <div class="drawer-title">ELDIVAN<span style="color:#ff2d55;">.</span></div>
+            <div class="drawer-sub">Doğa &amp; Motor Sporları</div>
           </div>
         </div>
         <button class="drawer-close glass-close" aria-label="Menüyü Kapat" title="Kapat">&times;</button>
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         <div class="drawer-cta-box glass-cta-box">
           <div class="drawer-cta-title">Aramıza Katılın</div>
-          <p class="drawer-cta-desc">Doğa yürüyüşleri, enduro rotaları ve kamplar için doğrudan bize ulaşın.</p>
+          <p class="drawer-cta-desc">Doğa yürüyüşleri, enduro rotaları ve kamplar için bize anında yazın.</p>
           <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="drawer-whatsapp-btn glass-whatsapp">
             💬 WhatsApp ile Yazın
           </a>
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
 
       <div class="drawer-footer glass-footer">
-        <div style="font-size: 0.78rem; opacity: 0.85;">Eldivan Doğa ve Motor Sporları Kulübü &copy; 2026</div>
+        <div>ELDIVAN OUTDOOR &middot; 40.5489° N, 33.5042° E</div>
       </div>
     `;
 

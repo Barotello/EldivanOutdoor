@@ -834,9 +834,9 @@ article.post p { margin-bottom: 1.2rem; }
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(8, 18, 13, 0.68);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(17, 24, 20, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -854,19 +854,16 @@ article.post p { margin-bottom: 1.2rem; }
   transform: translate(-50%, -50%) scale(0.92);
   width: min(92vw, 420px);
   max-height: min(88vh, 680px);
-  border-radius: 26px;
-  background:
-    radial-gradient(circle at 15% 15%, rgba(47, 90, 68, 0.45), transparent 45%),
-    radial-gradient(circle at 85% 85%, rgba(181, 98, 46, 0.2), transparent 45%),
-    linear-gradient(145deg, rgba(24, 48, 36, 0.84) 0%, rgba(14, 28, 21, 0.94) 100%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 247, 250, 0.91) 100%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.65),
-    inset 0 1.5px 2px rgba(255, 255, 255, 0.35),
-    inset 0 -1.5px 2px rgba(0, 0, 0, 0.3);
-  color: var(--white);
+    0 30px 80px rgba(0, 0, 0, 0.16),
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    inset 0 1.5px 2px rgba(255, 255, 255, 1);
+  color: #111814;
   z-index: 1001;
   display: flex;
   flex-direction: column;
@@ -882,25 +879,40 @@ article.post p { margin-bottom: 1.2rem; }
   pointer-events: auto;
 }
 
-/* Glass Header */
+/* Glass Header (Teknik Açık Tema) */
 .glass-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1.15rem 1.35rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(12px);
+}
+.glass-header .drawer-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: -0.04em;
+  color: #111814;
+  line-height: 1.1;
+}
+.glass-header .drawer-sub {
+  font-size: 0.72rem;
+  color: #7a5c3e;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 .glass-logo {
   border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 .glass-close {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  font-size: 1.4rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #111814;
+  font-size: 1.35rem;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -909,10 +921,10 @@ article.post p { margin-bottom: 1.2rem; }
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3);
 }
 .glass-close:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: #111814;
+  color: #ffffff;
   transform: rotate(90deg);
 }
 
@@ -922,7 +934,7 @@ article.post p { margin-bottom: 1.2rem; }
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 .glass-nav {
   list-style: none;
@@ -935,77 +947,95 @@ article.post p { margin-bottom: 1.2rem; }
 .glass-item {
   display: flex;
   align-items: center;
-  padding: 0.7rem 1.1rem;
-  color: #e2ede5;
-  font-weight: 500;
-  font-size: 0.95rem;
+  padding: 0.72rem 1.1rem;
+  color: #2b3630;
+  font-weight: 600;
+  font-size: 0.93rem;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), inset 0 1px 1px #ffffff;
   min-height: 44px;
+  text-decoration: none;
 }
 .glass-item:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.28);
-  color: #ffffff;
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #111814;
   transform: translateY(-1.5px) scale(1.01);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06), inset 0 1px 1px #ffffff;
 }
 .glass-item.active {
-  background: linear-gradient(90deg, rgba(181, 98, 46, 0.38) 0%, rgba(255, 255, 255, 0.08) 100%);
-  border-color: var(--accent);
+  background: #111814;
+  border-color: #111814;
   color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 4px 14px rgba(181, 98, 46, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 /* Glass CTA Box */
 .glass-cta-box {
   margin-top: 1.1rem;
-  padding: 1.1rem;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 1.15rem;
+  background: rgba(255, 255, 255, 0.88);
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(14px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04), inset 0 1px 1px #ffffff;
   text-align: center;
+}
+.glass-cta-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111814;
+  margin-bottom: 0.25rem;
+}
+.glass-cta-desc {
+  font-size: 0.78rem;
+  color: #4b5563;
+  margin: 0 0 0.85rem;
+  line-height: 1.45;
 }
 .glass-whatsapp {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, rgba(37, 211, 102, 0.9) 0%, rgba(20, 160, 75, 0.95) 100%);
+  background: #111814;
   color: #ffffff !important;
   font-weight: 600;
-  font-size: 0.92rem;
-  padding: 0.75rem 1.2rem;
+  font-size: 0.88rem;
+  padding: 0.72rem 1.2rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-  min-height: 46px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  min-height: 44px;
+  text-decoration: none;
   transition: all 0.2s ease;
 }
 .glass-whatsapp:hover {
   transform: translateY(-1.5px);
-  box-shadow: 0 10px 26px rgba(37, 211, 102, 0.45);
-  background: linear-gradient(135deg, rgba(46, 222, 112, 0.95) 0%, rgba(22, 175, 82, 1) 100%);
+  background: #1e3d2f;
+  box-shadow: 0 8px 24px rgba(30, 61, 47, 0.3);
 }
 
 /* Glass Footer */
 .glass-footer {
   padding: 0.85rem 1.25rem;
-  background: rgba(0, 0, 0, 0.22);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(246, 248, 250, 0.8);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.78rem;
-  color: #9cb5a2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* 3. Sabit Alt Navigasyon Çubuğu (Sticky Bottom Navigation Bar) */
