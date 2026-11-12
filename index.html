@@ -319,12 +319,15 @@
 
     <!-- Üst Status Bar / Header (ELDIVAN OUTDOOR. + Hamburger Butonu & Safe Area) -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-5 pt-[max(14px,env(safe-area-inset-top))] pb-3 flex items-center justify-between border-b border-light-outline-variant/40">
-      <!-- Marka Logotipi -->
+      <!-- Marka Logotipi & Uygulama İkonu -->
       <div class="flex items-center gap-2">
-        <a href="index.html" class="font-headline font-black text-[22px] tracking-tighter text-ink flex items-center gap-1 no-underline">
-          <span>ELDIVAN</span>
-          <span class="text-ink">OUTDOOR</span>
-          <span class="text-accent text-[26px] leading-none">.</span>
+        <a href="index.html" class="flex items-center gap-2.5 no-underline">
+          <img src="images/app-icon.png" alt="Eldivan Outdoor İkonu" class="w-8 h-8 rounded-full shadow-sm border border-black/10 object-cover flex-shrink-0">
+          <div class="font-headline font-black text-[20px] tracking-tighter text-ink flex items-center gap-0.5">
+            <span>ELDIVAN</span>
+            <span class="text-ink">OUTDOOR</span>
+            <span class="text-accent text-[24px] leading-none">.</span>
+          </div>
         </a>
       </div>
 
@@ -1093,16 +1096,19 @@
       <div id="drawerBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       <aside class="absolute top-0 right-0 w-[80%] max-w-xs h-full bg-white text-ink shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 pointer-events-auto p-5">
         <div class="flex items-center justify-between pb-4 border-b border-light-outline-variant">
-          <div class="font-headline font-black text-lg">ELDIVAN OUTDOOR<span class="text-accent">.</span></div>
+          <div class="flex items-center gap-2">
+            <img src="images/app-icon.png" alt="Eldivan Outdoor" class="w-7 h-7 rounded-full shadow-sm border border-black/10">
+            <div class="font-headline font-black text-lg">ELDIVAN OUTDOOR<span class="text-accent">.</span></div>
+          </div>
           <button id="menuClose" type="button" aria-label="Kapat" class="w-8 h-8 rounded-full bg-sand-dark flex items-center justify-center text-ink hover:bg-ink hover:text-white transition-colors">
             <span class="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
         <nav class="flex-1 py-6 space-y-2 font-mono-tech text-sm font-semibold overflow-y-auto">
-          <a href="index.html" class="block p-2.5 rounded-lg bg-sand-dark text-ink">🏠 Ana Sayfa (Keşfet)</a>
-          <a href="rotalar.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">🗺️ Rotalar &amp; Parkurlar</a>
-          <a href="rotalar.html#etkinlikler" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📅 Kulüp Programları &amp; Takvim</a>
+          <a href="#kesif" class="block p-2.5 rounded-lg bg-sand-dark text-ink" onclick="document.getElementById('menuClose').click();">🧭 Ana Sayfa (Keşfet)</a>
+          <a href="#rotalar" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">🗺️ Rotalar &amp; Parkurlar</a>
           <a href="#saha" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">⛅ Saha &amp; Hava Koşulları</a>
+          <a href="#etkinlikler" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">📅 Kulüp Programları &amp; Takvim</a>
           <a href="#iletisim" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">📍 İletişim &amp; Konum</a>
         </nav>
         
