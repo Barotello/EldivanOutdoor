@@ -202,11 +202,11 @@
       transform: scale(1.04);
     }
 
-    /* ==================== REACT BITS: CARD SPREAD (CARD-SPREAD-TW) ==================== */
+    /* ==================== OTOMATİK DÖNGÜLÜ DESTE KARTLARI (CARD STACK) ==================== */
     .card-spread-deck {
       position: relative;
       width: 100%;
-      height: 330px;
+      height: 310px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -214,64 +214,79 @@
       cursor: pointer;
       user-select: none;
       touch-action: pan-y;
-      margin: 1rem 0 0.75rem;
+      margin: 0.5rem 0 0.5rem;
     }
 
     .spread-card {
       position: absolute;
-      width: 155px;
-      height: 240px;
-      border-radius: 20px;
+      width: 205px;
+      height: 275px;
+      border-radius: 22px;
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.95);
       transform-origin: 50% 120%;
-      transition: transform 0.48s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.35s ease, border-color 0.25s ease;
-      will-change: transform;
+      transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), 
+                  opacity 0.45s ease, 
+                  box-shadow 0.4s ease, 
+                  border-color 0.3s ease;
+      will-change: transform, opacity;
       cursor: pointer;
+      pointer-events: none;
     }
 
-    /* Stacked (Kapalı / Deste) Durumu */
-    .spread-card[data-idx="0"] { transform: rotate(-5deg) translateX(-4px) translateY(2px); z-index: 1; }
-    .spread-card[data-idx="1"] { transform: rotate(-3deg) translateX(-2px) translateY(1px); z-index: 2; }
-    .spread-card[data-idx="2"] { transform: rotate(-1deg) translateX(-1px) translateY(0px); z-index: 3; }
-    .spread-card[data-idx="3"] { transform: rotate(1deg) translateX(1px) translateY(0px); z-index: 4; }
-    .spread-card[data-idx="4"] { transform: rotate(3deg) translateX(2px) translateY(1px); z-index: 5; }
-    .spread-card[data-idx="5"] { transform: rotate(5deg) translateX(4px) translateY(2px); z-index: 6; }
+    /* Deste Dışına Kayma Animasyonu (Sonraki Karta Geçiş) */
+    .spread-card.card-slide-out {
+      transform: translate3d(140px, -20px, 40px) rotate(14deg) scale(0.96) !important;
+      opacity: 0 !important;
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease !important;
+      z-index: 30 !important;
+    }
 
-    /* Fanned / Spread (Açık / Yayılmış) Durumu */
-    .card-spread-deck.is-spread .spread-card[data-idx="0"] {
-      transform: rotate(-22deg) translateX(-92px) translateY(16px);
-      z-index: 1;
+    /* Deste Katman Derinlikleri (Toplu Deste Duruşu) */
+    .spread-card[data-depth="0"] {
+      transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+      z-index: 12;
+      opacity: 1;
+      border-color: #ffffff;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(0, 0, 0, 0.06);
+      pointer-events: auto;
     }
-    .card-spread-deck.is-spread .spread-card[data-idx="1"] {
-      transform: rotate(-13deg) translateX(-55px) translateY(6px);
-      z-index: 2;
+    .spread-card[data-depth="0"]:hover {
+      transform: translate3d(0, -6px, 10px) rotate(0deg) scale(1.02);
+      box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.38), 0 0 0 2px #C25E2E;
     }
-    .card-spread-deck.is-spread .spread-card[data-idx="2"] {
-      transform: rotate(-4deg) translateX(-18px) translateY(0px);
-      z-index: 3;
+
+    .spread-card[data-depth="1"] {
+      transform: translate3d(10px, -6px, -20px) rotate(3.5deg) scale(0.96);
+      z-index: 10;
+      opacity: 0.92;
+      box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.20);
     }
-    .card-spread-deck.is-spread .spread-card[data-idx="3"] {
-      transform: rotate(4deg) translateX(18px) translateY(0px);
-      z-index: 4;
+
+    .spread-card[data-depth="2"] {
+      transform: translate3d(-10px, -11px, -40px) rotate(-3.5deg) scale(0.92);
+      z-index: 9;
+      opacity: 0.82;
+      box-shadow: 0 10px 20px -6px rgba(0, 0, 0, 0.16);
     }
-    .card-spread-deck.is-spread .spread-card[data-idx="4"] {
-      transform: rotate(13deg) translateX(55px) translateY(6px);
-      z-index: 5;
+
+    .spread-card[data-depth="3"] {
+      transform: translate3d(16px, -16px, -60px) rotate(6deg) scale(0.88);
+      z-index: 8;
+      opacity: 0.68;
+      box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.14);
     }
-    .card-spread-deck.is-spread .spread-card[data-idx="5"] {
-      transform: rotate(22deg) translateX(92px) translateY(16px);
+
+    .spread-card[data-depth="4"] {
+      transform: translate3d(-16px, -21px, -80px) rotate(-6deg) scale(0.84);
+      z-index: 7;
+      opacity: 0.50;
+    }
+
+    .spread-card[data-depth="5"] {
+      transform: translate3d(0px, -25px, -100px) rotate(1deg) scale(0.80);
       z-index: 6;
-    }
-
-    /* Kart Üzerine Gelindiğinde / Seçildiğinde (Lift & Pop Out) */
-    .card-spread-deck .spread-card:hover,
-    .card-spread-deck .spread-card.is-active {
-      transform: rotate(0deg) scale(1.12) translateY(-24px) !important;
-      z-index: 50 !important;
-      border-color: #ffffff !important;
-      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.45), 0 0 0 3px #C25E2E;
+      opacity: 0.35;
     }
   </style>
 </head>
@@ -357,22 +372,8 @@
           </div>
         </div>
 
-        <!-- Üst Kontrol & Yayma Çubuğu -->
-        <div class="flex items-center justify-between pt-1 pb-1">
-          <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold tracking-wider text-muted uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-            <span>DİSİPLİNLERİ KEŞFET &middot; 6 ALAN</span>
-          </div>
-
-          <!-- Kartları Aç / Kapat Butonu -->
-          <button id="spreadToggleBtn" type="button" class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-sand-dark text-ink font-mono-tech text-[11px] font-bold border border-black/10 hover:bg-ink hover:text-white transition-all active:scale-95 shadow-sm">
-            <span id="spreadToggleIcon" class="material-symbols-outlined text-[15px]">layers</span>
-            <span id="spreadToggleText">Desteyi Topla</span>
-          </button>
-        </div>
-
-        <!-- REACT BITS CARD SPREAD DESTESİ (FANNED DECK) -->
-        <div id="cardSpreadDeck" class="card-spread-deck is-spread" title="Kartları açmak veya kapatmak için dokunun">
+        <!-- OTOMATİK DÖNGÜLÜ DESTE KARTLARI -->
+        <div id="cardSpreadDeck" class="card-spread-deck" title="Sonraki kart için dokunun">
 
           <!-- 1. KART: ZİRVE (Dağ & Yürüyüş) -->
           <div class="spread-card group" data-idx="0">
@@ -413,7 +414,7 @@
           </div>
 
           <!-- 3. KART: KAMP (Çadır & Yayla) -->
-          <div class="spread-card group is-active" data-idx="2">
+          <div class="spread-card group" data-idx="2">
             <img src="images/kamp.jpg" alt="Yayla Kampı" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3">
               <div class="flex items-center justify-between text-white">
@@ -490,24 +491,34 @@
 
         </div>
 
+        <!-- Deste Sayfa & Döngü Göstergesi (5 sn Sayaç) -->
+        <div id="deckDots" class="flex items-center justify-center gap-1.5 mb-3" aria-label="Deste İlerleme Göstergesi">
+          <button type="button" class="deck-dot w-6 h-1.5 rounded-full bg-accent transition-all duration-300" data-idx="0" aria-label="1. Kart: Zirve"></button>
+          <button type="button" class="deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300" data-idx="1" aria-label="2. Kart: Enduro"></button>
+          <button type="button" class="deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300" data-idx="2" aria-label="3. Kart: Kamp"></button>
+          <button type="button" class="deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300" data-idx="3" aria-label="4. Kart: Bisiklet"></button>
+          <button type="button" class="deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300" data-idx="4" aria-label="5. Kart: Off-Road"></button>
+          <button type="button" class="deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300" data-idx="5" aria-label="6. Kart: Parkur"></button>
+        </div>
+
         <!-- Etkileşimli Seçili Kart Bilgi Paneli (Focus Banner) -->
         <div id="cardSpreadInfoBox" class="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm transition-all duration-300">
           <div class="flex items-start justify-between gap-3">
             <div>
               <span id="cardSpreadBadge" class="text-[10px] font-mono-tech font-bold uppercase tracking-wider text-accent block mb-1">
-                03 / YAYLA KAMPI
+                01 / ZİRVE &amp; TIRMANIŞ
               </span>
               <h3 id="cardSpreadTitle" class="font-headline font-extrabold text-ink text-[17px] leading-snug">
-                Yayla Kampı &amp; Çadır
+                Eldivan Zirve Tırmanışı
               </h3>
               <p id="cardSpreadDesc" class="text-muted text-[12px] leading-relaxed mt-1">
-                Yıldızların altında, doğanın kalbinde huzurlu çadır ve karavan kampı deneyimi.
+                Eldivan Dağı ve yaylalarında çam ormanları eşliğinde teknik doğa yürüyüşü rotası.
               </p>
               <div id="cardSpreadMeta" class="text-[10px] font-mono-tech text-muted/80 mt-2 font-semibold">
-                ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN
+                RAKIM 1.420M · MESAFE 14.2 KM · ORTA SEVİYE
               </div>
             </div>
-            <a id="cardSpreadLink" href="rotalar.html?filter=kamp" class="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md" title="Rotaları İncele">
+            <a id="cardSpreadLink" href="index.html#rotalar" class="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md" title="Rotaları İncele">
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </a>
           </div>
@@ -1411,17 +1422,16 @@
       }
     })();
 
-    // 4. React Bits: Card Spread (Card-Spread-TW) Etkileşim Denetleyicisi
+    // 4. Otomatik Döngülü Deste Kartları (5 sn de bir diğeri öne gelir)
     (function initCardSpread() {
       var deck = document.getElementById('cardSpreadDeck');
-      var toggleBtn = document.getElementById('spreadToggleBtn');
-      var toggleText = document.getElementById('spreadToggleText');
-      var toggleIcon = document.getElementById('spreadToggleIcon');
       var cards = document.querySelectorAll('.spread-card');
+      var dots = document.querySelectorAll('.deck-dot');
       var infoBadge = document.getElementById('cardSpreadBadge');
       var infoTitle = document.getElementById('cardSpreadTitle');
       var infoDesc = document.getElementById('cardSpreadDesc');
       var infoMeta = document.getElementById('cardSpreadMeta');
+      var cardLink = document.getElementById('cardSpreadLink');
 
       var cardData = [
         {
@@ -1468,68 +1478,135 @@
         }
       ];
 
-      if (!deck) return;
+      if (!deck || !cards.length) return;
 
-      function setCardActive(idx) {
-        cards.forEach(function(c, i) {
-          if (i === idx) {
-            c.classList.add('is-active');
+      var currentIndex = 0;
+      var isAnimating = false;
+      var autoPlayTimer = null;
+
+      function updateStack() {
+        cards.forEach(function(card, i) {
+          var depth = (i - currentIndex + cards.length) % cards.length;
+          card.setAttribute('data-depth', depth);
+          if (depth === 0) {
+            card.classList.add('is-active');
           } else {
-            c.classList.remove('is-active');
+            card.classList.remove('is-active');
           }
         });
-        var data = cardData[idx];
-        if (data && infoTitle) {
+
+        // Nokta / Sayaç Göstergesini Güncelle
+        if (dots && dots.length) {
+          dots.forEach(function(dot, i) {
+            if (i === currentIndex) {
+              dot.className = 'deck-dot w-6 h-1.5 rounded-full bg-accent transition-all duration-300';
+            } else {
+              dot.className = 'deck-dot w-1.5 h-1.5 rounded-full bg-black/20 hover:bg-black/40 transition-all duration-300';
+            }
+          });
+        }
+
+        // Bilgi Kutusunu Güncelle
+        var data = cardData[currentIndex];
+        if (data) {
           if (infoBadge) infoBadge.textContent = data.badge;
           if (infoTitle) infoTitle.textContent = data.title;
           if (infoDesc) infoDesc.textContent = data.desc;
           if (infoMeta) infoMeta.textContent = data.meta;
-          var link = document.getElementById('cardSpreadLink');
-          if (link && data.filter) {
-            link.href = 'rotalar.html?filter=' + data.filter;
+          if (cardLink && data.filter) {
+            cardLink.href = 'index.html#rotalar';
+            cardLink.setAttribute('data-filter', data.filter);
           }
         }
       }
 
-      // Varsayılan aktif kart: 2 (Kamp)
-      setCardActive(2);
+      function advanceCard() {
+        if (isAnimating) return;
+        isAnimating = true;
 
-      function toggleSpread() {
-        deck.classList.toggle('is-spread');
-        var isSpread = deck.classList.contains('is-spread');
-        if (toggleText) toggleText.textContent = isSpread ? 'Desteyi Topla' : 'Kartları Yay';
-        if (toggleIcon) toggleIcon.textContent = isSpread ? 'layers' : 'view_carousel';
-      }
+        var frontCard = cards[currentIndex];
+        if (frontCard) {
+          frontCard.classList.add('card-slide-out');
+        }
 
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          toggleSpread();
-        });
-      }
-
-      cards.forEach(function(card, idx) {
-        card.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (!deck.classList.contains('is-spread')) {
-            deck.classList.add('is-spread');
-            if (toggleText) toggleText.textContent = 'Desteyi Topla';
-            if (toggleIcon) toggleIcon.textContent = 'layers';
+        setTimeout(function() {
+          if (frontCard) {
+            frontCard.classList.remove('card-slide-out');
           }
-          setCardActive(idx);
-        });
+          currentIndex = (currentIndex + 1) % cards.length;
+          updateStack();
+          isAnimating = false;
+        }, 320);
+      }
 
-        card.addEventListener('mouseenter', function() {
-          setCardActive(idx);
-        });
+      function goToCard(targetIndex) {
+        if (isAnimating || targetIndex === currentIndex) return;
+        isAnimating = true;
+
+        var frontCard = cards[currentIndex];
+        if (frontCard) {
+          frontCard.classList.add('card-slide-out');
+        }
+
+        setTimeout(function() {
+          if (frontCard) {
+            frontCard.classList.remove('card-slide-out');
+          }
+          currentIndex = targetIndex;
+          updateStack();
+          isAnimating = false;
+        }, 280);
+      }
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(function() {
+          advanceCard();
+        }, 5000);
+      }
+
+      function stopAutoPlay() {
+        if (autoPlayTimer) {
+          clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      function resetAutoPlay() {
+        stopAutoPlay();
+        startAutoPlay();
+      }
+
+      // Başlangıç durumunu uygula ve 5 sn döngüyü başlat
+      updateStack();
+      startAutoPlay();
+
+      // Desteye dokunulduğunda bir sonraki kart öne gelsin
+      deck.addEventListener('click', function(e) {
+        e.stopPropagation();
+        advanceCard();
+        resetAutoPlay();
       });
 
-      deck.addEventListener('click', function() {
-        toggleSpread();
-      });
+      // Noktalara tıklandığında ilgili karta geç
+      if (dots && dots.length) {
+        dots.forEach(function(dot) {
+          dot.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var targetIdx = parseInt(dot.getAttribute('data-idx'), 10);
+            goToCard(targetIdx);
+            resetAutoPlay();
+          });
+        });
+      }
+
+      // Fare üzerine gelince / dokunulduğunda duraklat
+      deck.addEventListener('mouseenter', stopAutoPlay);
+      deck.addEventListener('mouseleave', startAutoPlay);
+      deck.addEventListener('touchstart', stopAutoPlay, { passive: true });
+      deck.addEventListener('touchend', resetAutoPlay, { passive: true });
 
       // Card Spread Keşif Butonu -> Rotalar Bölümüne Akıcı Kaydırma
-      var cardLink = document.getElementById('cardSpreadLink');
       if (cardLink) {
         cardLink.addEventListener('click', function(e) {
           e.preventDefault();
@@ -1537,9 +1614,9 @@
           if (rotalarSection) {
             rotalarSection.scrollIntoView({ behavior: 'smooth' });
           }
-          var activeCard = cardData.find(function(c, i) { return cards[i] && cards[i].classList.contains('is-active'); });
-          if (activeCard && activeCard.filter) {
-            var chip = document.querySelector('.filter-chip[data-filter="' + activeCard.filter + '"]');
+          var currentFilter = cardLink.getAttribute('data-filter') || (cardData[currentIndex] && cardData[currentIndex].filter);
+          if (currentFilter) {
+            var chip = document.querySelector('.filter-chip[data-filter="' + currentFilter + '"]');
             if (chip) chip.click();
           }
         });
