@@ -112,8 +112,8 @@ export default function CardDeck({ onSelectFilter }) {
   };
 
   return (
-    <section id="kesif" tabIndex={-1} className="px-5 pt-2 pb-6 outline-none">
-      {/* 3D Deste Kartları (Dokunma & Kaydırma Destekli) */}
+    <section id="kesif" tabIndex={-1} className="px-3.5 sm:px-5 pt-2 pb-6 outline-none">
+      {/* 3D Deste Kartları (Dokunma & Kaydırma Destekli - Genişletilmiş Format) */}
       <div
         className="card-spread-deck"
         title="Kaydırın veya sonraki kart için dokunun"
@@ -142,23 +142,28 @@ export default function CardDeck({ onSelectFilter }) {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20 flex flex-col justify-between p-3.5">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20 flex flex-col justify-between p-4 sm:p-5">
                 <div className="flex items-center justify-between text-white">
-                  <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[9px] font-mono-tech font-bold uppercase tracking-wider">
+                  <span className="px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider shadow-sm border border-white/10">
                     {card.badge}
                   </span>
-                  <IconComp className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20">
+                    <IconComp className="w-4 h-4 text-white" />
+                  </div>
                 </div>
+
                 <div>
-                  <div className="text-[10px] font-mono-tech font-bold text-accent uppercase tracking-wider">
+                  <div className="text-[11px] font-mono-tech font-bold text-accent uppercase tracking-wider">
                     {card.tag}
                   </div>
-                  <h3 className="font-headline font-extrabold text-white text-[16px] leading-tight mt-0.5">
+                  <h3 className="font-headline font-black text-white text-[19px] leading-tight mt-1">
                     {card.title}
                   </h3>
-                  <div className="text-[9px] text-white/80 font-mono-tech mt-1 flex items-center justify-between">
-                    <span>{card.dist}</span>
-                    <span className="text-accent underline font-bold">SEÇ &rarr;</span>
+                  <div className="text-[10px] text-white/90 font-mono-tech mt-2 flex items-center justify-between pt-2.5 border-t border-white/20">
+                    <span className="font-semibold">{card.dist}</span>
+                    <span className="text-accent underline font-bold tracking-wider flex items-center gap-1">
+                      SEÇ &amp; İNCELE &rarr;
+                    </span>
                   </div>
                 </div>
               </div>
