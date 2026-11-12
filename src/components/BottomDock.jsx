@@ -11,64 +11,52 @@ export default function BottomDock({ activeTab, onTabSelect }) {
     onTabSelect?.(id);
     const elem = document.getElementById(id);
     if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
+      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
       elem.focus({ preventScroll: true });
     }
   };
+
+  const navItems = [
+    { id: 'kesif', label: 'Keşif', icon: Compass, href: '#kesif' },
+    { id: 'rotalar', label: 'Rotalar', icon: Route, href: '#rotalar' },
+    { id: 'etkinlikler', label: 'Etkinlik', icon: Calendar, href: '#etkinlikler' },
+  ];
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pointer-events-none px-3 pb-[max(8px,env(safe-area-inset-bottom))]">
       <nav
         aria-label="Alt Gezinme Menüsü"
-        className="scrollspy-nav w-full max-w-[390px] h-14 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-light-outline-variant/80 flex items-center justify-between px-1.5 pointer-events-auto"
+        className="scrollspy-nav w-full max-w-[390px] h-14 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-light-outline-variant/80 flex items-center justify-between p-1.5 pointer-events-auto relative"
       >
-        {/* Tab 1: Keşif */}
-        <a
-          href="#kesif"
-          onClick={(e) => handleNavClick(e, 'kesif')}
-          aria-current={activeTab === 'kesif' ? 'true' : 'false'}
-          className={`flex-1 flex flex-col items-center justify-center py-1 transition-all active:scale-95 no-underline ${
-            activeTab === 'kesif' ? 'target-current text-ink font-bold' : 'text-muted hover:text-ink'
-          }`}
-        >
-          <Compass className="w-5 h-5" />
-          <span className="font-mono-tech text-[10px] tracking-tight mt-0.5">Keşif</span>
-        </a>
-
-        {/* Tab 2: Rotalar */}
-        <a
-          href="#rotalar"
-          onClick={(e) => handleNavClick(e, 'rotalar')}
-          aria-current={activeTab === 'rotalar' ? 'true' : 'false'}
-          className={`flex-1 flex flex-col items-center justify-center py-1 transition-all active:scale-95 no-underline ${
-            activeTab === 'rotalar' ? 'target-current text-ink font-bold' : 'text-muted hover:text-ink'
-          }`}
-        >
-          <Route className="w-5 h-5" />
-          <span className="font-mono-tech text-[10px] tracking-tight mt-0.5">Rotalar</span>
-        </a>
-
-        {/* Tab 3: Etkinlik */}
-        <a
-          href="#etkinlikler"
-          onClick={(e) => handleNavClick(e, 'etkinlikler')}
-          aria-current={activeTab === 'etkinlikler' ? 'true' : 'false'}
-          className={`flex-1 flex flex-col items-center justify-center py-1 transition-all active:scale-95 no-underline ${
-            activeTab === 'etkinlikler'
-              ? 'target-current text-ink font-bold'
-              : 'text-muted hover:text-ink'
-          }`}
-        >
-          <Calendar className="w-5 h-5" />
-          <span className="font-mono-tech text-[10px] tracking-tight mt-0.5">Etkinlik</span>
-        </a>
+        {navItems.map((item) => {
+          const IconComp = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <a
+              key={item.id}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.id)}
+              aria-current={isActive ? 'true' : 'false'}
+              className={`relative z-10 flex-1 h-full flex flex-col items-center justify-center rounded-xl transition-all duration-300 ease-out active:scale-95 no-underline select-none ${
+                isActive
+                  ? 'text-ink font-bold bg-sand-dark/85 shadow-2xs'
+                  : 'text-muted hover:text-ink hover:bg-black/5'
+              }`}
+            >
+              <IconComp className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'scale-110 text-ink' : 'text-muted'}`} />
+              <span className="font-mono-tech text-[10px] tracking-tight mt-0.5">
+                {item.label}
+              </span>
+            </a>
+          );
+        })}
 
         {/* Tab 4: WhatsApp */}
         <a
           href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum.`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 flex flex-col items-center justify-center py-1 text-[#25D366] hover:opacity-80 active:scale-95 transition-all no-underline"
+          className="relative z-10 flex-1 h-full flex flex-col items-center justify-center rounded-xl text-[#25D366] hover:bg-black/5 active:scale-95 transition-all duration-300 no-underline select-none"
           title="WhatsApp İletişim Hattı"
         >
           <div className="w-5 h-5 flex items-center justify-center">
@@ -85,7 +73,7 @@ export default function BottomDock({ activeTab, onTabSelect }) {
         <button
           type="button"
           onClick={() => toggleSidebar()}
-          className="flex-1 flex flex-col items-center justify-center py-1 text-muted hover:text-ink active:scale-95 transition-all"
+          className="relative z-10 flex-1 h-full flex flex-col items-center justify-center rounded-xl text-muted hover:text-ink hover:bg-black/5 active:scale-95 transition-all duration-300 select-none cursor-pointer"
           aria-label="Menüyü Aç"
         >
           <Menu className="w-5 h-5" />

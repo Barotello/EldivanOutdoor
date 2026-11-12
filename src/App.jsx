@@ -79,22 +79,40 @@ export default function App() {
 
         <div className="flex-1 flex flex-col">
           {/* Bölüm 1: Keşif & 3D Deste Kartları */}
-          <CardDeck onSelectFilter={handleCardFilterSelect} />
+          <div className="soft-section-reveal">
+            <CardDeck onSelectFilter={handleCardFilterSelect} />
+          </div>
+
+          <div className="soft-section-divider" aria-hidden="true" />
 
           {/* Bölüm 2: Rotalar & Parkurlar */}
-          <RouteExplorer
-            activeFilter={selectedRouteFilter}
-            onFilterChange={setSelectedRouteFilter}
-          />
+          <div className="soft-section-reveal">
+            <RouteExplorer
+              activeFilter={selectedRouteFilter}
+              onFilterChange={setSelectedRouteFilter}
+            />
+          </div>
+
+          <div className="soft-section-divider" aria-hidden="true" />
 
           {/* Bölüm 3: Saha, Hava Koşulları & Canlı Harita */}
-          <FieldMap />
+          <div className="soft-section-reveal">
+            <FieldMap />
+          </div>
+
+          <div className="soft-section-divider" aria-hidden="true" />
 
           {/* Bölüm 4: Kulüp Programları, Paketler & Takvim */}
-          <ClubEvents />
+          <div className="soft-section-reveal">
+            <ClubEvents />
+          </div>
+
+          <div className="soft-section-divider" aria-hidden="true" />
 
           {/* Bölüm 5: İletişim, Hızlı Aksiyonlar & Atatürk Anma Footer */}
-          <ContactFooter />
+          <div className="soft-section-reveal">
+            <ContactFooter />
+          </div>
         </div>
 
         {/* 5'li Sabit Alt Dock */}
