@@ -4,7 +4,6 @@
   "private": true,
   "description": "Eldivan Doğa ve Motor Sporları Kulübü Mobil Web Uygulaması",
   "scripts": {
-    "build": "echo 'Static build ready'",
     "start": "python -m http.server 8080"
   },
   "keywords": ["outdoor", "pwa", "eldivan", "cankiri"],
