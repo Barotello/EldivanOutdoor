@@ -317,7 +317,7 @@
   <!-- Mobil Ekran Kapsayıcısı (iPhone 17 Pro / 402px Uyumlu) -->
   <div class="w-full max-w-[402px] mx-auto min-h-screen bg-white flex flex-col relative pb-[calc(env(safe-area-inset-bottom,0px)+96px)] shadow-2xl">
 
-    <!-- Üst Status Bar / Header (ELDIVAN OUTDOOR. + Hamburger Butonu & Safe Area) -->
+    <!-- Üst Status Bar / Header (ELDIVAN OUTDOOR. + Safe Area) -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-5 pt-[max(14px,env(safe-area-inset-top))] pb-3 flex items-center justify-between border-b border-light-outline-variant/40">
       <!-- Marka Logotipi & Uygulama İkonu -->
       <div class="flex items-center gap-2">
@@ -330,11 +330,6 @@
           </div>
         </a>
       </div>
-
-      <!-- Sağ Taraf: Hamburger Menü Butonu -->
-      <button id="menuToggle" type="button" aria-label="Menü" class="w-10 h-10 rounded-full bg-sand-dark text-ink hover:bg-ink hover:text-white flex items-center justify-center active:scale-95 transition-all">
-        <span class="material-symbols-outlined text-[20px]">menu</span>
-      </button>
     </header>
 
     <!-- Ana İçerik -->
@@ -1145,7 +1140,7 @@
 
     // 2. Mobil Drawer Menü Etkileşimi
     (function() {
-      const menuToggle = document.getElementById('menuToggle');
+      const dockMenuToggle = document.getElementById('dockMenuToggle');
       const menuClose = document.getElementById('menuClose');
       const drawer = document.getElementById('mobileDrawer');
       const backdrop = document.getElementById('drawerBackdrop');
@@ -1173,7 +1168,7 @@
         }, 300);
       }
 
-      if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+      if (dockMenuToggle) dockMenuToggle.addEventListener('click', openDrawer);
       if (menuClose) menuClose.addEventListener('click', closeDrawer);
       if (backdrop) backdrop.addEventListener('click', closeDrawer);
 
@@ -1554,14 +1549,6 @@
     // 5. Alt Sabit Dock Navigasyonu (Stabil, Boyut Değişmeyen Butonlar)
     (function initBottomDock() {
       var dockLinks = document.querySelectorAll('.nav-dock-btn');
-      var dockMenuToggle = document.getElementById('dockMenuToggle');
-      var menuToggle = document.getElementById('menuToggle');
-
-      if (dockMenuToggle && menuToggle) {
-        dockMenuToggle.addEventListener('click', function() {
-          menuToggle.click();
-        });
-      }
 
       function setActiveDockTab(targetTab) {
         dockLinks.forEach(function(btn) {
