@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   SquareTerminal,
   Bot,
@@ -213,7 +214,11 @@ export function AppSidebar({ onReplaySplash, ...props }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
-                onClick={() => setShowOsmanModal(true)}
+                onClick={() => {
+                  setOpenMobile(false);
+                  setOpen(false);
+                  setShowOsmanModal(true);
+                }}
                 className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-3 py-2 group cursor-pointer"
               >
                 <div className="relative size-9 rounded-full overflow-hidden border border-white/25 flex-shrink-0 shadow-xs">
@@ -242,20 +247,20 @@ export function AppSidebar({ onReplaySplash, ...props }) {
         </SidebarFooter>
       </Sidebar>
 
-      {/* Osman Ördek 3D ProfileCard Modal */}
-      {showOsmanModal && (
+      {/* Osman Ördek 3D ProfileCard Modal - React Portal ile doğrudan body üzerinde ve en önde (z-[9999]) */}
+      {showOsmanModal && typeof document !== 'undefined' && createPortal(
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in-0 duration-200 select-none"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in-0 duration-200 select-none"
           onClick={() => setShowOsmanModal(false)}
         >
           {/* Kapatma Butonu */}
-          <div className="w-full max-w-[330px] flex justify-end mb-3">
+          <div className="w-full max-w-[340px] flex justify-end mb-3">
             <button
               type="button"
               onClick={() => setShowOsmanModal(false)}
-              className="size-9 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer shadow-md border border-white/20"
+              className="size-9 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg border border-white/25"
               aria-label="Kapat"
             >
               <X className="size-5" />
@@ -279,7 +284,8 @@ export function AppSidebar({ onReplaySplash, ...props }) {
               radius={18}
             />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

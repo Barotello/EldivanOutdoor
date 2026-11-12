@@ -70,12 +70,12 @@ const ProfileCard = ({
   avatarUrl = '',
   iconUrl,
   miniAvatarUrl,
-  name = 'Javi A. Torres',
-  title = 'Software Engineer',
-  handle = 'javicodes',
-  status = 'Online',
+  name = 'Osman Ördek',
+  title = 'Kurucu',
+  handle = 'Kurucu',
+  status = '',
   statusColor = '#22c55e',
-  contactText = 'Contact',
+  contactText = '',
   contactIcon = WhatsappIcon,
   showUserInfo = true,
   onContactClick,
@@ -102,8 +102,14 @@ const ProfileCard = ({
     const root = rootRef.current;
     if (!root) return;
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const size = { width: root.offsetWidth, height: root.offsetHeight };
+    let reduced = false;
+    try {
+      reduced = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+    } catch (e) {
+      reduced = false;
+    }
+
+    const size = { width: root.offsetWidth || 300, height: root.offsetHeight || 420 };
     const x = { p: 0, v: 0, target: 0 };
     const y = { p: 0, v: 0, target: 0 };
     const light = { p: 0, target: 0 };
@@ -215,12 +221,17 @@ const ProfileCard = ({
     root.addEventListener('pointerup', onUp);
     root.addEventListener('pointercancel', onUp);
 
-    const observer = new ResizeObserver(() => {
-      size.width = root.offsetWidth;
-      size.height = root.offsetHeight;
-      write();
-    });
-    observer.observe(root);
+    let observer = null;
+    if (typeof ResizeObserver !== 'undefined') {
+      try {
+        observer = new ResizeObserver(() => {
+          size.width = root.offsetWidth;
+          size.height = root.offsetHeight;
+          write();
+        });
+        observer.observe(root);
+      } catch (e) {}
+    }
 
     engineRef.current = { aim, release, write };
 
@@ -237,7 +248,7 @@ const ProfileCard = ({
 
     return () => {
       cancelAnimationFrame(raf);
-      observer.disconnect();
+      observer?.disconnect();
       root.removeEventListener('pointerenter', onEnter);
       root.removeEventListener('pointermove', onMove);
       root.removeEventListener('pointerleave', onLeave);
@@ -265,25 +276,31 @@ const ProfileCard = ({
     const listen = () => {
       if (listening) return;
       listening = true;
-      window.addEventListener('deviceorientation', onOrientation);
+      try {
+        window.addEventListener('deviceorientation', onOrientation);
+      } catch (e) {}
     };
     const onClick = () => {
-      const Motion = window.DeviceOrientationEvent;
-      if (Motion && typeof Motion.requestPermission === 'function') {
-        Motion.requestPermission()
-          .then(state => {
-            if (state === 'granted') listen();
-          })
-          .catch(() => {});
-      } else {
-        listen();
-      }
+      try {
+        const Motion = typeof window !== 'undefined' ? window.DeviceOrientationEvent : null;
+        if (Motion && typeof Motion.requestPermission === 'function') {
+          Motion.requestPermission()
+            .then(state => {
+              if (state === 'granted') listen();
+            })
+            .catch(() => {});
+        } else {
+          listen();
+        }
+      } catch (err) {}
     };
 
     root.addEventListener('click', onClick);
     return () => {
       root.removeEventListener('click', onClick);
-      window.removeEventListener('deviceorientation', onOrientation);
+      try {
+        window.removeEventListener('deviceorientation', onOrientation);
+      } catch (e) {}
     };
   }, [enableMobileTilt]);
 
@@ -296,7 +313,7 @@ const ProfileCard = ({
   return (
     <div
       ref={rootRef}
-      className={`profile-card ${className}`.trim()}
+      className={`profile-card ${className}`}
       style={{
         ...THEMES[palette],
         ...FOILS[foil],
