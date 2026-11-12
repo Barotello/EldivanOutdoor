@@ -7,7 +7,17 @@
 - **Adrenalin Dolu Açılış Animasyonu (Splash Scene):**
   - HTML5 Canvas ve SVG tabanlı, retro perspektif yol ve hızlanan enduro motosiklet animasyonu.
   - Ekrana çarpan 130 parçacıklı gerçekçi çamur sıçraması, ekran sarsıntısı ve telefon titreşim (haptic) desteği.
-  - "Geç" (Skip) butonu ve menüden tekrar izleme seçeneği.
+  - `sessionStorage` optimizasyonu ile oturum boyunca yalnızca 1 kez oynar; sayfa geçişlerinde anında ana ekran açılır.
+  - "Geç" (Skip) butonu ve yan çekmece menüden istenildiğinde tekrar izleme seçeneği.
+
+- **iPhone 17 Pro Çözünürlük ve Safe Area Optimizasyonu:**
+  - 402px genişlik standardı, Dynamic Island ve alt çubuk için `env(safe-area-inset-*)` uyumu.
+  - Liquid Glass alt navigasyon dock'u (Keşif, Rotalar, Saha, Orijinal WhatsApp butonu).
+
+- **Bütünleşik Rotalar & Parkurlar Sayfası (rotalar.html):**
+  - Ana keşif ekranı ile %100 aynı tasarım dilini paylaşan tescilli kulüp parkurları.
+  - Anlık kategori filtreleme (Zirve, Enduro, Bisiklet, Off-Road, Kamp) ve URL query parametre desteği (`?filter=...`).
+  - Yaklaşan kulüp etkinlikleri takvimi ve doğrudan WhatsApp katılım butonları.
 
 - **React Bits "Card Spread" Keşfet Bölümü:**
   - İskambil destesi şeklinde fanned / yelpaze açılan etkileşimli kart destesi (`@reactbits-starter/card-spread-tw` tasarım dili).
@@ -45,3 +55,4 @@ python -m http.server 8080
 # Tarayıcıda açma
 http://localhost:8080
 ```
+

@@ -77,7 +77,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+  <script>
+    // Erken SessionStorage Kontrolü: Açılış animasyonu bu oturumda izlendiyse DOM henüz çizilmeden gizle
+    try {
+      if (sessionStorage.getItem('eldivan_splash_seen_v1') === 'true') {
+        document.documentElement.classList.add('splash-already-seen');
+      }
+    } catch (e) {}
+  </script>
+
   <style>
+    html.splash-already-seen #splash-overlay {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
     .font-mono-tech { font-family: 'Space Grotesk', monospace, sans-serif; }
     .tap-highlight-transparent { -webkit-tap-highlight-color: transparent; }
     
@@ -256,7 +271,7 @@
     }
   </style>
 </head>
-<body class="bg-[#f0f2f5] text-ink min-h-screen font-body antialiased flex flex-col selection:bg-accent/20 selection:text-accent overflow-hidden">
+<body class="bg-[#f0f2f5] text-ink min-h-screen font-body antialiased flex flex-col selection:bg-accent/20 selection:text-accent">
 
   <!-- ==================== AÇILIŞ ANİMASYONU (SPLASH SCREEN) ==================== -->
   <div id="splash-overlay" role="dialog" aria-modal="true" aria-label="Eldivan Outdoor Açılış Animasyonu">
@@ -295,11 +310,11 @@
     </button>
   </div>
 
-  <!-- Mobil Ekran Kapsayıcısı -->
-  <div class="w-full max-w-[390px] mx-auto min-h-screen bg-white flex flex-col relative pb-28 shadow-2xl">
+  <!-- Mobil Ekran Kapsayıcısı (iPhone 17 Pro / 402px Uyumlu) -->
+  <div class="w-full max-w-[402px] mx-auto min-h-screen bg-white flex flex-col relative pb-[calc(env(safe-area-inset-bottom,0px)+96px)] shadow-2xl">
 
-    <!-- Üst Status Bar / Header (ELDIVAN OUTDOOR. + Hamburger Butonu) -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-5 pt-3.5 pb-2.5 flex items-center justify-between border-b border-light-outline-variant/40">
+    <!-- Üst Status Bar / Header (ELDIVAN OUTDOOR. + Hamburger Butonu & Safe Area) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md px-5 pt-[max(14px,env(safe-area-inset-top))] pb-3 flex items-center justify-between border-b border-light-outline-variant/40">
       <!-- Marka Logotipi -->
       <div class="flex items-center gap-2">
         <a href="index.html" class="font-headline font-black text-[22px] tracking-tighter text-ink flex items-center gap-1 no-underline">
@@ -490,7 +505,7 @@
                 ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN
               </div>
             </div>
-            <a href="hizmetlerimiz.html" class="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md" title="Detaylı Bilgi">
+            <a id="cardSpreadLink" href="rotalar.html?filter=kamp" class="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md" title="Rotaları İncele">
               <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
             </a>
           </div>
@@ -606,7 +621,7 @@
                   <span class="text-[10px] font-mono-tech text-muted uppercase tracking-wider block">BAŞLANGIÇ</span>
                   <span class="font-mono-tech text-[20px] font-extrabold text-ink">₺1.000</span>
                 </div>
-                <a href="etkinlikler.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
+                <a href="rotalar.html#etkinlikler" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
                   <span>DETAYLAR</span>
                   <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </a>
@@ -638,7 +653,7 @@
                   <span class="text-[10px] font-mono-tech text-muted uppercase tracking-wider block">BAŞLANGIÇ</span>
                   <span class="font-mono-tech text-[20px] font-extrabold text-ink">₺600</span>
                 </div>
-                <a href="etkinlikler.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
+                <a href="rotalar.html#etkinlikler" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
                   <span>DETAYLAR</span>
                   <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </a>
@@ -670,7 +685,7 @@
                   <span class="text-[10px] font-mono-tech text-muted uppercase tracking-wider block">BAŞLANGIÇ</span>
                   <span class="font-mono-tech text-[20px] font-extrabold text-ink">₺1.000</span>
                 </div>
-                <a href="etkinlikler.html" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
+                <a href="rotalar.html#etkinlikler" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold hover:bg-accent active:scale-95 transition-all shadow-sm">
                   <span>DETAYLAR</span>
                   <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </a>
@@ -713,8 +728,8 @@
 
     </main>
 
-    <!-- ==================== ALT SABİT NAVİGASYON DOCK'U (REFERANS TASARIM) ==================== -->
-    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-50 px-4 pb-3 pt-1 pointer-events-none">
+    <!-- ==================== ALT SABİT NAVİGASYON DOCK'U (IPHONE 17 PRO UYUMLU) ==================== -->
+    <div class="fixed bottom-[max(14px,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-full max-w-[402px] z-50 px-4 pointer-events-none">
       <nav class="pointer-events-auto bg-white/95 backdrop-blur-md border border-light-outline-variant/80 rounded-full px-4 py-2.5 shadow-2xl flex items-center justify-between">
         
         <!-- Tab 1: Keşfet (Aktif) -->
@@ -724,7 +739,7 @@
         </a>
 
         <!-- Tab 2: Rotalar -->
-        <a href="etkinlikler.html" class="flex items-center gap-1.5 px-2.5 py-1.5 text-muted hover:text-ink font-mono-tech text-[12px] font-semibold">
+        <a href="rotalar.html" class="flex items-center gap-1.5 px-2.5 py-1.5 text-muted hover:text-ink font-mono-tech text-[12px] font-semibold">
           <span class="material-symbols-outlined text-[18px]">alt_route</span>
           <span>Rotalar</span>
         </a>
@@ -759,14 +774,11 @@
           </button>
         </div>
         <nav class="flex-1 py-6 space-y-2 font-mono-tech text-sm font-semibold overflow-y-auto">
-          <a href="index.html" class="block p-2.5 rounded-lg bg-sand-dark text-ink">🏠 Ana Sayfa</a>
-          <a href="etkinlikler.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📅 Etkinlikler &amp; Rotalar</a>
-          <a href="hizmetlerimiz.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">⚡ Hizmetlerimiz &amp; Turlar</a>
-          <a href="biz-kimiz.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">🌲 Kulüp Hakkında</a>
-          <a href="gruplar.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">👥 Spor Gruplarımız</a>
-          <a href="duyurular.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📢 Duyurular</a>
-          <a href="blog/index.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📝 Doğa &amp; Gezi Blogu</a>
-          <a href="iletisim.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📍 İletişim &amp; Konum</a>
+          <a href="index.html" class="block p-2.5 rounded-lg bg-sand-dark text-ink">🏠 Ana Sayfa (Keşfet)</a>
+          <a href="rotalar.html" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">🗺️ Rotalar &amp; Parkurlar</a>
+          <a href="rotalar.html#etkinlikler" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink">📅 Kulüp Programları &amp; Takvim</a>
+          <a href="#saha" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">⛅ Saha &amp; Hava Koşulları</a>
+          <a href="#iletisim" class="block p-2.5 rounded-lg hover:bg-sand text-muted hover:text-ink" onclick="document.getElementById('menuClose').click();">📍 İletişim &amp; Konum</a>
         </nav>
         
         <div class="pt-3 border-t border-light-outline-variant">
@@ -967,18 +979,29 @@
         mc.globalAlpha = 1;
       }
 
-      function finish() {
+      // 1. Session Storage Kontrolü: Açılış animasyonu oturum boyunca yalnızca 1 kez otomatik gösterilir
+      var SPLASH_STORAGE_KEY = 'eldivan_splash_seen_v1';
+      var hasSeenSplash = false;
+      try {
+        hasSeenSplash = sessionStorage.getItem(SPLASH_STORAGE_KEY) === 'true';
+      } catch (e) {}
+
+      function finish(markAsSeen) {
         if (isFinished) return;
         isFinished = true;
         cancelAnimationFrame(raf);
         if (anim) anim.cancel();
         if (mc) mc.clearRect(0, 0, W, H);
+        document.documentElement.classList.add('splash-already-seen');
+        if (markAsSeen !== false) {
+          try { sessionStorage.setItem(SPLASH_STORAGE_KEY, 'true'); } catch (e) {}
+        }
         if (splash) {
           splash.classList.add('splash-done');
           setTimeout(function() {
             splash.style.display = 'none';
             document.body.style.overflow = '';
-          }, 800);
+          }, 600);
         } else {
           document.body.style.overflow = '';
         }
@@ -995,7 +1018,7 @@
         }
         drawMud(t);
         if (t > 3800) {
-          finish();
+          finish(true);
           return;
         }
         raf = requestAnimationFrame(tick);
@@ -1003,6 +1026,7 @@
 
       function play() {
         isFinished = false;
+        document.documentElement.classList.remove('splash-already-seen');
         document.body.style.overflow = 'hidden';
         if (splash) {
           splash.style.display = 'block';
@@ -1027,17 +1051,27 @@
         raf = requestAnimationFrame(tick);
       }
 
-      if (skip) skip.addEventListener('click', finish);
+      if (skip) skip.addEventListener('click', function() { finish(true); });
       window.addEventListener('resize', function() {
         if (!isFinished) fit();
       });
 
       window.replaySplashAnimation = play;
 
-      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        finish();
+      // Oturumda daha önce açıldıysa animasyonu başlatma, doğrudan ana ekranı göster
+      if (hasSeenSplash) {
+        isFinished = true;
+        if (splash) {
+          splash.style.display = 'none';
+          splash.classList.add('splash-done');
+        }
+        document.body.style.overflow = '';
       } else {
-        play();
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          finish(true);
+        } else {
+          play();
+        }
       }
     })();
 
@@ -1058,37 +1092,43 @@
           badge: '01 / ZİRVE & TIRMANIŞ',
           title: 'Eldivan Zirve Tırmanışı',
           desc: 'Eldivan Dağı ve yaylalarında çam ormanları eşliğinde teknik doğa yürüyüşü rotası.',
-          meta: 'RAKIM 1.420M · MESAFE 14.2 KM · ORTA SEVİYE'
+          meta: 'RAKIM 1.420M · MESAFE 14.2 KM · ORTA SEVİYE',
+          filter: 'zirve'
         },
         {
           badge: '02 / ENDURO MOTOSİKLET',
           title: 'Enduro & Toprak Parkur',
           desc: 'Koyunbaba Barajı ve dik yamaçlarda yüksek adrenalinli motosiklet sürüşü.',
-          meta: 'MESAFE 18.5 KM · ZORLU ZEMİN · KORUMALI EKİPMAN'
+          meta: 'MESAFE 18.5 KM · ZORLU ZEMİN · KORUMALI EKİPMAN',
+          filter: 'enduro'
         },
         {
           badge: '03 / YAYLA KAMPI',
           title: 'Yayla Kampı & Çadır',
           desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır ve karavan kampı deneyimi.',
-          meta: 'ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN'
+          meta: 'ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN',
+          filter: 'kamp'
         },
         {
           badge: '04 / DAĞ BİSİKLETİ',
           title: 'Rehberli Dağ Bisikleti',
           desc: 'Eldivan köy parkurları ve orman içi single-track parkurlarında bisiklet turları.',
-          meta: 'MESAFE 16.0 KM · İNİŞ / ÇIKIŞ 380M · KASK ZORUNLU'
+          meta: 'MESAFE 16.0 KM · İNİŞ / ÇIKIŞ 380M · KASK ZORUNLU',
+          filter: 'bisiklet'
         },
         {
           badge: '05 / OFF-ROAD 4X4',
           title: 'Off-Road & ATV/UTV',
           desc: 'Zorlu arazi şartlarında, dere yatakları ve tepelerde 4x4 arazi aracı keşifleri.',
-          meta: 'ÇAMUR / TAŞLIK ZEMİN · VİNÇ & KURTARMA EKİBİ'
+          meta: 'ÇAMUR / TAŞLIK ZEMİN · VİNÇ & KURTARMA EKİBİ',
+          filter: 'offroad'
         },
         {
           badge: '06 / PARKUR & ORYANTİRİNG',
           title: 'Doğa Parkuru & Oryantiring',
           desc: 'Harita ve pusula ile hedefleri bulma, açık hava oryantiring ve takım etkinlikleri.',
-          meta: 'HEDEF NOKTALARI: 18 · TÜM YAŞ GRUPLARI İÇİN UYGUN'
+          meta: 'HEDEF NOKTALARI: 18 · TÜM YAŞ GRUPLARI İÇİN UYGUN',
+          filter: 'all'
         }
       ];
 
@@ -1108,6 +1148,10 @@
           if (infoTitle) infoTitle.textContent = data.title;
           if (infoDesc) infoDesc.textContent = data.desc;
           if (infoMeta) infoMeta.textContent = data.meta;
+          var link = document.getElementById('cardSpreadLink');
+          if (link && data.filter) {
+            link.href = 'rotalar.html?filter=' + data.filter;
+          }
         }
       }
 
