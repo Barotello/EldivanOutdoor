@@ -102,14 +102,16 @@ export default function CardDeck({ onSelectFilter }) {
     resetAutoPlay();
   };
 
-  const handleRouteClick = (e) => {
-    e.preventDefault();
-    if (onSelectFilter && activeData.filter) {
-      onSelectFilter(activeData.filter);
+  // Seç ve İncele Aksiyonu: Filtreyi seçer ve Rotalar alanına pürüzsüz kaydırır
+  const handleSelectAndInspect = (targetCard) => {
+    const cardToSelect = targetCard || activeData;
+    if (onSelectFilter && cardToSelect?.filter) {
+      onSelectFilter(cardToSelect.filter);
     }
     const elem = document.getElementById('rotalar');
     if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
+      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      elem.focus({ preventScroll: true });
     }
   };
 
@@ -160,9 +162,20 @@ export default function CardDeck({ onSelectFilter }) {
                   </h3>
                   <div className="text-[10px] text-white/90 font-mono-tech mt-2 flex items-center justify-between pt-2.5 border-t border-white/20">
                     <span className="font-semibold">{card.dist}</span>
-                    <span className="text-accent underline font-bold tracking-wider flex items-center gap-1">
-                      SEÇ &amp; İNCELE &rarr;
-                    </span>
+
+                    {/* İşlevsel Seç ve İncele Butonu */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSelectAndInspect(card);
+                      }}
+                      className="text-accent hover:text-white underline font-bold tracking-wider flex items-center gap-1 transition-all cursor-pointer py-1 px-2 -mr-1 rounded-md hover:bg-white/10 active:scale-95"
+                      title={`${card.title} rotasını seç ve incele`}
+                    >
+                      <span>SEÇ &amp; İNCELE</span>
+                      <span>&rarr;</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -195,26 +208,23 @@ export default function CardDeck({ onSelectFilter }) {
                   e.stopPropagation();
                   goToCard(dotIdx);
                 }}
-                className={`relative z-10 w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none ${
+                className={`relative z-10 w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none cursor-pointer ${
                   isCurrent
                     ? 'bg-accent scale-125 ring-2 ring-accent/30'
                     : isPassed
                     ? 'bg-accent'
                     : 'bg-black/20 hover:bg-black/40'
                 }`}
-                aria-label={`${dotIdx + 1}. Parkur`}
-                title={CARDS_DATA[dotIdx].title}
+                title={`Kart ${dotIdx + 1}'e git`}
               />
             );
           })}
 
-          {/* Çizgi Üzerinde İlerleyen Motor Simgesi */}
+          {/* Çizgi Üstünde İlerleyen Motor İkonu */}
           <div
-            className="absolute z-20 pointer-events-none transition-all duration-500 ease-out flex items-center justify-center"
+            className="absolute top-1/2 -translate-y-[62%] -translate-x-1/2 transition-all duration-500 ease-out pointer-events-none z-20"
             style={{
-              left: `${(currentIndex / (CARDS_DATA.length - 1)) * 100}%`,
-              top: '50%',
-              transform: 'translate(-50%, -90%)'
+              left: `${(currentIndex / (CARDS_DATA.length - 1)) * 100}%`
             }}
           >
             <div className="relative text-[#1F3A2E] drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex items-center justify-center">
@@ -236,14 +246,18 @@ export default function CardDeck({ onSelectFilter }) {
         </div>
       </div>
 
-      {/* Etkileşimli Seçili Kart Bilgi Paneli (Focus Banner) */}
-      <div className="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm transition-all duration-300">
+      {/* Etkileşimli Seçili Kart Bilgi Paneli (Focus Banner - Tıklanabilir) */}
+      <div
+        onClick={() => handleSelectAndInspect(activeData)}
+        className="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer active:scale-[0.99] group select-none"
+        title="Bu rotayı seç ve incelemek için dokunun"
+      >
         <div className="flex items-start justify-between gap-3">
           <div>
             <span className="text-[10px] font-mono-tech font-bold uppercase tracking-wider text-accent block mb-1">
               {activeData.badge}
             </span>
-            <h3 className="font-headline font-extrabold text-ink text-[17px] leading-snug">
+            <h3 className="font-headline font-extrabold text-ink text-[17px] leading-snug group-hover:text-accent transition-colors">
               {activeData.detailTitle}
             </h3>
             <p className="text-muted text-[12px] leading-relaxed mt-1">
@@ -253,10 +267,14 @@ export default function CardDeck({ onSelectFilter }) {
               {activeData.meta}
             </div>
           </div>
+
           <button
             type="button"
-            onClick={handleRouteClick}
-            className="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white hover:bg-accent active:scale-95 transition-all shadow-md"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSelectAndInspect(activeData);
+            }}
+            className="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white group-hover:bg-accent active:scale-95 transition-all shadow-md cursor-pointer"
             title="Rotaları İncele"
           >
             <ArrowRight className="w-4 h-4" />

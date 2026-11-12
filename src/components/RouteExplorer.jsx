@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ArrowUpRight, MapPin, Clock, Mountain, X, Compass } from 'lucide-react';
+import { Star, ArrowUpRight, MapPin, Clock, Mountain, X, Compass, Route as RouteIcon, MessageCircle } from 'lucide-react';
 import { ROUTES_DATA, CLUB_CONFIG } from '../data/mockData';
 
 const FILTER_CHIPS = [
@@ -47,7 +47,7 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
     <section
       id="rotalar"
       tabIndex={-1}
-      className="px-5 py-6 bg-sand-light/60 border-t border-light-outline-variant/60 outline-none"
+      className="px-5 py-6 bg-sand-light/60 border-t border-light-outline-variant/60 outline-none scroll-mt-6"
     >
       <div className="flex items-center justify-between mb-2">
         <h2 className="font-headline text-[22px] font-black text-ink tracking-tight">
@@ -70,7 +70,7 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
               key={chip.id}
               type="button"
               onClick={() => handleChipClick(chip.id)}
-              className={`snap-start flex-shrink-0 px-3.5 py-1.5 rounded-full font-mono-tech text-[11px] font-bold transition-all active:scale-95 ${
+              className={`snap-start flex-shrink-0 px-3.5 py-1.5 rounded-full font-mono-tech text-[11px] font-bold transition-all active:scale-95 cursor-pointer ${
                 isActive
                   ? 'bg-ink text-white shadow-sm'
                   : 'bg-sand-dark text-muted hover:text-ink border border-light-outline-variant/60'
@@ -116,7 +116,7 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
         ))}
       </div>
 
-      {/* Fotoğrafın Üstüne Tıklayınca Açılan Rota Detay Penceresi (Modal) */}
+      {/* Rota Detay Penceresi (Modal - Uygulamanın Sand & Forest Renk Paleti ile Uyumlu) */}
       {selectedRoute && (
         <div
           role="dialog"
@@ -126,22 +126,25 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
         >
           {/* Karartılmış Arka Plan */}
           <div
-            className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity cursor-pointer"
             onClick={() => setSelectedRoute(null)}
           />
 
-          {/* Koyu Orman Temalı Detay Kartı */}
-          <div className="relative w-full max-w-[390px] max-h-[88vh] bg-[#1F3A2E] text-[#F5F2EA] rounded-3xl shadow-2xl border border-white/15 flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200">
+          {/* Uygulama Temasıyla Uyumlu Rota Detay Kartı */}
+          <div
+            className="relative w-full max-w-[400px] max-h-[90vh] bg-white text-ink rounded-3xl shadow-2xl border border-light-outline-variant flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200 select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Üst Çubuk */}
-            <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-white/10 bg-[#162920]">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-light-outline-variant/80 bg-sand-light">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-forest text-white font-mono-tech text-[9px] font-bold uppercase border border-white/10">
-                  {selectedRoute.categoryName}
+                <span className="px-3 py-1 rounded-full bg-forest text-white font-mono-tech text-[10px] font-bold uppercase tracking-wider shadow-2xs">
+                  {selectedRoute.categoryName || selectedRoute.category}
                 </span>
-                <div className="flex items-center gap-1 font-mono-tech text-[10px] text-[#E8B07A] font-bold">
-                  <Star className="w-3 h-3 fill-[#E8B07A] text-[#E8B07A]" />
+                <div className="flex items-center gap-1 font-mono-tech text-[11px] text-accent font-bold">
+                  <Star className="w-3.5 h-3.5 fill-accent text-accent" />
                   <span>{selectedRoute.rating}</span>
-                  <span className="text-white/60 font-normal">· {selectedRoute.difficulty}</span>
+                  <span className="text-muted font-normal">· {selectedRoute.difficulty}</span>
                 </div>
               </div>
 
@@ -149,7 +152,7 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
                 type="button"
                 onClick={() => setSelectedRoute(null)}
                 aria-label="Kapat"
-                className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#F5F2EA] hover:bg-white/20 active:scale-95 transition-all border border-white/10"
+                className="w-8 h-8 rounded-full bg-sand-dark hover:bg-light-outline-variant text-ink flex items-center justify-center active:scale-95 transition-all border border-light-outline-variant/60 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -157,74 +160,74 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
 
             {/* Modal Kaydırılabilir Gövdesi */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4">
-              {/* Rota Fotoğrafı */}
-              <div className="relative rounded-2xl overflow-hidden h-[180px] border border-white/10 shadow-md">
+              {/* Rota Fotoğrafı & Başlık */}
+              <div className="relative rounded-2xl overflow-hidden h-[185px] border border-light-outline-variant/80 shadow-sm">
                 <img
                   src={selectedRoute.image}
                   alt={selectedRoute.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <div className="text-[10px] font-mono-tech uppercase font-bold text-[#E8B07A]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                <div className="absolute bottom-3.5 left-4 right-4 text-white">
+                  <div className="text-[10px] font-mono-tech uppercase font-bold text-[#E8B07A] tracking-wider">
                     ELDİVAN DOĞA &amp; MOTOR PARKURU
                   </div>
-                  <h3 className="font-headline font-black text-[18px] leading-tight">
+                  <h3 className="font-headline font-black text-[20px] leading-tight mt-0.5">
                     {selectedRoute.title}
                   </h3>
                 </div>
               </div>
 
               {/* Rota Açıklaması */}
-              <div className="p-3.5 rounded-2xl bg-[#14201A]/80 border border-white/10 text-xs text-[#d6e3d9] leading-relaxed">
+              <div className="p-4 rounded-2xl bg-sand-light border border-light-outline-variant/80 text-[13px] text-ink-muted leading-relaxed font-body">
                 {selectedRoute.desc}
               </div>
 
               {/* 4'lü Telemetri Metrikleri */}
-              <div className="grid grid-cols-2 gap-2 font-mono-tech text-xs">
-                <div className="p-3 rounded-xl bg-[#14201A]/80 border border-white/10">
-                  <div className="flex items-center gap-1.5 text-[#E8B07A] font-bold text-[10px] uppercase">
+              <div className="grid grid-cols-2 gap-2.5 font-mono-tech text-xs">
+                <div className="p-3.5 rounded-xl bg-sand-light border border-light-outline-variant/80 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-accent font-bold text-[10.5px] uppercase">
                     <Clock className="w-3.5 h-3.5" />
-                    <span>Mesafe / Süre</span>
+                    <span>Mesafe &amp; Süre</span>
                   </div>
-                  <div className="font-extrabold text-white text-[13px] mt-1">
+                  <div className="font-headline font-black text-ink text-[15px] mt-1">
                     {selectedRoute.distance}
                   </div>
-                  <div className="text-[10px] text-white/60">
+                  <div className="text-[11px] text-muted font-medium mt-0.5">
                     Tahmini: {selectedRoute.duration}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-[#14201A]/80 border border-white/10">
-                  <div className="flex items-center gap-1.5 text-[#E8B07A] font-bold text-[10px] uppercase">
+                <div className="p-3.5 rounded-xl bg-sand-light border border-light-outline-variant/80 shadow-2xs">
+                  <div className="flex items-center gap-1.5 text-accent font-bold text-[10.5px] uppercase">
                     <Mountain className="w-3.5 h-3.5" />
-                    <span>İrtifa / Zorluk</span>
+                    <span>İrtifa &amp; Zorluk</span>
                   </div>
-                  <div className="font-extrabold text-white text-[13px] mt-1">
+                  <div className="font-headline font-black text-ink text-[15px] mt-1">
                     {selectedRoute.elevation}
                   </div>
-                  <div className="text-[10px] text-white/60">
-                    {selectedRoute.difficulty}
+                  <div className="text-[11px] text-muted font-medium mt-0.5">
+                    Zorluk: {selectedRoute.difficulty}
                   </div>
                 </div>
               </div>
 
               {/* Rota Başlangıç Noktası Notu */}
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#14201A]/60 border border-white/10 text-[11px] text-[#d6e3d9]/90 font-mono-tech">
-                <Compass className="w-4 h-4 text-[#E8B07A] flex-shrink-0" />
-                <span>Çankırı Eldivan · GPS destekli resmi kulüp rotası</span>
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-forest/5 border border-forest/15 text-[12px] text-forest font-mono-tech">
+                <Compass className="w-4 h-4 text-forest flex-shrink-0" />
+                <span>Çankırı Eldivan · GPS &amp; Saha Koordinatları Onaylı</span>
               </div>
             </div>
 
-            {/* Modal Alt Butonları */}
-            <div className="p-4 border-t border-white/10 bg-[#162920] flex items-center justify-between gap-2.5">
+            {/* Modal Alt Butonları (Uygulama Renkleri) */}
+            <div className="p-4 border-t border-light-outline-variant/80 bg-sand-light flex items-center justify-between gap-2.5">
               <a
                 href={selectedRoute.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#14201A] border border-white/15 text-[#E8B07A] hover:bg-[#2A4A39] hover:text-white font-mono-tech text-xs font-bold active:scale-95 transition-all"
+                className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl bg-sand-dark hover:bg-light-outline-variant text-ink border border-light-outline-variant font-mono-tech text-xs font-bold active:scale-95 transition-all no-underline shadow-xs cursor-pointer"
               >
-                <MapPin className="w-3.5 h-3.5" />
+                <MapPin className="w-3.5 h-3.5 text-ink" />
                 <span>Yol Tarifi Al</span>
               </a>
 
@@ -232,10 +235,10 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
                 href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(selectedRoute.title)}%20rotasi%20hakkinda%20rehberlik%20ve%20detayli%20bilgi%20almak%20istiyorum.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#D9531E] hover:bg-[#c24615] text-white font-mono-tech text-xs font-bold active:scale-95 transition-all shadow-md"
+                className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl bg-forest hover:bg-forest-dark text-white font-mono-tech text-xs font-bold active:scale-95 transition-all shadow-md no-underline cursor-pointer"
               >
+                <MessageCircle className="w-3.5 h-3.5" />
                 <span>Rehber Talep Et</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
