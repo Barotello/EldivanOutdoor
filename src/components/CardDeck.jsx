@@ -145,11 +145,8 @@ export default function CardDeck({ onSelectFilter }) {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20 flex flex-col justify-between p-4 sm:p-5">
-                <div className="flex items-center justify-between text-white">
-                  <span className="px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider shadow-sm border border-white/10">
-                    {card.badge}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20">
+                <div className="flex items-center justify-end text-white">
+                  <div className="w-8 h-8 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-sm">
                     <IconComp className="w-4 h-4 text-white" />
                   </div>
                 </div>

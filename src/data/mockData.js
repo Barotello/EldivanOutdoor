@@ -67,7 +67,7 @@ export const MAP_LOCATIONS = [
 export const CARDS_DATA = [
   {
     id: 'zirve',
-    badge: '01 / ZİRVE & TIRMANIŞ',
+    badge: 'ZİRVE & TIRMANIŞ',
     tag: '1.420M ZİRVE',
     title: 'Zirve Tırmanışı',
     detailTitle: 'Eldivan Zirve Tırmanışı',
@@ -80,7 +80,7 @@ export const CARDS_DATA = [
   },
   {
     id: 'enduro',
-    badge: '02 / ENDURO MOTOSİKLET',
+    badge: 'ENDURO MOTOSİKLET',
     tag: 'TOPRAK PARKUR',
     title: 'Enduro Rotaları',
     detailTitle: 'Enduro & Toprak Parkur',
@@ -93,7 +93,7 @@ export const CARDS_DATA = [
   },
   {
     id: 'kamp',
-    badge: '03 / YAYLA KAMPI',
+    badge: 'YAYLA KAMPI',
     tag: 'YILDIZLI GECE',
     title: 'Yayla Kampı',
     detailTitle: 'Yayla Kampı & Çadır',
@@ -106,7 +106,7 @@ export const CARDS_DATA = [
   },
   {
     id: 'bisiklet',
-    badge: '04 / DAĞ BİSİKLETİ',
+    badge: 'DAĞ BİSİKLETİ',
     tag: 'ORMAN PARKURU',
     title: 'Dağ Bisikleti',
     detailTitle: 'Rehberli Dağ Bisikleti',
@@ -119,7 +119,7 @@ export const CARDS_DATA = [
   },
   {
     id: 'offroad',
-    badge: '05 / OFF-ROAD 4X4',
+    badge: 'OFF-ROAD 4X4',
     tag: 'ZORLU ARAZİ',
     title: 'Off-Road 4x4',
     detailTitle: 'Off-Road & ATV/UTV',
@@ -132,7 +132,7 @@ export const CARDS_DATA = [
   },
   {
     id: 'all',
-    badge: '06 / PARKUR & ORYANTİRİNG',
+    badge: 'PARKUR & ORYANTİRİNG',
     tag: 'ORYANTİRİNG',
     title: 'Doğa Parkuru',
     detailTitle: 'Doğa Parkuru & Oryantiring',
