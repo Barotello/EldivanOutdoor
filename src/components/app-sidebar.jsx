@@ -122,7 +122,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
     <>
       <Sidebar
         side="right"
-        className="border-l border-white/10 bg-[#121513] text-[#F5F2EA] font-headline select-none"
+        className="border-l border-white/10 bg-[#0B0D0C] text-[#F5F2EA] font-headline select-none"
         {...props}
       >
         {/* Üst Header: Logo, Marka Başlığı ve Çift Ok Tetikleyici */}
@@ -214,7 +214,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
         </SidebarContent>
 
         {/* Alt Footer: Kullanıcı Profili (Osman Ördek) */}
-        <SidebarFooter className="border-t border-white/10 p-2.5 bg-[#0E1210]/70">
+        <SidebarFooter className="border-t border-white/10 p-2.5 bg-[#070908]/90">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton

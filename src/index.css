@@ -16,13 +16,13 @@
     -webkit-tap-highlight-color: transparent;
   }
   :root {
-    --sidebar-background: 154 30% 17%;
+    --sidebar-background: 150 12% 6%;
     --sidebar-foreground: 45 33% 94%;
     --sidebar-primary: 18 76% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 153 28% 24%;
+    --sidebar-accent: 150 14% 12%;
     --sidebar-accent-foreground: 33 69% 69%;
-    --sidebar-border: 154 30% 25%;
+    --sidebar-border: 150 10% 14%;
     --sidebar-ring: 33 69% 69%;
   }
   .dark {
