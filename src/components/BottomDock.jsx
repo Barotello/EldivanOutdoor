@@ -1,8 +1,11 @@
 import React from 'react';
 import { Compass, Route, Calendar, Menu } from 'lucide-react';
+import { useSidebar } from '@/components/ui/sidebar';
 import { CLUB_CONFIG } from '../data/mockData';
 
-export default function BottomDock({ activeTab, onTabSelect, onOpenDrawer }) {
+export default function BottomDock({ activeTab, onTabSelect }) {
+  const { toggleSidebar } = useSidebar();
+
   const handleNavClick = (e, id) => {
     e.preventDefault();
     onTabSelect?.(id);
@@ -78,10 +81,10 @@ export default function BottomDock({ activeTab, onTabSelect, onOpenDrawer }) {
           </span>
         </a>
 
-        {/* Tab 5: Menü */}
+        {/* Tab 5: Menü (Shadcn Sidebar Tetikleyici) */}
         <button
           type="button"
-          onClick={onOpenDrawer}
+          onClick={() => toggleSidebar()}
           className="flex-1 flex flex-col items-center justify-center py-1 text-muted hover:text-ink active:scale-95 transition-all"
           aria-label="Menüyü Aç"
         >

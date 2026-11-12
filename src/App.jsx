@@ -7,12 +7,12 @@ import FieldMap from './components/FieldMap';
 import ClubEvents from './components/ClubEvents';
 import ContactFooter from './components/ContactFooter';
 import BottomDock from './components/BottomDock';
-import DrawerMenu from './components/DrawerMenu';
+import AppSidebar from './components/AppSidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('kesif');
   const [selectedRouteFilter, setSelectedRouteFilter] = useState('all');
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [splashReplayCount, setSplashReplayCount] = useState(0);
 
   const handleCardFilterSelect = (filter) => {
@@ -70,7 +70,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <SidebarProvider defaultOpen={false}>
       {/* Açılış Animasyonu (Oturum başına 1 kez + Menüden Tekrar Oynatılabilir) */}
       <Splash replayTrigger={splashReplayCount} />
 
@@ -102,16 +102,11 @@ export default function App() {
         <BottomDock
           activeTab={activeTab}
           onTabSelect={setActiveTab}
-          onOpenDrawer={() => setIsDrawerOpen(true)}
-        />
-
-        {/* Mobil Yan Çekmece Menü */}
-        <DrawerMenu
-          isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-          onReplaySplash={() => setSplashReplayCount((c) => c + 1)}
         />
       </div>
-    </>
+
+      {/* Resmi Shadcn Sidebar Menüsü */}
+      <AppSidebar onReplaySplash={() => setSplashReplayCount((c) => c + 1)} />
+    </SidebarProvider>
   );
 }
