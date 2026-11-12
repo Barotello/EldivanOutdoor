@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, ArrowUpRight, MapPin } from 'lucide-react';
+import { Star, ArrowUpRight, MapPin, Clock, Mountain } from 'lucide-react';
 import { ROUTES_DATA, CLUB_CONFIG } from '../data/mockData';
 
 const FILTER_CHIPS = [
@@ -62,82 +62,79 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
         })}
       </div>
 
-      {/* Rota Kartları Listesi */}
-      <div className="space-y-4">
+      {/* Rota Kartları Listesi (Etkinlik Kutucuk Formatında) */}
+      <div className="space-y-3">
         {filteredRoutes.map((route) => (
           <div
             key={route.id}
-            className="rounded-2xl bg-white border border-light-outline-variant/80 overflow-hidden shadow-sm hover:shadow-md transition-shadow group"
+            className="p-4 rounded-2xl bg-white border border-light-outline-variant/80 shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="relative h-44 w-full overflow-hidden">
-              <img
-                src={route.image}
-                alt={route.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-              <div className="absolute top-3 left-3 flex items-center gap-1.5">
-                <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white font-mono-tech text-[10px] font-bold uppercase">
-                  {route.categoryName}
-                </span>
-              </div>
-              <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md text-ink font-mono-tech text-[10px] font-bold">
+            {/* Üst Rozet & Zorluk / Puan */}
+            <div className="flex items-center justify-between mb-2">
+              <span className="px-2 py-0.5 rounded-full bg-forest text-white font-mono-tech text-[9px] font-bold uppercase">
+                {route.categoryName}
+              </span>
+              <div className="flex items-center gap-1 font-mono-tech text-[10px] text-accent font-bold">
                 <Star className="w-3 h-3 fill-accent text-accent" />
                 <span>{route.rating}</span>
+                <span className="text-muted/70 font-normal">· {route.difficulty}</span>
               </div>
             </div>
 
-            <div className="p-4">
-              <h3 className="font-headline font-extrabold text-[17px] text-ink leading-snug">
-                {route.title}
-              </h3>
-              <p className="text-[12px] text-muted leading-relaxed mt-1 line-clamp-2">
-                {route.desc}
-              </p>
-
-              {/* 4'lü Telemetri Izgarası (Mesafe, Süre, İrtifa, Zorluk) */}
-              <div className="grid grid-cols-4 gap-1.5 mt-3 pt-3 border-t border-light-outline-variant/60 text-center font-mono-tech text-[9.5px]">
-                <div className="bg-sand-light p-1.5 rounded-lg">
-                  <div className="text-muted/80">MESAFE</div>
-                  <div className="font-bold text-ink mt-0.5 truncate">{route.distance}</div>
-                </div>
-                <div className="bg-sand-light p-1.5 rounded-lg">
-                  <div className="text-muted/80">SÜRE</div>
-                  <div className="font-bold text-ink mt-0.5 truncate">{route.duration}</div>
-                </div>
-                <div className="bg-sand-light p-1.5 rounded-lg">
-                  <div className="text-muted/80">İRTİFA</div>
-                  <div className="font-bold text-accent mt-0.5 truncate">{route.elevation}</div>
-                </div>
-                <div className="bg-sand-light p-1.5 rounded-lg">
-                  <div className="text-muted/80">ZORLUK</div>
-                  <div className="font-bold text-ink mt-0.5 truncate">{route.difficulty}</div>
-                </div>
+            {/* Başlık, Açıklama ve Görsel Thumbnail */}
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <h4 className="font-headline font-bold text-[16px] text-ink leading-snug">
+                  {route.title}
+                </h4>
+                <p className="text-[12px] text-muted leading-relaxed mt-1 line-clamp-2">
+                  {route.desc}
+                </p>
               </div>
+              {route.image && (
+                <img
+                  src={route.image}
+                  alt={route.title}
+                  className="w-16 h-16 rounded-xl object-cover flex-shrink-0 border border-black/5"
+                  loading="lazy"
+                />
+              )}
+            </div>
 
-              {/* Aksiyon Butonları (Yol Tarifi + Rehber Talep Et) */}
-              <div className="mt-3 flex items-center justify-between gap-2 pt-1">
-                <a
-                  href={route.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-sand-dark text-ink font-mono-tech text-[11px] font-bold hover:bg-ink hover:text-white active:scale-95 transition-all"
-                  title="Başlangıç Noktasına Yol Tarifi Al"
-                >
-                  <MapPin className="w-3.5 h-3.5 text-accent" />
-                  <span>Yol Tarifi</span>
-                </a>
-
-                <a
-                  href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(route.title)}%20hakkinda%20bilgi%20almak%20istiyorum.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-forest text-white font-mono-tech text-[11px] font-bold hover:bg-forest-dark active:scale-95 transition-all"
-                >
-                  <span>Rehber Talep Et</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
+            {/* Rota Detay Metrikleri */}
+            <div className="mt-2.5 space-y-1.5 font-mono-tech text-[11px] text-muted">
+              <div className="flex items-center gap-1.5 text-ink font-semibold">
+                <Clock className="w-3.5 h-3.5 text-accent" />
+                <span>{route.distance} · {route.duration}</span>
               </div>
+              <div className="flex items-center gap-1.5">
+                <Mountain className="w-3.5 h-3.5 text-muted" />
+                <span>{route.elevation} İrtifa · Çankırı Eldivan Parkuru</span>
+              </div>
+            </div>
+
+            {/* Alt İşlem Butonları (Yol Tarifi + Rehber Talep Et) */}
+            <div className="mt-3.5 pt-3 border-t border-light-outline-variant/60 flex items-center justify-between gap-2">
+              <a
+                href={route.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-sand-dark text-ink font-mono-tech text-[10px] font-bold hover:bg-ink hover:text-white active:scale-95 transition-all"
+                title="Başlangıç Noktasına Yol Tarifi Al"
+              >
+                <MapPin className="w-3.5 h-3.5 text-accent" />
+                <span>Yol Tarifi</span>
+              </a>
+
+              <a
+                href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(route.title)}%20hakkinda%20bilgi%20almak%20istiyorum.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-ink text-white font-mono-tech text-[11px] font-bold hover:bg-accent active:scale-95 transition-all"
+              >
+                <span>Rehber Talep Et</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
         ))}

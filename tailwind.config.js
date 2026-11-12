@@ -21,8 +21,9 @@ export default {
       },
       fontFamily: {
         headline: ['"Space Grotesk"', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
-        'mono-tech': ['"JetBrains Mono"', 'monospace']
+        body: ['Inter', '"Space Grotesk"', 'sans-serif'],
+        'mono-tech': ['"Space Grotesk"', '"JetBrains Mono"', 'monospace'],
+        sans: ['"Space Grotesk"', 'Inter', 'sans-serif']
       }
     },
   },
