@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Menü açma/kapama buton olayları
-  var navToggles = document.querySelectorAll(".nav-toggle, .js-open-drawer");
+  var navToggles = document.querySelectorAll(".nav-toggle, .js-open-drawer, .outside-menu-pill");
   navToggles.forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 4. Sabit Alt Navigasyon Çubuğu (Mobile Bottom Navigation Bar)
-  var bottomBar = document.querySelector(".mobile-bottom-bar");
+  var bottomBar = document.querySelector(".mobile-bottom-bar, .floating-dock-nav");
   if (!bottomBar) {
     bottomBar = document.createElement("nav");
     bottomBar.className = "mobile-bottom-bar";
