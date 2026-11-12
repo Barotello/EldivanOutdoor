@@ -77,6 +77,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+  <!-- Leaflet.js (OpenStreetMap) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <script>
     // Erken SessionStorage Kontrolü: Açılış animasyonu bu oturumda izlendiyse DOM henüz çizilmeden gizle
     try {
@@ -859,6 +863,46 @@
             </div>
           </div>
         </div>
+
+        <!-- ==================== CANLI SAHA HARİTASI (OPENSTREETMAP) ==================== -->
+        <div class="mt-4 bg-white rounded-2xl p-4 border border-light-outline-variant/80 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold text-forest uppercase tracking-wider mb-0.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                <span>İNTERAKTİF SAHA HARİTASI</span>
+              </div>
+              <h3 class="font-headline font-bold text-ink text-[16px]">
+                Eldivan Parkur &amp; Arazi Konumu
+              </h3>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-sand-dark text-[10px] font-mono-tech font-bold text-muted border border-black/5">
+              OpenStreetMap
+            </span>
+          </div>
+
+          <!-- Harita Konteyneri -->
+          <div id="eldivanMap" class="w-full h-[260px] rounded-xl overflow-hidden border border-light-outline-variant relative z-10"></div>
+
+          <!-- Harita Hızlı Odak Butonları -->
+          <div class="mt-3 flex items-center justify-between gap-1.5 font-mono-tech text-[11px]">
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+              <button type="button" id="mapFocusZirve" class="px-2.5 py-1 rounded-lg bg-sand-dark hover:bg-ink hover:text-white text-ink font-semibold transition-all active:scale-95 flex-shrink-0">
+                ⛰️ Zirve
+              </button>
+              <button type="button" id="mapFocusEldivan" class="px-2.5 py-1 rounded-lg bg-sand-dark hover:bg-ink hover:text-white text-ink font-semibold transition-all active:scale-95 flex-shrink-0">
+                🌲 Merkez
+              </button>
+              <button type="button" id="mapFocusBaraj" class="px-2.5 py-1 rounded-lg bg-sand-dark hover:bg-ink hover:text-white text-ink font-semibold transition-all active:scale-95 flex-shrink-0">
+                🌊 Baraj
+              </button>
+            </div>
+            <a href="https://www.openstreetmap.org/#map=13/40.5750/33.5250" target="_blank" rel="noopener" class="text-accent hover:underline font-bold text-[10px] flex items-center gap-0.5 flex-shrink-0">
+              <span>BÜYÜT</span>
+              <span class="material-symbols-outlined text-[12px]">open_in_new</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       <!-- ==================== BÖLÜM 3: ÖNE ÇIKAN ETKİNLİKLER VE HİZMETLER ==================== -->
@@ -1601,6 +1645,69 @@
           if (targetChip) targetChip.click();
         }
       } catch (e) {}
+    })();
+
+    // 7. OpenStreetMap (Leaflet.js) - Eldivan Saha Haritası
+    (function initOpenStreetMap() {
+      var mapEl = document.getElementById('eldivanMap');
+      if (!mapEl || typeof L === 'undefined') return;
+
+      // Eldivan Zirve, Merkez & Koyunbaba Barajı Koordinatları
+      var eldivanZirve = [40.6034, 33.5140];
+      var eldivanMerkez = [40.5367, 33.5100];
+      var koyunbabaBaraji = [40.5350, 33.5600];
+
+      // Harita Başlatma (Merkez: Eldivan)
+      var map = L.map('eldivanMap', {
+        center: [40.5700, 33.5250],
+        zoom: 12,
+        scrollWheelZoom: false,
+        attributionControl: false
+      });
+
+      // OpenStreetMap Karo Katmanı
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+      }).addTo(map);
+
+      // Özel İkon Fonksiyonu
+      function createMapIcon(symbol, bgColor) {
+        return L.divIcon({
+          className: 'custom-osm-pin',
+          html: '<div style="background:' + bgColor + '; width:28px; height:28px; border-radius:50%; border:2px solid #fff; box-shadow:0 3px 8px rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; font-weight:bold;">' + symbol + '</div>',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14],
+          popupAnchor: [0, -16]
+        });
+      }
+
+      // Markerlar & Açıklama Pencereleri
+      L.marker(eldivanZirve, { icon: createMapIcon('⛰️', '#111113') }).addTo(map)
+        .bindPopup('<div style="font-family:sans-serif; min-width:140px;"><strong style="font-size:12px; display:block;">Eldivan Zirvesi</strong><span style="font-size:11px;color:#666;">Rakım: 1.420m · Yürüyüş & Kamp</span></div>');
+
+      L.marker(eldivanMerkez, { icon: createMapIcon('🌲', '#C25E2E') }).addTo(map)
+        .bindPopup('<div style="font-family:sans-serif; min-width:140px;"><strong style="font-size:12px; display:block;">Eldivan İlçe Merkezi</strong><span style="font-size:11px;color:#666;">EDMSK Kulüp Sahası</span></div>')
+        .openPopup();
+
+      L.marker(koyunbabaBaraji, { icon: createMapIcon('🏍️', '#22543D') }).addTo(map)
+        .bindPopup('<div style="font-family:sans-serif; min-width:140px;"><strong style="font-size:12px; display:block;">Koyunbaba Barajı</strong><span style="font-size:11px;color:#666;">Enduro, Off-Road & Bisiklet Parkuru</span></div>');
+
+      // Hızlı Odaklanma Butonları
+      var btnZirve = document.getElementById('mapFocusZirve');
+      var btnMerkez = document.getElementById('mapFocusEldivan');
+      var btnBaraj = document.getElementById('mapFocusBaraj');
+
+      if (btnZirve) btnZirve.addEventListener('click', function() { map.flyTo(eldivanZirve, 14, { duration: 1 }); });
+      if (btnMerkez) btnMerkez.addEventListener('click', function() { map.flyTo(eldivanMerkez, 14, { duration: 1 }); });
+      if (btnBaraj) btnBaraj.addEventListener('click', function() { map.flyTo(koyunbabaBaraji, 13, { duration: 1 }); });
+
+      // Yeniden boyutlandırma desteği
+      window.addEventListener('resize', function() {
+        map.invalidateSize();
+      });
+      setTimeout(function() {
+        map.invalidateSize();
+      }, 500);
     })();
   </script>
 </body>
