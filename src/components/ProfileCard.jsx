@@ -343,7 +343,7 @@ const ProfileCard = ({
               </span>
             )}
             <div className="profile-card__meta">
-              {handle && <span className="profile-card__handle">@{handle}</span>}
+              {handle && <span className="profile-card__handle">{handle}</span>}
               {status && <span className="profile-card__status">{status}</span>}
             </div>
             {contactText && (

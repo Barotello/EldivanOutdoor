@@ -6,12 +6,6 @@ import {
   SlidersHorizontal,
   ChevronRight,
   ChevronsUpDown,
-  Phone,
-  MessageCircle,
-  MapPin,
-  RotateCcw,
-  Sparkles,
-  ExternalLink,
   X
 } from 'lucide-react';
 import {
@@ -34,6 +28,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import ProfileCard from './ProfileCard';
 import { CLUB_CONFIG } from '../data/mockData';
 
 export function AppSidebar({ onReplaySplash, ...props }) {
@@ -212,7 +207,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* Alt Footer: Kullanıcı Profili (Osman Ördek) & Detay Paneli */}
+        {/* Alt Footer: Kullanıcı Profili (Osman Ördek) */}
         <SidebarFooter className="border-t border-white/10 p-2.5 bg-[#0E1210]/70">
           <SidebarMenu>
             <SidebarMenuItem>
@@ -237,7 +232,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
                     Osman Ördek
                   </span>
                   <span className="truncate text-[11.5px] font-mono-tech text-white/50 mt-0.5">
-                    Kurucu • WhatsApp Hattı
+                    Kurucu
                   </span>
                 </div>
                 <ChevronsUpDown className="ml-auto size-4.5 text-white/40 group-hover:text-white/70 transition-colors" />
@@ -247,83 +242,42 @@ export function AppSidebar({ onReplaySplash, ...props }) {
         </SidebarFooter>
       </Sidebar>
 
-      {/* Osman Ördek Profil & Hızlı İletişim Modal Kartı */}
+      {/* Osman Ördek 3D ProfileCard Modal */}
       {showOsmanModal && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in-0 duration-200"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in-0 duration-200 select-none"
           onClick={() => setShowOsmanModal(false)}
         >
-          <div
-            className="w-full max-w-sm bg-[#16241D] border border-white/15 rounded-2xl p-5 shadow-2xl text-[#F5F2EA] space-y-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Üst Bar */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="size-4 text-[#E8B07A]" />
-                <span className="font-mono-tech text-xs font-bold uppercase tracking-wider text-[#E8B07A]">
-                  Kulüp Koordinatörü
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowOsmanModal(false)}
-                className="size-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer"
-              >
-                <X className="size-4.5" />
-              </button>
-            </div>
+          {/* Kapatma Butonu */}
+          <div className="w-full max-w-[330px] flex justify-end mb-3">
+            <button
+              type="button"
+              onClick={() => setShowOsmanModal(false)}
+              className="size-9 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer shadow-md border border-white/20"
+              aria-label="Kapat"
+            >
+              <X className="size-5" />
+            </button>
+          </div>
 
-            {/* Profil Görseli & İsim */}
-            <div className="flex items-center gap-3.5">
-              <img
-                src="/images/osman.jpg"
-                alt="Osman Ördek"
-                className="size-16 rounded-2xl object-cover object-top border-2 border-[#E8B07A]/40 shadow-md"
-                onError={(e) => {
-                  e.currentTarget.src = '/images/app-icon.png';
-                }}
-              />
-              <div>
-                <h3 className="font-headline font-bold text-lg text-white">
-                  Osman Ördek
-                </h3>
-                <p className="text-xs font-mono-tech text-[#E8B07A] font-semibold mt-0.5">
-                  Eldivan Outdoor Kurucusu &amp; Rehber
-                </p>
-                <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-white/60">
-                  <MapPin className="size-3.5 text-[#E8B07A]" />
-                  <span>Çankırı / Eldivan</span>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-[13px] text-white/85 leading-relaxed font-body">
-              Eldivan dağları, orman parkurları ve enduro rotalarında rehberli keşifler ve topluluk sürüşleri organize ediyoruz.
-            </p>
-
-            {/* İletişim Butonları */}
-            <div className="grid grid-cols-2 gap-2.5 pt-1 font-headline">
-              <a
-                href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba%20Osman%20Bey,%20Eldivan%20Outdoor%20etkinlikleri%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-11 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-[#0F1C16] font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all shadow-md no-underline"
-              >
-                <MessageCircle className="size-4.5" />
-                <span>WhatsApp</span>
-              </a>
-
-              <a
-                href={`tel:${CLUB_CONFIG.whatsappNumber}`}
-                className="h-11 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all border border-white/10 no-underline"
-              >
-                <Phone className="size-4.5" />
-                <span>Hemen Ara</span>
-              </a>
-            </div>
+          {/* 3D ProfileCard Bileşeni */}
+          <div onClick={(e) => e.stopPropagation()} className="animate-in zoom-in-95 duration-200">
+            <ProfileCard
+              avatarUrl="/images/osman.jpg"
+              miniAvatarUrl="/images/app-icon.png"
+              name="Osman Ördek"
+              title="Kurucu"
+              handle="Kurucu"
+              status=""
+              contactText=""
+              showUserInfo={true}
+              theme="dark"
+              enableTilt={true}
+              enableMobileTilt={true}
+              radius={18}
+            />
           </div>
         </div>
       )}
