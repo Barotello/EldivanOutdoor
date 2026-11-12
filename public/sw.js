@@ -1,17 +1,10 @@
 // Eldivan Outdoor - Service Worker (Offline Cache for Field/Outdoor Use)
-const CACHE_NAME = 'eldivan-outdoor-v1';
+const CACHE_NAME = 'eldivan-outdoor-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/etkinlikler.html',
-  '/hizmetlerimiz.html',
-  '/biz-kimiz.html',
-  '/gruplar.html',
-  '/duyurular.html',
-  '/iletisim.html',
-  '/css/style.css',
-  '/js/main.js',
-  '/images/logo.jpg',
+  '/manifest.json',
+  '/images/app-icon.png',
   '/images/favicon-32.png',
   '/images/apple-touch-icon.png'
 ];

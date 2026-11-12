@@ -9,6 +9,46 @@
   }
 }
 
+/* Klavye Odak Halka Erişilebilirliği (WCAG 1.4.11) */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid CanvasText;
+  outline-offset: 3px;
+}
+
+/* Scrollspy Navigasyon Stilleri */
+.scrollspy-nav {
+  scroll-target-group: auto;
+}
+
+.scrollspy-nav a:is(:target-current, .target-current) {
+  color: #1B1B18;
+  font-weight: 700;
+}
+
+/* Splash Motosiklet Titreşim ve Tekerlek Dönüş Animasyonları */
+.splash-bike-wobble {
+  animation: splash-wobble 0.14s ease-in-out infinite alternate;
+}
+
+@keyframes splash-wobble {
+  from {
+    transform: translateX(-1.5px) rotate(-1.2deg);
+  }
+  to {
+    transform: translateX(1.5px) rotate(1.2deg);
+  }
+}
+
+.splash-knob-spin {
+  animation: splash-spin 0.18s linear infinite;
+}
+
+@keyframes splash-spin {
+  to {
+    stroke-dashoffset: -11;
+  }
+}
+
 /* 3D Card Stack Styles */
 .card-spread-deck {
   position: relative;

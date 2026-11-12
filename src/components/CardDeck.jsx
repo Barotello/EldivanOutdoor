@@ -1,54 +1,62 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowRight, Mountain, Bike, Tent, Activity, Compass, MapPin } from 'lucide-react';
 import { CARDS_DATA } from '../data/mockData';
 
 const ICON_MAP = {
-  Mountain: Mountain,
-  Bike: Bike,
-  Tent: Tent,
-  Activity: Activity,
-  Compass: Compass,
-  MapPin: MapPin
+  Mountain,
+  Bike,
+  Tent,
+  Activity,
+  Compass,
+  MapPin
 };
 
 export default function CardDeck({ onSelectFilter }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const isAnimatingRef = useRef(false);
   const timerRef = useRef(null);
+  const touchStartXRef = useRef(null);
+  const touchDeltaXRef = useRef(0);
 
-  const startAutoPlay = () => {
-    stopAutoPlay();
-    timerRef.current = setInterval(() => {
-      advanceCard();
-    }, 5000);
-  };
-
-  const stopAutoPlay = () => {
+  const stopAutoPlay = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-  };
+  }, []);
 
-  const resetAutoPlay = () => {
+  const changeCard = useCallback((direction = 1) => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setIsAnimating(true);
+
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + direction + CARDS_DATA.length) % CARDS_DATA.length);
+      isAnimatingRef.current = false;
+      setIsAnimating(false);
+    }, 300);
+  }, []);
+
+  const startAutoPlay = useCallback(() => {
+    stopAutoPlay();
+    timerRef.current = setInterval(() => {
+      changeCard(1);
+    }, 5000);
+  }, [changeCard, stopAutoPlay]);
+
+  const resetAutoPlay = useCallback(() => {
     stopAutoPlay();
     startAutoPlay();
-  };
-
-  const advanceCard = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % CARDS_DATA.length);
-      setIsAnimating(false);
-    }, 320);
-  };
+  }, [startAutoPlay, stopAutoPlay]);
 
   const goToCard = (index) => {
-    if (isAnimating || index === currentIndex) return;
+    if (isAnimatingRef.current || index === currentIndex) return;
+    isAnimatingRef.current = true;
     setIsAnimating(true);
     setTimeout(() => {
       setCurrentIndex(index);
+      isAnimatingRef.current = false;
       setIsAnimating(false);
     }, 280);
     resetAutoPlay();
@@ -57,9 +65,40 @@ export default function CardDeck({ onSelectFilter }) {
   useEffect(() => {
     startAutoPlay();
     return () => stopAutoPlay();
-  }, []);
+  }, [startAutoPlay, stopAutoPlay]);
 
   const activeData = CARDS_DATA[currentIndex];
+
+  const handleTouchStart = (e) => {
+    stopAutoPlay();
+    touchStartXRef.current = e.touches[0].clientX;
+    touchDeltaXRef.current = 0;
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartXRef.current === null) return;
+    touchDeltaXRef.current = e.touches[0].clientX - touchStartXRef.current;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchDeltaXRef.current;
+    touchStartXRef.current = null;
+    touchDeltaXRef.current = 0;
+
+    if (Math.abs(deltaX) > 40) {
+      if (deltaX < 0) {
+        changeCard(1); // Sola kaydırma -> sonraki kart
+      } else {
+        changeCard(-1); // Sağa kaydırma -> önceki kart
+      }
+    }
+    resetAutoPlay();
+  };
+
+  const handleDeckClick = () => {
+    changeCard(1);
+    resetAutoPlay();
+  };
 
   const handleRouteClick = (e) => {
     e.preventDefault();
@@ -73,38 +112,17 @@ export default function CardDeck({ onSelectFilter }) {
   };
 
   return (
-    <section id="kesif" className="px-5 pt-5 pb-6">
-      {/* Başlık ve Koordinatlar */}
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h1 className="font-headline text-[28px] font-extrabold tracking-tight text-ink leading-[1.15]">
-            Doğanın <br />
-            <span className="text-muted font-normal">merkezinde.</span>
-          </h1>
-        </div>
-
-        <div className="text-right font-mono-tech">
-          <div className="inline-flex items-center justify-end text-accent text-xs font-bold leading-none mb-1">
-            <span className="text-accent text-sm mr-0.5">+</span>
-            <span className="text-[11px] text-ink font-semibold">40.6034° K</span>
-          </div>
-          <div className="text-[11px] text-muted font-medium leading-none">33.5140° D</div>
-          <div className="text-[10px] text-muted/80 uppercase tracking-wider mt-1">RAKIM 1.420M</div>
-        </div>
-      </div>
-
-      {/* 3D Deste Kartları */}
+    <section id="kesif" tabIndex={-1} className="px-5 pt-2 pb-6 outline-none">
+      {/* 3D Deste Kartları (Dokunma & Kaydırma Destekli) */}
       <div
         className="card-spread-deck"
-        title="Sonraki kart için dokunun"
-        onClick={() => {
-          advanceCard();
-          resetAutoPlay();
-        }}
+        title="Kaydırın veya sonraki kart için dokunun"
+        onClick={handleDeckClick}
         onMouseEnter={stopAutoPlay}
         onMouseLeave={startAutoPlay}
-        onTouchStart={stopAutoPlay}
-        onTouchEnd={resetAutoPlay}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {CARDS_DATA.map((card, idx) => {
           const depth = (idx - currentIndex + CARDS_DATA.length) % CARDS_DATA.length;

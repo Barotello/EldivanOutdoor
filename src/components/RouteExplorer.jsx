@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Compass, Clock, Mountain, Star, ArrowUpRight } from 'lucide-react';
-import { ROUTES_DATA } from '../data/mockData';
+import React from 'react';
+import { Star, ArrowUpRight, MapPin } from 'lucide-react';
+import { ROUTES_DATA, CLUB_CONFIG } from '../data/mockData';
 
 const FILTER_CHIPS = [
   { id: 'all', label: 'TÜMÜ' },
@@ -12,19 +12,23 @@ const FILTER_CHIPS = [
 ];
 
 export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) {
-  const [filter, setFilter] = useState(activeFilter);
+  const filter = activeFilter || 'all';
 
   const handleChipClick = (id) => {
-    setFilter(id);
     onFilterChange?.(id);
   };
 
-  const filteredRoutes = filter === 'all'
-    ? ROUTES_DATA
-    : ROUTES_DATA.filter((r) => r.category === filter);
+  const filteredRoutes =
+    filter === 'all'
+      ? ROUTES_DATA
+      : ROUTES_DATA.filter((r) => r.category === filter);
 
   return (
-    <section id="rotalar" className="px-5 py-6 bg-sand-light/60 border-t border-light-outline-variant/60">
+    <section
+      id="rotalar"
+      tabIndex={-1}
+      className="px-5 py-6 bg-sand-light/60 border-t border-light-outline-variant/60 outline-none"
+    >
       <div className="flex items-center justify-between mb-2">
         <h2 className="font-headline text-[22px] font-black text-ink tracking-tight">
           Rotalar &amp; Parkurlar
@@ -37,16 +41,16 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
         Eldivan'ın keşfedilmiş resmi dağ, toprak ve doğa rotaları.
       </p>
 
-      {/* Filtre Çipleri */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-4 -mx-1 px-1">
+      {/* Filtre Çipleri (Snap-Scroll Destekli) */}
+      <div className="flex items-center gap-2 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-none mb-4 -mx-1 px-1">
         {FILTER_CHIPS.map((chip) => {
-          const isActive = (filter || 'all') === chip.id;
+          const isActive = filter === chip.id;
           return (
             <button
               key={chip.id}
               type="button"
               onClick={() => handleChipClick(chip.id)}
-              className={`flex-shrink-0 px-3.5 py-1.5 rounded-full font-mono-tech text-[11px] font-bold transition-all active:scale-95 ${
+              className={`snap-start flex-shrink-0 px-3.5 py-1.5 rounded-full font-mono-tech text-[11px] font-bold transition-all active:scale-95 ${
                 isActive
                   ? 'bg-ink text-white shadow-sm'
                   : 'bg-sand-dark text-muted hover:text-ink border border-light-outline-variant/60'
@@ -91,30 +95,44 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
                 {route.desc}
               </p>
 
-              <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-light-outline-variant/60 text-center font-mono-tech text-[10px]">
+              {/* 4'lü Telemetri Izgarası (Mesafe, Süre, İrtifa, Zorluk) */}
+              <div className="grid grid-cols-4 gap-1.5 mt-3 pt-3 border-t border-light-outline-variant/60 text-center font-mono-tech text-[9.5px]">
                 <div className="bg-sand-light p-1.5 rounded-lg">
                   <div className="text-muted/80">MESAFE</div>
-                  <div className="font-bold text-ink mt-0.5">{route.distance}</div>
+                  <div className="font-bold text-ink mt-0.5 truncate">{route.distance}</div>
                 </div>
                 <div className="bg-sand-light p-1.5 rounded-lg">
                   <div className="text-muted/80">SÜRE</div>
-                  <div className="font-bold text-ink mt-0.5">{route.duration}</div>
+                  <div className="font-bold text-ink mt-0.5 truncate">{route.duration}</div>
+                </div>
+                <div className="bg-sand-light p-1.5 rounded-lg">
+                  <div className="text-muted/80">İRTİFA</div>
+                  <div className="font-bold text-accent mt-0.5 truncate">{route.elevation}</div>
                 </div>
                 <div className="bg-sand-light p-1.5 rounded-lg">
                   <div className="text-muted/80">ZORLUK</div>
-                  <div className="font-bold text-ink mt-0.5">{route.difficulty}</div>
+                  <div className="font-bold text-ink mt-0.5 truncate">{route.difficulty}</div>
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between pt-1">
-                <span className="text-[11px] font-mono-tech text-accent font-semibold">
-                  Eldivan Çankırı Hattı
-                </span>
+              {/* Aksiyon Butonları (Yol Tarifi + Rehber Talep Et) */}
+              <div className="mt-3 flex items-center justify-between gap-2 pt-1">
                 <a
-                  href={`https://wa.me/905000000000?text=Merhaba,%20${encodeURIComponent(route.title)}%20hakkinda%20bilgi%20almak%20istiyorum.`}
+                  href={route.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-forest text-white font-mono-tech text-[11px] font-bold hover:bg-forest-dark transition-colors"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-sand-dark text-ink font-mono-tech text-[11px] font-bold hover:bg-ink hover:text-white active:scale-95 transition-all"
+                  title="Başlangıç Noktasına Yol Tarifi Al"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-accent" />
+                  <span>Yol Tarifi</span>
+                </a>
+
+                <a
+                  href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(route.title)}%20hakkinda%20bilgi%20almak%20istiyorum.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-forest text-white font-mono-tech text-[11px] font-bold hover:bg-forest-dark active:scale-95 transition-all"
                 >
                   <span>Rehber Talep Et</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
