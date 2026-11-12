@@ -41,6 +41,11 @@ export function AppSidebar({ onReplaySplash, ...props }) {
     setOpen(false);
   };
 
+  const handleCloseOsmanModal = () => {
+    setShowOsmanModal(false);
+    setOpenMobile(true);
+  };
+
   const handleScrollTo = (id) => {
     handleClose();
     setTimeout(() => {
@@ -214,11 +219,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
-                onClick={() => {
-                  setOpenMobile(false);
-                  setOpen(false);
-                  setShowOsmanModal(true);
-                }}
+                onClick={() => setShowOsmanModal(true)}
                 className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-3 py-2 group cursor-pointer"
               >
                 <div className="relative size-9 rounded-full overflow-hidden border border-white/25 flex-shrink-0 shadow-xs">
@@ -253,13 +254,13 @@ export function AppSidebar({ onReplaySplash, ...props }) {
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in-0 duration-200 select-none"
-          onClick={() => setShowOsmanModal(false)}
+          onClick={handleCloseOsmanModal}
         >
           {/* Kapatma Butonu */}
           <div className="w-full max-w-[340px] flex justify-end mb-3">
             <button
               type="button"
-              onClick={() => setShowOsmanModal(false)}
+              onClick={handleCloseOsmanModal}
               className="size-9 rounded-full bg-white/20 hover:bg-white/30 active:scale-95 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg border border-white/25"
               aria-label="Kapat"
             >
