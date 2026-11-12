@@ -257,31 +257,37 @@ export const EVENTS_DATA = [
   {
     id: 1,
     title: 'Eldivan Dağı Bahar Zirve Tırmanışı',
+    desc: 'Rehber eşliğinde Eldivan Dağı zirvesine bahar yürüyüşü ve panoramik manzara molası.',
     date: '18 MAYIS 2026 · CUMARTESİ',
     time: '08:30',
     location: 'Eldivan Merkez Toplanma Alanı',
     quota: 'Kalan: 8 Kişi',
     badge: 'YAKLAŞIYOR',
+    image: '/images/yuruyus.jpg',
     calendarUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Eldivan+Da%C4%9F%C4%B1+Bahar+Zirve+T%C4%B1rman%C4%B1%C5%9F%C4%B1&dates=20260518T053000Z/20260518T110000Z&location=Eldivan,+%C3%87ank%C4%B1r%C4%B1&details=Eldivan+Outdoor+rehberli+zirve+t%C4%B1rman%C4%B1%C5%9F%C4%B1.'
   },
   {
     id: 2,
     title: 'Gece Gökyüzü & Yayla Kampı',
+    desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır kampı, teleskop ve ateş başı deneyimi.',
     date: '25-26 MAYIS 2026 · HAFTASONU',
     time: '14:00',
     location: 'Eldivan Yaylası Kamp Alanı',
     quota: 'Kalan: 4 Çadır',
     badge: 'KAYIT AÇIK',
+    image: '/images/kamp.jpg',
     calendarUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gece+G%C3%B6ky%C3%BCz%C3%BC+%26+Yayla+Kamp%C4%B1&dates=20260525T110000Z/20260526T120000Z&location=Eldivan+Yaylas%C4%B1,+%C3%87ank%C4%B1r%C4%B1&details=Eldivan+Outdoor+hafta+sonu+yayla+kamp%C4%B1.'
   },
   {
     id: 3,
     title: 'Koyunbaba Enduro & Toprak Sürüşü',
+    desc: 'Zorlu toprak etaplar, çamur geçişleri ve akıcı patikalarda rehberli enduro sürüşü.',
     date: '02 HAZİRAN 2026 · PAZAR',
     time: '10:00',
     location: 'Koyunbaba Barajı Parkuru',
     quota: 'Kalan: 6 Motor',
     badge: 'LİMİTLİ',
+    image: '/images/enduro.jpg',
     calendarUrl: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Koyunbaba+Enduro+%26+Toprak+S%C3%BCr%C3%BC%C5%9F%C3%BC&dates=20260602T070000Z/20260602T130000Z&location=Koyunbaba+Baraj%C4%B1,+%C3%87ank%C4%B1r%C4%B1&details=Eldivan+Outdoor+enduro+ve+toprak+s%C3%BCr%C3%BC%C5%9F%C3%BC.'
   }
 ];
