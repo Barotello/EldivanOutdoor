@@ -7,6 +7,26 @@
     @apply bg-[#f0f2f5] text-ink antialiased font-body;
     -webkit-tap-highlight-color: transparent;
   }
+  :root {
+    --sidebar-background: 154 30% 17%;
+    --sidebar-foreground: 45 33% 94%;
+    --sidebar-primary: 18 76% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 153 28% 24%;
+    --sidebar-accent-foreground: 33 69% 69%;
+    --sidebar-border: 154 30% 25%;
+    --sidebar-ring: 33 69% 69%;
+  }
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
 
 /* Klavye Odak Halka Erişilebilirliği (WCAG 1.4.11) */

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   X,
   Compass,
@@ -14,29 +14,30 @@ import {
   ChevronRight,
   Info
 } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetClose
+} from '@/components/ui/sheet';
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarSeparator
+} from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import ProfileCard from './ProfileCard';
 import { CLUB_CONFIG } from '../data/mockData';
 
 export default function DrawerMenu({ isOpen, onClose, onReplaySplash }) {
-  const [activeTab, setActiveTab] = useState('menu'); // 'menu' veya 'bizkimiz'
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, onClose]);
+  const [activeTab, setActiveTab] = useState('menu'); // 'menu' | 'bizkimiz'
 
   const navItems = [
     { id: 'kesif', label: 'Ana Sayfa (Keşfet)', icon: Compass, desc: 'Deste & Hızlı Keşif' },
@@ -48,64 +49,42 @@ export default function DrawerMenu({ isOpen, onClose, onReplaySplash }) {
 
   const handleNavClick = (id) => {
     onClose();
-    const elem = document.getElementById(id);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-      elem.focus({ preventScroll: true });
-    }
+    setTimeout(() => {
+      const elem = document.getElementById(id);
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'smooth' });
+        elem.focus({ preventScroll: true });
+      }
+    }, 150);
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Kulüp Menüsü ve Biz Kimiz"
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-300 font-headline ${
-        isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-      }`}
-    >
-      {/* Lüks Karartılmış Arka Plan (Giriş Ekranı Derinliği) */}
-      <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-300"
-        onClick={onClose}
-      />
-
-      {/* Ekranın Tam Ortasında Açılan Modal Kart (Giriş Ekranı Renk Tonu & Teması) */}
-      <div
-        className={`relative w-full max-w-[390px] max-h-[88vh] bg-[#1F3A2E] text-[#F5F2EA] rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] border border-white/15 flex flex-col overflow-hidden z-10 transform transition-all duration-300 ${
-          isOpen ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-3 opacity-0'
-        }`}
+    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <SheetContent
+        side="right"
+        className="w-full sm:max-w-[400px] bg-[#1F3A2E] text-[#F5F2EA] border-l border-white/10 p-0 flex flex-col font-headline outline-none shadow-2xl [&>button]:text-white [&>button]:opacity-80 hover:[&>button]:opacity-100"
       >
-        {/* Modal Üst Başlık Çubuğu */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-white/10 bg-[#162920]">
-          <div className="flex items-center gap-2.5">
+        {/* Üst Başlık Çubuğu */}
+        <SheetHeader className="px-5 pt-4 pb-3 border-b border-white/10 bg-[#162920] text-left">
+          <div className="flex items-center gap-2.5 pr-8">
             <img
               src="/images/app-icon.png"
               alt="Eldivan Outdoor"
               className="w-8 h-8 rounded-full shadow-md border border-white/20 object-cover"
             />
             <div>
-              <div className="font-headline font-black text-[17px] text-white leading-tight">
+              <SheetTitle className="font-headline font-black text-[17px] text-white leading-tight">
                 ELDIVAN OUTDOOR<span className="text-[#E8B07A]">.</span>
-              </div>
-              <div className="text-[10px] font-mono-tech text-[#E8B07A] font-semibold uppercase tracking-wider">
-                Doğa ve Motor Sporları
-              </div>
+              </SheetTitle>
+              <SheetDescription className="text-[10px] font-mono-tech text-[#E8B07A] font-semibold uppercase tracking-wider mt-0.5">
+                Doğa ve Motor Sporları Kulübü
+              </SheetDescription>
             </div>
           </div>
+        </SheetHeader>
 
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Kapat"
-            className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#F5F2EA] hover:bg-white/20 active:scale-95 transition-all border border-white/10"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Segment Kontrol Sekmeleri: Menü vs Biz Kimiz */}
-        <div className="px-5 pt-3 pb-2 bg-[#14201A]/90 border-b border-white/10">
+        {/* Shadcn Sidebar Segment Sekmeleri: Menü vs Biz Kimiz */}
+        <div className="px-5 pt-3 pb-2 bg-[#14201A]/95 border-b border-white/10">
           <div className="grid grid-cols-2 p-1 rounded-xl bg-[#1F3A2E] border border-white/10 font-mono-tech text-xs font-bold">
             <button
               type="button"
@@ -135,42 +114,52 @@ export default function DrawerMenu({ isOpen, onClose, onReplaySplash }) {
           </div>
         </div>
 
-        {/* Modal İçerik Gövdesi */}
+        {/* Gövde İçeriği */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
           {activeTab === 'menu' ? (
             /* ================= SEKME 1: MENÜ & GEZİNME ================= */
-            <>
+            <div className="space-y-4">
               {/* Sayfa İçi Rota & Bölüm Butonları */}
-              <div className="space-y-2">
-                {navItems.map((item) => {
-                  const IconComp = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleNavClick(item.id)}
-                      className="w-full text-left flex items-center justify-between p-3 rounded-2xl bg-[#14201A]/60 hover:bg-[#2A4A39]/80 active:bg-[#2F5A3E] text-[#F5F2EA] border border-white/10 hover:border-[#E8B07A]/40 transition-all group shadow-sm"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-[#2A4A39] border border-white/10 flex items-center justify-center text-[#E8B07A] group-hover:bg-[#E8B07A] group-hover:text-[#14201A] transition-colors">
-                          <IconComp className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="font-headline font-bold text-sm text-white leading-tight">
-                            {item.label}
-                          </div>
-                          <div className="text-[11px] font-mono-tech text-[#d6e3d9]/80 mt-0.5">
-                            {item.desc}
-                          </div>
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-[#d6e3d9]/60 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
-                    </button>
-                  );
-                })}
-              </div>
+              <SidebarGroup className="p-0">
+                <SidebarGroupLabel className="text-[10px] font-mono-tech text-[#E8B07A] font-bold uppercase tracking-wider px-0 mb-1">
+                  PARKURLAR &amp; SAYFA BÖLÜMLERİ
+                </SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu className="gap-2">
+                    {navItems.map((item) => {
+                      const IconComp = item.icon;
+                      return (
+                        <SidebarMenuItem key={item.id}>
+                          <SidebarMenuButton
+                            asChild
+                            className="w-full text-left flex items-center justify-between p-3 h-auto rounded-2xl bg-[#14201A]/60 hover:bg-[#2A4A39]/80 active:bg-[#2F5A3E] text-[#F5F2EA] border border-white/10 hover:border-[#E8B07A]/40 transition-all group shadow-sm cursor-pointer"
+                            onClick={() => handleNavClick(item.id)}
+                          >
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 rounded-xl bg-[#2A4A39] border border-white/10 flex items-center justify-center text-[#E8B07A] group-hover:bg-[#E8B07A] group-hover:text-[#14201A] transition-colors flex-shrink-0">
+                                  <IconComp className="w-4 h-4" />
+                                </div>
+                                <div>
+                                  <div className="font-headline font-bold text-sm text-white leading-tight">
+                                    {item.label}
+                                  </div>
+                                  <div className="text-[11px] font-mono-tech text-[#d6e3d9]/80 mt-0.5">
+                                    {item.desc}
+                                  </div>
+                                </div>
+                              </div>
+                              <ChevronRight className="w-4 h-4 text-[#d6e3d9]/60 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                            </div>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
 
-              {/* Hızlı Aksiyonlar: WhatsApp & Animasyonu Tekrar Oynat */}
+              {/* Hızlı Aksiyonlar */}
               <div className="pt-2 space-y-2 border-t border-white/10">
                 <a
                   href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum.`}
@@ -196,7 +185,7 @@ export default function DrawerMenu({ isOpen, onClose, onReplaySplash }) {
                   <span>Açılış Animasyonunu Oynat</span>
                 </button>
               </div>
-            </>
+            </div>
           ) : (
             /* ================= SEKME 2: BİZ KİMİZ ================= */
             <div className="space-y-4">
@@ -238,88 +227,63 @@ export default function DrawerMenu({ isOpen, onClose, onReplaySplash }) {
                   <div className="font-headline font-bold text-xs mt-0.5 leading-snug text-white">
                     Gençlik ve Spor Bakanlığı'na bağlı tescilli spor kulübü.
                   </div>
-                  <div className="text-[10px] font-mono-tech text-[#d6e3d9] mt-1">
-                    Sicil No: <span className="font-bold text-white">18-01-00109</span>
+                  <div className="text-[11px] font-mono-tech text-[#d6e3d9]/80 mt-1">
+                    Kulüp Kütük No: <strong className="text-white">18-01-00109</strong>
                   </div>
                 </div>
               </div>
 
-              {/* Kulüp Hikayesi */}
-              <div className="p-3.5 rounded-2xl bg-[#14201A]/60 border border-white/10">
-                <h4 className="font-headline font-extrabold text-[15px] text-[#E8B07A] mb-1.5">
-                  Kulübümüzün Hikayesi
-                </h4>
-                <p className="text-[#d6e3d9] text-[12px] leading-relaxed">
-                  Eldivan Doğa ve Motor Sporları Kulübü (EDMSK), doğaya ve adrenalin dolu aktivitelere tutkuyla bağlı gönüllüler tarafından kuruldu.
-                </p>
-                <p className="text-[#d6e3d9] text-[12px] leading-relaxed mt-1.5">
-                  Amacımız; <strong className="text-white">dağ bisikleti, enduro motosiklet, off-road, kampçılık ve doğa yürüyüşü</strong> gibi farklı alanlarda buluşan insanları bir çatı altında toplayarak birlikte keşfetmek ve spor disiplinini aşılamaktır.
-                </p>
-              </div>
-
-              {/* Temel Değerlerimiz */}
-              <div>
-                <h4 className="font-headline font-extrabold text-[15px] text-white mb-2">
-                  Değerlerimiz
-                </h4>
-                <div className="space-y-2">
-                  <div className="p-2.5 rounded-xl bg-[#14201A]/70 border border-white/10 flex items-start gap-2.5">
-                    <ShieldCheck className="w-4 h-4 text-[#E8B07A] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-headline font-bold text-xs text-white">Güvenlik</div>
-                      <div className="text-[#d6e3d9] text-[11px] leading-tight mt-0.5">
-                        Tüm turlarımızda katılımcı güvenliği ve korumalı ekipman esastır.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-[#14201A]/70 border border-white/10 flex items-start gap-2.5">
-                    <Leaf className="w-4 h-4 text-[#E8B07A] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-headline font-bold text-xs text-white">Doğaya Saygı</div>
-                      <div className="text-[#d6e3d9] text-[11px] leading-tight mt-0.5">
-                        İz bırakmama prensibiyle çevreyi ve Eldivan florasını koruruz.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-[#14201A]/70 border border-white/10 flex items-start gap-2.5">
-                    <Users className="w-4 h-4 text-[#E8B07A] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-headline font-bold text-xs text-white">Topluluk Ruhu</div>
-                      <div className="text-[#d6e3d9] text-[11px] leading-tight mt-0.5">
-                        Farklı yaş ve deneyim seviyelerindeki tüm doğaseverlere açığız.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Logomuzun Anlamı */}
-              <div className="p-3 rounded-2xl bg-[#14201A]/80 border border-white/10 text-[11px]">
-                <div className="font-headline font-bold text-[#E8B07A] text-xs mb-1">
-                  Logomuzun Anlamı
+              {/* Kulüp Hikayesi & Değerler */}
+              <div className="p-3.5 rounded-2xl bg-[#14201A]/70 border border-white/10 text-white space-y-2.5 text-xs">
+                <div className="flex items-center gap-2 text-[#E8B07A] font-bold font-mono-tech text-[11px]">
+                  <Leaf className="w-4 h-4" />
+                  <span>DOĞA, SPOR &amp; ELDİVAN SEVDASI</span>
                 </div>
                 <p className="text-[#d6e3d9] leading-relaxed">
-                  Logodaki <strong className="text-white">"E"</strong> harfi Eldivan ilçesini, üzerindeki dağ silüeti <strong className="text-white">İldivan Dağı</strong>'nı, dağın üzerindeki yol figürü ise zirveye ulaşmak için her zaman bir yol bulunduğunu ve mücadele azmini temsil eder.
+                  Eldivan Outdoor; Çankırı'nın eşsiz doğasını, yaylalarını, dağlarını ve zorlu toprak yollarını keşfetmek amacıyla kurulmuş resmi doğa ve motor sporları kulübüdür.
                 </p>
+                <p className="text-[#d6e3d9] leading-relaxed">
+                  Enduro motosiklet turlarından yayla kamplarına, dağ bisikletinden aile doğa yürüyüşlerine kadar her yaştan doğasevere güvenli outdoor deneyimleri sunuyoruz.
+                </p>
+              </div>
+
+              {/* Kulüp Temel Değerleri */}
+              <div className="grid grid-cols-2 gap-2 text-[11px] font-mono-tech">
+                <div className="p-2.5 rounded-xl bg-[#14201A]/80 border border-white/10 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#E8B07A]" />
+                  <span>Güvenlik &amp; Disiplin</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-[#14201A]/80 border border-white/10 flex items-center gap-2">
+                  <Leaf className="w-4 h-4 text-[#22c55e]" />
+                  <span>Sıfır Atık / Doğa</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-[#14201A]/80 border border-white/10 flex items-center gap-2">
+                  <Users className="w-4 h-4 text-[#E8B07A]" />
+                  <span>Takım Ruhu</span>
+                </div>
+                <div className="p-2.5 rounded-xl bg-[#14201A]/80 border border-white/10 flex items-center gap-2">
+                  <Compass className="w-4 h-4 text-[#38bdf8]" />
+                  <span>Keşif &amp; Rota</span>
+                </div>
+              </div>
+
+              {/* Atatürk Anısına Saygı Notu */}
+              <div className="p-3 rounded-xl bg-[#162920] border border-white/10 text-[11px] text-[#d6e3d9]/90 italic leading-relaxed text-center">
+                "Ben sporcunun zeki, çevik ve aynı zamanda ahlaklısını severim."
+                <div className="text-[10px] text-[#E8B07A] not-italic font-bold font-mono-tech mt-1">
+                  — Mustafa Kemal Atatürk
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Modal Sabit Alt Bilgi Çubuğu */}
-        <div className="px-5 py-3 border-t border-white/10 bg-[#162920] flex items-center justify-between font-mono-tech text-[10px] text-[#d6e3d9]/80">
-          <div>
-            <span className="font-bold text-white">ELDİVAN / ÇANKIRI</span>
-            <span className="block text-[9px] text-[#E8B07A]">{CLUB_CONFIG.coordinates}</span>
-          </div>
-          <div className="text-right">
-            <span className="font-bold text-white">EDMSK HOBİ KULÜBÜ</span>
-            <span className="block text-[9px] text-[#d6e3d9]/70">v2.0 PWA</span>
-          </div>
+        {/* Shadcn Alt Bilgi */}
+        <div className="px-5 py-3 border-t border-white/10 bg-[#162920] text-center text-[10px] font-mono-tech text-[#d6e3d9]/70">
+          <div>Eldivan, Çankırı · 40.5700° N, 33.5250° E</div>
+          <div className="mt-0.5 text-white/50">Tescilli Spor Kulübü © 2026</div>
         </div>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 }
