@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  html, body, #root, * {
+    font-family: 'Space Grotesk', sans-serif;
+  }
   body {
-    @apply bg-[#f0f2f5] text-ink antialiased font-body;
+    @apply bg-[#f0f2f5] text-ink antialiased;
+    font-family: 'Space Grotesk', sans-serif !important;
     -webkit-tap-highlight-color: transparent;
   }
   :root {
