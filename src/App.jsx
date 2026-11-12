@@ -7,8 +7,7 @@ import FieldMap from './components/FieldMap';
 import ClubEvents from './components/ClubEvents';
 import ContactFooter from './components/ContactFooter';
 import BottomDock from './components/BottomDock';
-import AppSidebar from './components/AppSidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import Layout from './components/layout';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('kesif');
@@ -70,7 +69,7 @@ export default function App() {
   }, []);
 
   return (
-    <SidebarProvider defaultOpen={false}>
+    <Layout>
       {/* Açılış Animasyonu (Oturum başına 1 kez + Menüden Tekrar Oynatılabilir) */}
       <Splash replayTrigger={splashReplayCount} />
 
@@ -78,7 +77,7 @@ export default function App() {
       <div className="w-full max-w-[402px] mx-auto min-h-screen bg-white flex flex-col relative pb-[calc(env(safe-area-inset-bottom,0px)+96px)] shadow-2xl">
         <Header />
 
-        <main className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col">
           {/* Bölüm 1: Keşif & 3D Deste Kartları */}
           <CardDeck onSelectFilter={handleCardFilterSelect} />
 
@@ -96,7 +95,7 @@ export default function App() {
 
           {/* Bölüm 5: İletişim, Hızlı Aksiyonlar & Atatürk Anma Footer */}
           <ContactFooter />
-        </main>
+        </div>
 
         {/* 5'li Sabit Alt Dock */}
         <BottomDock
@@ -104,9 +103,6 @@ export default function App() {
           onTabSelect={setActiveTab}
         />
       </div>
-
-      {/* Resmi Shadcn Sidebar Menüsü */}
-      <AppSidebar onReplaySplash={() => setSplashReplayCount((c) => c + 1)} />
-    </SidebarProvider>
+    </Layout>
   );
 }
