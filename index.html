@@ -334,7 +334,7 @@
     <main class="flex-1 flex flex-col">
 
       <!-- ==================== BÖLÜM 1: KEŞFET & CARD SPREAD (REACT BITS PRO TASARIMI) ==================== -->
-      <section class="px-5 pt-5 pb-6">
+      <section id="kesif" class="px-5 pt-5 pb-6">
         <!-- Başlık ve Koordinatlar -->
         <div class="flex items-start justify-between mb-3">
           <div>
@@ -537,6 +537,281 @@
         </div>
       </section>
 
+      <!-- ==================== BÖLÜM: TESCİLLİ KULÜP ROTALARI & PARKUR REHBERİ ==================== -->
+      <section id="rotalar" class="px-5 pt-6 pb-6 border-t border-light-outline-variant/60">
+        <!-- Başlık & Telemetri -->
+        <div class="flex items-start justify-between mb-2">
+          <div>
+            <div class="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold text-accent uppercase tracking-wider mb-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+              <span>SAHA &amp; PARKUR REHBERİ</span>
+            </div>
+            <h2 class="font-headline text-[24px] font-extrabold tracking-tight text-ink leading-tight">
+              Eldivan Rotaları <br>
+              <span class="text-muted font-normal">&amp; Parkurları.</span>
+            </h2>
+          </div>
+
+          <!-- Teknik GPS & Rakım -->
+          <div class="text-right font-mono-tech">
+            <div class="inline-flex items-center justify-end text-accent text-xs font-bold leading-none mb-1">
+              <span class="text-accent text-sm mr-0.5">+</span>
+              <span class="text-[11px] text-ink font-semibold">40.6034° K</span>
+            </div>
+            <div class="text-[11px] text-muted font-medium leading-none">33.5140° D</div>
+            <div class="text-[10px] text-muted/80 uppercase tracking-wider mt-1">1.420M RAKIM</div>
+          </div>
+        </div>
+
+        <!-- Açıklama -->
+        <p class="text-muted text-[13px] leading-relaxed mb-3">
+          Eldivan Dağı ormanları, Koyunbaba Barajı ve vadilerde GPS ile kayıtlı tescilli kulüp parkurları.
+        </p>
+
+        <!-- Kategori Filtre Butonları (Chips) -->
+        <div class="flex items-center gap-1.5 overflow-x-auto py-2 no-scrollbar -mx-1 px-1 mb-4">
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-ink text-white text-[11px] font-mono-tech font-bold flex-shrink-0 transition-all active:scale-95" data-filter="all">
+            Tümü (6)
+          </button>
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-sand text-muted hover:text-ink text-[11px] font-mono-tech font-semibold border border-light-outline-variant flex-shrink-0 transition-all active:scale-95" data-filter="zirve">
+            🏔️ Zirve
+          </button>
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-sand text-muted hover:text-ink text-[11px] font-mono-tech font-semibold border border-light-outline-variant flex-shrink-0 transition-all active:scale-95" data-filter="enduro">
+            🏍️ Enduro
+          </button>
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-sand text-muted hover:text-ink text-[11px] font-mono-tech font-semibold border border-light-outline-variant flex-shrink-0 transition-all active:scale-95" data-filter="bisiklet">
+            🚵 Bisiklet
+          </button>
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-sand text-muted hover:text-ink text-[11px] font-mono-tech font-semibold border border-light-outline-variant flex-shrink-0 transition-all active:scale-95" data-filter="offroad">
+            🚙 Off-Road
+          </button>
+          <button type="button" class="filter-chip px-3 py-1.5 rounded-full bg-sand text-muted hover:text-ink text-[11px] font-mono-tech font-semibold border border-light-outline-variant flex-shrink-0 transition-all active:scale-95" data-filter="kamp">
+            ⛺ Kamp
+          </button>
+        </div>
+
+        <!-- ROTA KARTLARI LİSTESİ -->
+        <div class="space-y-4" id="routesContainer">
+
+          <!-- 1. ROTA: ZİRVE -->
+          <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="zirve">
+            <div class="relative h-[180px] w-full overflow-hidden">
+              <img src="images/grup.jpg" alt="Eldivan Dağı Zirve & Yayla Rotası" class="w-full h-full object-cover" loading="lazy">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+              <div class="absolute top-3 left-3 flex items-center gap-1.5">
+                <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+                  ZİRVE &amp; YÜRÜYÜŞ
+                </span>
+                <span class="px-2 py-1 rounded-full bg-emerald-700/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+                  ORTA SEVİYE
+                </span>
+              </div>
+              <div class="absolute bottom-3 left-3 right-3 text-white">
+                <h3 class="font-headline font-extrabold text-[17px] leading-tight">Eldivan Dağı Zirve &amp; Yayla Döngüsü</h3>
+                <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+                  <span>📍 14.2 KM</span>
+                  <span>⏱️ ~4.5 SAAT</span>
+                  <span>⛰️ 1.420M</span>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <p class="text-muted text-[13px] leading-relaxed">
+                Çam iğneli orman yolları ve dik patikalardan zirveye ulaşan, geniş Çankırı manzaralı tescilli yürüyüş hattı.
+              </p>
+              <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+                <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: KURU ÇAM İĞNELİ</div>
+                <a href="https://wa.me/905000000000?text=Eldivan%20Zirve%20Rotas%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+                  <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+                <span>WhatsApp Katıl</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. ROTA: ENDURO -->
+        <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="enduro">
+          <div class="relative h-[180px] w-full overflow-hidden">
+            <img src="images/enduro.jpg" alt="Koyunbaba Barajı Enduro Parkuru" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+            <div class="absolute top-3 left-3 flex items-center gap-1.5">
+              <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+                ENDURO &amp; MOTOSİKLET
+              </span>
+              <span class="px-2 py-1 rounded-full bg-red-600/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+                ZORLU PARKURLAR
+              </span>
+            </div>
+            <div class="absolute bottom-3 left-3 right-3 text-white">
+              <h3 class="font-headline font-extrabold text-[17px] leading-tight">Koyunbaba Barajı Enduro Parkuru</h3>
+              <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+                <span>📍 18.5 KM</span>
+                <span>⏱️ ~2.0 SAAT</span>
+                <span>⛰️ 1.150M</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-muted text-[13px] leading-relaxed">
+              Koyunbaba Barajı çevresinde sert toprak, su geçişleri ve dik yamaçlardan oluşan yüksek adrenalinli arazi parkuru.
+            </p>
+            <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+              <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: SERT TOPRAK &amp; TAŞ</div>
+              <a href="https://wa.me/905000000000?text=Enduro%20Parkuru%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+                <span>WhatsApp Katıl</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. ROTA: DAĞ BİSİKLETİ -->
+        <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="bisiklet">
+          <div class="relative h-[180px] w-full overflow-hidden">
+            <img src="images/bisiklet.jpg" alt="Çam Ormanı &amp; Gölet Bisiklet Parkuru" class="w-full h-full object-cover" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+            <div class="absolute top-3 left-3 flex items-center gap-1.5">
+              <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+                DAĞ BİSİKLETİ
+              </span>
+              <span class="px-2 py-1 rounded-full bg-amber-600/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+                AKICI SINGLE-TRACK
+              </span>
+            </div>
+            <div class="absolute bottom-3 left-3 right-3 text-white">
+              <h3 class="font-headline font-extrabold text-[17px] leading-tight">Çam Ormanı &amp; Gölet Bisiklet Parkuru</h3>
+              <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+                <span>📍 16.0 KM</span>
+                <span>⏱️ ~2.5 SAAT</span>
+                <span>⛰️ +380M İRTİFA</span>
+              </div>
+            </div>
+          </div>
+          <div class="p-4">
+            <p class="text-muted text-[13px] leading-relaxed">
+              Doğayla baş başa, rehberli single-track iniş ve köy ara bağlantılarından oluşan harika bir bisiklet turu.
+            </p>
+            <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+              <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: ORMAN PATİKASI</div>
+              <a href="https://wa.me/905000000000?text=Da%C4%9F%20Bisikleti%20Rotas%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+              <span>WhatsApp Katıl</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. ROTA: OFF-ROAD -->
+      <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="offroad">
+        <div class="relative h-[180px] w-full overflow-hidden">
+          <img src="images/offroad.jpg" alt="Koyunbaba Kanyonu 4x4 Off-Road" class="w-full h-full object-cover" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+          <div class="absolute top-3 left-3 flex items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+              OFF-ROAD 4X4
+            </span>
+            <span class="px-2 py-1 rounded-full bg-red-600/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+              İLERİ SEVİYE
+            </span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 text-white">
+            <h3 class="font-headline font-extrabold text-[17px] leading-tight">Koyunbaba Kanyonu 4x4 Geçişi</h3>
+            <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+              <span>📍 22.0 KM</span>
+              <span>⏱️ ~3.5 SAAT</span>
+              <span>⛰️ DERE YATAĞI</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <p class="text-muted text-[13px] leading-relaxed">
+            Özel donanımlı 4x4 arazi araçlarıyla kayalık tırmanışlar, dere geçişleri ve derin çamur parkurları.
+          </p>
+          <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+            <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: ÇAMUR &amp; KAYALIK</div>
+            <a href="https://wa.me/905000000000?text=Off-Road%20Etkinli%C4%9Fi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+              <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+            <span>WhatsApp Katıl</span>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5. ROTA: KAMP -->
+    <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="kamp">
+      <div class="relative h-[180px] w-full overflow-hidden">
+        <img src="images/kamp.jpg" alt="Eldivan Yaylası Doğa Kamp Alanı" class="w-full h-full object-cover" loading="lazy">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+        <div class="absolute top-3 left-3 flex items-center gap-1.5">
+          <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+            KAMP &amp; ÇADIR
+          </span>
+          <span class="px-2 py-1 rounded-full bg-blue-600/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+            AİLE &amp; KARAVAN
+          </span>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white">
+          <h3 class="font-headline font-extrabold text-[17px] leading-tight">Eldivan Yaylası Doğa Kamp Alanı</h3>
+          <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+            <span>📍 ÇADIR &amp; KARAVAN</span>
+            <span>💧 SU KAYNAĞI</span>
+            <span>⛰️ 1.380M</span>
+          </div>
+        </div>
+      </div>
+      <div class="p-4">
+        <p class="text-muted text-[13px] leading-relaxed">
+          Yıldız gözlemi, kamp ateşi sohbetleri ve doğayla tam uyumlu aile çadır kampları için güvenli yayla alanı.
+        </p>
+        <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+          <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: ÇİM &amp; YAYLA</div>
+          <a href="https://wa.me/905000000000?text=Yayla%20Kamp%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+          <span>WhatsApp Katıl</span>
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6. ROTA: ORYANTİRİNG & PARKUR -->
+  <article class="route-card rounded-2xl overflow-hidden shadow-sm border border-light-outline-variant/80 bg-white" data-category="zirve">
+    <div class="relative h-[180px] w-full overflow-hidden">
+      <img src="images/oryantiring.jpg" alt="Saraytepe Oryantiring &amp; Parkur Eğitimi" class="w-full h-full object-cover" loading="lazy">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+      <div class="absolute top-3 left-3 flex items-center gap-1.5">
+        <span class="px-2.5 py-1 rounded-full bg-ink/80 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase tracking-wider">
+          ORYANTİRİNG
+        </span>
+        <span class="px-2 py-1 rounded-full bg-purple-700/85 text-white backdrop-blur-md text-[10px] font-mono-tech font-bold uppercase">
+          TAKIM &amp; EĞİTİM
+        </span>
+      </div>
+      <div class="absolute bottom-3 left-3 right-3 text-white">
+        <h3 class="font-headline font-extrabold text-[17px] leading-tight">Saraytepe Oryantiring &amp; Parkur Eğitimi</h3>
+        <div class="flex items-center gap-3 font-mono-tech text-[11px] text-white/80 mt-1">
+          <span>📍 18 HEDEF</span>
+          <span>⏱️ ~3.0 SAAT</span>
+          <span>🧭 PUSULA &amp; HARİTA</span>
+        </div>
+      </div>
+    </div>
+    <div class="p-4">
+      <p class="text-muted text-[13px] leading-relaxed">
+        Doğada yön bulma, harita okuma ve takım içi koordinasyon yeteneklerini geliştiren oryantiring etkinliği.
+      </p>
+      <div class="flex items-center justify-between pt-3 mt-3 border-t border-light-outline-variant/60">
+        <div class="text-[10px] font-mono-tech text-muted uppercase">ZEMİN: DOĞAL ORMAN PARKURU</div>
+        <a href="https://wa.me/905000000000?text=Oryantiring%20E%C4%9Fitimi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#25D366] text-white font-mono-tech text-[11px] font-bold hover:bg-[#1fbb59] transition-all active:scale-95 shadow-sm">
+          <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp Katıl</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+</div>
+</section>
+
       <!-- ==================== BÖLÜM 2: HAVA VE İKLİM / GÜNLÜK SAHA KOŞULLARI (REFERANS ORTA EKRAN) ==================== -->
       <section id="saha" class="px-5 py-6 bg-sand border-y border-light-outline-variant/50">
         <!-- Başlık -->
@@ -729,36 +1004,42 @@
     </main>
 
     <!-- ==================== ALT SABİT NAVİGASYON DOCK'U (IPHONE 17 PRO UYUMLU) ==================== -->
-    <div class="fixed bottom-[max(14px,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-full max-w-[402px] z-50 px-4 pointer-events-none">
-      <nav class="pointer-events-auto bg-white/95 backdrop-blur-md border border-light-outline-variant/80 rounded-full px-4 py-2.5 shadow-2xl flex items-center justify-between">
+    <div class="fixed bottom-[max(14px,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 w-full max-w-[402px] z-50 px-3 pointer-events-none">
+      <nav class="pointer-events-auto bg-white/95 backdrop-blur-md border border-light-outline-variant/80 rounded-full px-2 py-1.5 shadow-2xl flex items-center justify-between">
         
-        <!-- Tab 1: Keşfet (Aktif) -->
-        <a href="index.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ink text-white font-mono-tech text-[12px] font-bold">
-          <span class="material-symbols-outlined text-[16px]">explore</span>
-          <span>Keşif</span>
+        <!-- Tab 1: Keşif -->
+        <a href="#kesif" class="nav-dock-btn flex-1 flex flex-col items-center justify-center py-1 text-ink active:scale-95 transition-all tap-highlight-transparent" data-tab="kesif">
+          <span class="material-symbols-outlined text-[20px]">explore</span>
+          <span class="font-mono-tech text-[10px] font-bold tracking-tight">Keşif</span>
         </a>
 
         <!-- Tab 2: Rotalar -->
-        <a href="rotalar.html" class="flex items-center gap-1.5 px-2.5 py-1.5 text-muted hover:text-ink font-mono-tech text-[12px] font-semibold">
-          <span class="material-symbols-outlined text-[18px]">alt_route</span>
-          <span>Rotalar</span>
+        <a href="#rotalar" class="nav-dock-btn flex-1 flex flex-col items-center justify-center py-1 text-muted hover:text-ink active:scale-95 transition-all tap-highlight-transparent" data-tab="rotalar">
+          <span class="material-symbols-outlined text-[20px]">alt_route</span>
+          <span class="font-mono-tech text-[10px] font-semibold tracking-tight">Rotalar</span>
         </a>
 
-        <!-- Tab 3: Saha -->
-        <a href="#saha" class="flex items-center gap-1.5 px-2.5 py-1.5 text-muted hover:text-ink font-mono-tech text-[12px] font-semibold">
-          <span class="material-symbols-outlined text-[18px]">landscape</span>
-          <span>Saha</span>
+        <!-- Tab 3: Etkinlik -->
+        <a href="#etkinlikler" class="nav-dock-btn flex-1 flex flex-col items-center justify-center py-1 text-muted hover:text-ink active:scale-95 transition-all tap-highlight-transparent" data-tab="etkinlikler">
+          <span class="material-symbols-outlined text-[20px]">event</span>
+          <span class="font-mono-tech text-[10px] font-semibold tracking-tight">Etkinlik</span>
         </a>
 
-        <!-- Tab 4: İletişim / WhatsApp (Orijinal WhatsApp İkonu) -->
-        <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="flex items-center gap-1.5 px-2.5 py-1.5 text-ink hover:text-[#25D366] font-mono-tech text-[12px] font-semibold transition-all active:scale-95 group" title="WhatsApp İletişim Hattı">
-          <div class="w-6 h-6 rounded-full bg-[#25D366] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
-            <svg viewBox="0 0 24 24" class="w-3.5 h-3.5 fill-white" aria-hidden="true">
+        <!-- Tab 4: WhatsApp -->
+        <a href="https://wa.me/905000000000?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum." target="_blank" rel="noopener" class="flex-1 flex flex-col items-center justify-center py-1 text-[#25D366] hover:opacity-80 active:scale-95 transition-all tap-highlight-transparent" title="WhatsApp İletişim Hattı">
+          <div class="w-5 h-5 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-[#25D366]" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 00-3.48-8.413z"/>
             </svg>
           </div>
-          <span class="font-bold text-[#1f7a42]">WhatsApp</span>
+          <span class="font-mono-tech text-[10px] font-bold tracking-tight text-[#1f7a42]">WhatsApp</span>
         </a>
+
+        <!-- Tab 5: Menü -->
+        <button type="button" id="dockMenuToggle" class="flex-1 flex flex-col items-center justify-center py-1 text-muted hover:text-ink active:scale-95 transition-all tap-highlight-transparent" aria-label="Menüyü Aç">
+          <span class="material-symbols-outlined text-[20px]">menu</span>
+          <span class="font-mono-tech text-[10px] font-semibold tracking-tight">Menü</span>
+        </button>
 
       </nav>
     </div>
@@ -1067,10 +1348,20 @@
         }
         document.body.style.overflow = '';
       } else {
+        // Güvenlik Zamanlayıcısı (Failsafe): En geç 4 saniye sonra ekranı mutlaka aç
+        setTimeout(function() {
+          if (!isFinished) finish(true);
+        }, 4000);
+
         if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
           finish(true);
         } else {
-          play();
+          try {
+            play();
+          } catch (e) {
+            console.warn('Splash play fallback:', e);
+            finish(true);
+          }
         }
       }
     })();
@@ -1191,6 +1482,125 @@
       deck.addEventListener('click', function() {
         toggleSpread();
       });
+
+      // Card Spread Keşif Butonu -> Rotalar Bölümüne Akıcı Kaydırma
+      var cardLink = document.getElementById('cardSpreadLink');
+      if (cardLink) {
+        cardLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          var rotalarSection = document.getElementById('rotalar');
+          if (rotalarSection) {
+            rotalarSection.scrollIntoView({ behavior: 'smooth' });
+          }
+          var activeCard = cardData.find(function(c, i) { return cards[i] && cards[i].classList.contains('is-active'); });
+          if (activeCard && activeCard.filter) {
+            var chip = document.querySelector('.filter-chip[data-filter="' + activeCard.filter + '"]');
+            if (chip) chip.click();
+          }
+        });
+      }
+    })();
+
+    // 5. Alt Sabit Dock Navigasyonu (Stabil, Boyut Değişmeyen Butonlar)
+    (function initBottomDock() {
+      var dockLinks = document.querySelectorAll('.nav-dock-btn');
+      var dockMenuToggle = document.getElementById('dockMenuToggle');
+      var menuToggle = document.getElementById('menuToggle');
+
+      if (dockMenuToggle && menuToggle) {
+        dockMenuToggle.addEventListener('click', function() {
+          menuToggle.click();
+        });
+      }
+
+      function setActiveDockTab(targetTab) {
+        dockLinks.forEach(function(btn) {
+          var tab = btn.getAttribute('data-tab');
+          var spanLabel = btn.querySelector('span:last-child');
+          if (tab === targetTab) {
+            btn.classList.remove('text-muted');
+            btn.classList.add('text-ink');
+            if (spanLabel) {
+              spanLabel.classList.remove('font-semibold');
+              spanLabel.classList.add('font-bold');
+            }
+          } else {
+            btn.classList.remove('text-ink');
+            btn.classList.add('text-muted');
+            if (spanLabel) {
+              spanLabel.classList.remove('font-bold');
+              spanLabel.classList.add('font-semibold');
+            }
+          }
+        });
+      }
+
+      dockLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var targetTab = this.getAttribute('data-tab');
+          var targetEl = document.getElementById(targetTab);
+          if (targetEl) {
+            e.preventDefault();
+            setActiveDockTab(targetTab);
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      // Scroll Spy: Sayfa kaydırıldıkça butonları sabit tutarak aktif sekmeyi güncelle
+      var sections = ['kesif', 'rotalar', 'etkinlikler'];
+      window.addEventListener('scroll', function() {
+        var current = 'kesif';
+        sections.forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) {
+            var rect = el.getBoundingClientRect();
+            if (rect.top <= 250) {
+              current = id;
+            }
+          }
+        });
+        setActiveDockTab(current);
+      }, { passive: true });
+    })();
+
+    // 6. Rota Kategori Filtreleme
+    (function initRouteFilter() {
+      var chips = document.querySelectorAll('.filter-chip');
+      var cards = document.querySelectorAll('.route-card');
+      if (!chips.length || !cards.length) return;
+
+      chips.forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          var filter = chip.getAttribute('data-filter');
+
+          chips.forEach(function(c) {
+            c.classList.remove('bg-ink', 'text-white');
+            c.classList.add('bg-sand', 'text-muted', 'border', 'border-light-outline-variant');
+          });
+          chip.classList.add('bg-ink', 'text-white');
+          chip.classList.remove('bg-sand', 'text-muted', 'border', 'border-light-outline-variant');
+
+          cards.forEach(function(card) {
+            var cat = card.getAttribute('data-category');
+            if (filter === 'all' || cat === filter) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // URL query parametresi kontrolü (örn. ?filter=enduro)
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlFilter = urlParams.get('filter');
+        if (urlFilter) {
+          var targetChip = document.querySelector('.filter-chip[data-filter="' + urlFilter + '"]');
+          if (targetChip) targetChip.click();
+        }
+      } catch (e) {}
     })();
   </script>
 </body>
