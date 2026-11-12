@@ -65,7 +65,7 @@ export function AppSidebar({ onReplaySplash, ...props }) {
     }
   };
 
-  // Platform Ana Menü Verileri (Ekran görüntüsündeki formata tam uygun yapı)
+  // Platform Ana Menü Verileri (Büyük yazı ve ikon formatı)
   const navItems = [
     {
       title: 'Rotalar & Parkurlar',
@@ -120,48 +120,48 @@ export function AppSidebar({ onReplaySplash, ...props }) {
   return (
     <>
       <Sidebar
-        side="left"
-        className="border-r border-white/10 bg-[#121513] text-[#F5F2EA] font-headline select-none"
+        side="right"
+        className="border-l border-white/10 bg-[#121513] text-[#F5F2EA] font-headline select-none"
         {...props}
       >
         {/* Üst Header: Logo, Marka Başlığı ve Çift Ok Tetikleyici */}
-        <SidebarHeader className="border-b border-white/10 p-2">
+        <SidebarHeader className="border-b border-white/10 p-2.5">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
                 onClick={() => handleScrollTo('kesif')}
-                className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-2.5 py-2 group cursor-pointer"
+                className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-3 py-2.5 group cursor-pointer"
               >
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#234533] border border-white/15 text-white shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
+                <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-[#234533] border border-white/15 text-white shadow-xs group-hover:scale-105 transition-transform flex-shrink-0">
                   <img
                     src="/images/app-icon.png"
                     alt="Eldivan Outdoor"
-                    className="size-5 rounded-sm object-cover"
+                    className="size-6 rounded-md object-cover"
                   />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight ml-2.5">
-                  <span className="truncate font-headline font-bold text-white text-[14px] tracking-tight">
+                <div className="grid flex-1 text-left leading-tight ml-3">
+                  <span className="truncate font-headline font-bold text-white text-[16px] tracking-tight">
                     Eldivan Outdoor
                   </span>
-                  <span className="truncate text-[11px] font-mono-tech text-white/50 font-normal">
+                  <span className="truncate text-[12px] font-mono-tech text-white/60 font-normal mt-0.5">
                     Doğa &amp; Motor Sporları
                   </span>
                 </div>
-                <ChevronsUpDown className="ml-auto size-4 text-white/40 group-hover:text-white/70 transition-colors" />
+                <ChevronsUpDown className="ml-auto size-4.5 text-white/40 group-hover:text-white/70 transition-colors" />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
 
         {/* Ana İçerik: Platform Başlığı ve Açılır Menü Ağacı */}
-        <SidebarContent className="px-2 py-3 space-y-2 overflow-y-auto">
+        <SidebarContent className="px-2.5 py-3 space-y-2.5 overflow-y-auto">
           <SidebarGroup className="p-0">
-            <SidebarGroupLabel className="text-[11px] font-mono-tech text-white/40 font-semibold tracking-wider px-2 py-1.5 uppercase">
+            <SidebarGroupLabel className="text-[12px] font-mono-tech text-white/45 font-semibold tracking-wider px-2.5 py-1.5 uppercase">
               Platform
             </SidebarGroupLabel>
 
-            <SidebarMenu className="gap-1 mt-1">
+            <SidebarMenu className="gap-1.5 mt-1">
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
@@ -175,26 +175,26 @@ export function AppSidebar({ onReplaySplash, ...props }) {
                       <CollapsibleTrigger asChild>
                         <SidebarMenuButton
                           tooltip={item.title}
-                          className="w-full justify-between hover:bg-white/8 active:bg-white/12 text-white/90 hover:text-white px-2.5 py-2 rounded-lg transition-colors cursor-pointer"
+                          className="w-full justify-between hover:bg-white/8 active:bg-white/12 text-white/95 hover:text-white px-3 py-2.5 rounded-xl transition-colors cursor-pointer"
                         >
-                          <div className="flex items-center gap-2.5 truncate">
-                            <IconComponent className="size-4 text-white/70 group-hover/collapsible:text-[#E8B07A] transition-colors flex-shrink-0" />
-                            <span className="text-[13px] font-headline font-medium text-white truncate">
+                          <div className="flex items-center gap-3 truncate">
+                            <IconComponent className="size-5 text-white/75 group-hover/collapsible:text-[#E8B07A] transition-colors flex-shrink-0" />
+                            <span className="text-[15px] font-headline font-semibold text-white truncate">
                               {item.title}
                             </span>
                           </div>
-                          <ChevronRight className="ml-auto size-4 text-white/40 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-hover/collapsible:text-white/70" />
+                          <ChevronRight className="ml-auto size-4.5 text-white/40 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-hover/collapsible:text-white/70" />
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
 
                       <CollapsibleContent>
-                        <SidebarMenuSub className="mx-3.5 my-1 flex min-w-0 flex-col gap-0.5 border-l border-white/10 pl-3 py-1">
+                        <SidebarMenuSub className="mx-4 my-1 flex min-w-0 flex-col gap-1 border-l-2 border-white/15 pl-3 py-1">
                           {item.items?.map((subItem) => (
                             <SidebarMenuSubItem key={subItem.title}>
                               <SidebarMenuSubButton
                                 asChild
                                 onClick={subItem.action}
-                                className="h-7 text-[12px] font-body text-white/60 hover:text-white hover:bg-white/5 active:bg-white/10 rounded-md px-2 transition-colors cursor-pointer flex items-center justify-between"
+                                className="h-8.5 text-[14px] font-body text-white/70 hover:text-white hover:bg-white/8 active:bg-white/12 rounded-lg px-2.5 transition-colors cursor-pointer flex items-center justify-between"
                               >
                                 <button type="button" className="w-full text-left">
                                   <span className="truncate">{subItem.title}</span>
@@ -212,42 +212,42 @@ export function AppSidebar({ onReplaySplash, ...props }) {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* Alt Footer: Kullanıcı Profili (Osman Demirel) & Detay Paneli */}
-        <SidebarFooter className="border-t border-white/10 p-2 bg-[#0E1210]/60">
+        {/* Alt Footer: Kullanıcı Profili (Osman Ördek) & Detay Paneli */}
+        <SidebarFooter className="border-t border-white/10 p-2.5 bg-[#0E1210]/70">
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 size="lg"
                 onClick={() => setShowOsmanModal(true)}
-                className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-2 py-1.5 group cursor-pointer"
+                className="hover:bg-white/5 active:bg-white/10 text-left transition-colors rounded-xl px-3 py-2 group cursor-pointer"
               >
-                <div className="relative size-8 rounded-full overflow-hidden border border-white/20 flex-shrink-0 shadow-xs">
+                <div className="relative size-9 rounded-full overflow-hidden border border-white/25 flex-shrink-0 shadow-xs">
                   <img
                     src="/images/osman.jpg"
-                    alt="Osman Demirel"
+                    alt="Osman Ördek"
                     className="size-full object-cover object-top"
                     onError={(e) => {
                       e.currentTarget.src = '/images/app-icon.png';
                     }}
                   />
-                  <span className="absolute bottom-0 right-0 size-2 rounded-full bg-[#25D366] border border-[#121513]" />
+                  <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-[#25D366] border-2 border-[#121513]" />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight ml-2.5">
-                  <span className="truncate font-headline font-bold text-white text-[13px]">
-                    Osman Demirel
+                <div className="grid flex-1 text-left leading-tight ml-3">
+                  <span className="truncate font-headline font-bold text-white text-[14.5px]">
+                    Osman Ördek
                   </span>
-                  <span className="truncate text-[10px] font-mono-tech text-white/50">
+                  <span className="truncate text-[11.5px] font-mono-tech text-white/50 mt-0.5">
                     Kurucu • WhatsApp Hattı
                   </span>
                 </div>
-                <ChevronsUpDown className="ml-auto size-4 text-white/40 group-hover:text-white/70 transition-colors" />
+                <ChevronsUpDown className="ml-auto size-4.5 text-white/40 group-hover:text-white/70 transition-colors" />
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
 
-      {/* Osman Demirel Profil & Hızlı İletişim Modal Kartı */}
+      {/* Osman Ördek Profil & Hızlı İletişim Modal Kartı */}
       {showOsmanModal && (
         <div
           role="dialog"
@@ -270,9 +270,9 @@ export function AppSidebar({ onReplaySplash, ...props }) {
               <button
                 type="button"
                 onClick={() => setShowOsmanModal(false)}
-                className="size-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer"
+                className="size-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer"
               >
-                <X className="size-4" />
+                <X className="size-4.5" />
               </button>
             </div>
 
@@ -280,47 +280,47 @@ export function AppSidebar({ onReplaySplash, ...props }) {
             <div className="flex items-center gap-3.5">
               <img
                 src="/images/osman.jpg"
-                alt="Osman Demirel"
+                alt="Osman Ördek"
                 className="size-16 rounded-2xl object-cover object-top border-2 border-[#E8B07A]/40 shadow-md"
                 onError={(e) => {
                   e.currentTarget.src = '/images/app-icon.png';
                 }}
               />
               <div>
-                <h3 className="font-headline font-bold text-base text-white">
-                  Osman Demirel
+                <h3 className="font-headline font-bold text-lg text-white">
+                  Osman Ördek
                 </h3>
-                <p className="text-xs font-mono-tech text-[#E8B07A] font-medium mt-0.5">
+                <p className="text-xs font-mono-tech text-[#E8B07A] font-semibold mt-0.5">
                   Eldivan Outdoor Kurucusu &amp; Rehber
                 </p>
-                <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-white/60">
-                  <MapPin className="size-3 text-[#E8B07A]" />
+                <div className="flex items-center gap-1.5 mt-1.5 text-[12px] text-white/60">
+                  <MapPin className="size-3.5 text-[#E8B07A]" />
                   <span>Çankırı / Eldivan</span>
                 </div>
               </div>
             </div>
 
-            <p className="text-xs text-white/80 leading-relaxed font-body">
+            <p className="text-[13px] text-white/85 leading-relaxed font-body">
               Eldivan dağları, orman parkurları ve enduro rotalarında rehberli keşifler ve topluluk sürüşleri organize ediyoruz.
             </p>
 
             {/* İletişim Butonları */}
-            <div className="grid grid-cols-2 gap-2 pt-1 font-headline">
+            <div className="grid grid-cols-2 gap-2.5 pt-1 font-headline">
               <a
                 href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba%20Osman%20Bey,%20Eldivan%20Outdoor%20etkinlikleri%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-10 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-[#0F1C16] font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md no-underline"
+                className="h-11 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-95 text-[#0F1C16] font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all shadow-md no-underline"
               >
-                <MessageCircle className="size-4" />
+                <MessageCircle className="size-4.5" />
                 <span>WhatsApp</span>
               </a>
 
               <a
                 href={`tel:${CLUB_CONFIG.whatsappNumber}`}
-                className="h-10 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all border border-white/10 no-underline"
+                className="h-11 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-white font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all border border-white/10 no-underline"
               >
-                <Phone className="size-4" />
+                <Phone className="size-4.5" />
                 <span>Hemen Ara</span>
               </a>
             </div>
