@@ -47,13 +47,15 @@ export default function App() {
       typeof CSS !== 'undefined' && CSS.supports?.('scroll-target-group: auto');
 
     const syncAriaCurrent = () => {
-      const currentLink = document.querySelector('.scrollspy-nav a:target-current');
-      if (currentLink) {
-        const href = currentLink.getAttribute('href');
-        if (href?.startsWith('#')) {
-          setActiveTab(href.slice(1));
+      try {
+        const currentLink = document.querySelector('.scrollspy-nav a:target-current');
+        if (currentLink) {
+          const href = currentLink.getAttribute('href');
+          if (href?.startsWith('#')) {
+            setActiveTab(href.slice(1));
+          }
         }
-      }
+      } catch (e) {}
     };
 
     if (supportsScrollTargetGroup) {
