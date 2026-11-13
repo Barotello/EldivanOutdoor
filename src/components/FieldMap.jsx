@@ -82,17 +82,11 @@ export default function FieldMap() {
       className="px-5 py-6 bg-sand border-y border-light-outline-variant/60 outline-none"
     >
       {/* Başlık */}
-      <div className="flex items-start justify-between mb-4">
-        <div>
-          <h2 className="font-headline text-[24px] font-extrabold tracking-tight text-ink leading-tight">
-            Saha ve Hava <br />
-            <span className="text-muted font-normal">koşulları.</span>
-          </h2>
-        </div>
-        <span className="font-mono-tech text-[10px] font-bold text-emerald-700 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 flex items-center gap-1 mt-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          CANLI TELEMETRİ
-        </span>
+      <div className="mb-4">
+        <h2 className="font-headline text-[24px] font-extrabold tracking-tight text-ink leading-tight">
+          Saha ve Hava <br />
+          <span className="text-muted font-normal">koşulları.</span>
+        </h2>
       </div>
 
       {/* Saha Görseli ve İklim Metrikleri Kartı */}
@@ -135,19 +129,14 @@ export default function FieldMap() {
 
       {/* Canlı Saha Haritası (OpenStreetMap) */}
       <div className="mt-4 bg-white rounded-2xl p-4 border border-light-outline-variant/80 shadow-sm">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold text-forest uppercase tracking-wider mb-0.5">
-              <Navigation className="w-3.5 h-3.5 text-accent" />
-              <span>İNTERAKTİF SAHA HARİTASI</span>
-            </div>
-            <h3 className="font-headline font-bold text-ink text-[16px]">
-              Eldivan Parkur &amp; Arazi Konumu
-            </h3>
+        <div className="mb-3">
+          <div className="flex items-center gap-1.5 font-mono-tech text-[10px] font-bold text-forest uppercase tracking-wider mb-0.5">
+            <Navigation className="w-3.5 h-3.5 text-accent" />
+            <span>İNTERAKTİF SAHA HARİTASI</span>
           </div>
-          <span className="px-2 py-0.5 rounded-md bg-sand-dark text-[10px] font-mono-tech font-bold text-muted border border-black/5">
-            OpenStreetMap
-          </span>
+          <h3 className="font-headline font-bold text-ink text-[16px]">
+            Eldivan Parkur &amp; Arazi Konumu
+          </h3>
         </div>
 
         {/* Harita Konteyneri */}
