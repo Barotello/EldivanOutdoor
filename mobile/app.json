@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Eldivan Outdoor",
+    "slug": "eldivan-outdoor",
+    "version": "2.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/app-icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1F3A2E",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1F3A2E",
+        "foregroundImage": "./assets/images/app-icon.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/images/favicon-32.png"
+    }
+  }
+}

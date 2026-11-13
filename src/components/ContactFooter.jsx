@@ -29,9 +29,14 @@ export default function ContactFooter() {
           <h2 className="font-headline text-[22px] font-extrabold tracking-tight leading-snug mb-2">
             Doğada Birlikte Keşfedelim.
           </h2>
-          <p className="text-white/80 text-[13px] leading-relaxed mb-5">
+          <p className="text-white/80 text-[13px] leading-relaxed mb-3">
             Etkinlik takvimi, katılım şartları ve ortak turlarımız için kulüp ekibimizle iletişime geçin.
           </p>
+
+          <div className="flex items-start gap-2 p-3 rounded-xl bg-white/10 border border-white/15 mb-4 text-[12px] text-white/90 font-mono-tech">
+            <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+            <span>{CLUB_CONFIG.address}</span>
+          </div>
 
           {/* Birincil WhatsApp CTA */}
           <a

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ArrowRight, Mountain, Bike, Tent, Activity, Compass, MapPin } from 'lucide-react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Motorbike01Icon } from '@hugeicons/core-free-icons';
 import { CARDS_DATA } from '../data/mockData';
 
 const ICON_MAP = {
@@ -222,15 +220,19 @@ export default function CardDeck({ onSelectFilter }) {
 
           {/* Çizgi Üstünde İlerleyen Motor İkonu */}
           <div
-            className="absolute top-1/2 -translate-y-[62%] -translate-x-1/2 transition-all duration-500 ease-out pointer-events-none z-20"
+            className="absolute top-1/2 -translate-y-[65%] -translate-x-1/2 transition-all duration-500 ease-out pointer-events-none z-20"
             style={{
               left: `${(currentIndex / (CARDS_DATA.length - 1)) * 100}%`
             }}
           >
-            <div className="relative text-[#1F3A2E] drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex items-center justify-center">
-              <HugeiconsIcon icon={Motorbike01Icon} size={22} strokeWidth={2.4} />
+            <div className="relative drop-shadow-[0_2px_3px_rgba(0,0,0,0.28)] flex items-center justify-center">
+              <img
+                src="/images/moto-icon.png"
+                alt="Enduro Motor"
+                className="w-7 h-7 object-contain"
+              />
               {/* Tekerlek temas/ışık vurgusu */}
-              <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-3 h-0.5 bg-accent/60 rounded-full blur-[0.5px]" />
+              <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-3.5 h-0.5 bg-accent/60 rounded-full blur-[0.5px]" />
             </div>
           </div>
         </div>

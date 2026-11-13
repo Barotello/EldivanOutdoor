@@ -6,7 +6,9 @@ export const CLUB_CONFIG = {
   centerCoordinates: '40.5700° K, 33.5250° D',
   elevation: '1.420M',
   region: 'ÇANKIRI / ELDİVAN',
-  meetingPointMapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5700,33.5250',
+  address: 'Topraklık Mah. Cevher Dudayev Cad. No:40, Eldivan / Çankırı',
+  meetingPointMapsUrl:
+    'https://www.google.com/maps/dir/?api=1&destination=Toprakl%C4%B1k+Mah.+Cevher+Dudayev+Cad.+No%3A40,+Eldivan,+%C3%87ank%C4%B1r%C4%B1',
   osmFullMapUrl: 'https://www.openstreetmap.org/#map=13/40.5750/33.5250'
 };
 
@@ -47,11 +49,12 @@ export const MAP_LOCATIONS = [
   {
     id: 'merkez',
     label: '🌲 Merkez',
-    title: 'Eldivan Kulüp Merkezi',
-    subtitle: 'Toplanma & Brifing İstasyonu',
+    title: 'Eldivan Kulüp Binası',
+    subtitle: 'Topraklık Mah. Cevher Dudayev Cad. No:40',
     coords: [40.5700, 33.5250],
     zoom: 14,
-    mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5700,33.5250'
+    mapsUrl:
+      'https://www.google.com/maps/dir/?api=1&destination=Toprakl%C4%B1k+Mah.+Cevher+Dudayev+Cad.+No%3A40,+Eldivan,+%C3%87ank%C4%B1r%C4%B1'
   },
   {
     id: 'baraj',
