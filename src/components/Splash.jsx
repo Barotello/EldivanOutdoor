@@ -54,10 +54,38 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
     const mud = mudCanvasRef.current;
     const bike = bikeRef.current;
     const scene = sceneRef.current;
-    if (!road || !mud || !bike) return;
+    let isFinished = false;
+
+    const complete = () => {
+      if (isFinished) return;
+      isFinished = true;
+      cancelAnimationFrame(rafRef.current);
+      try {
+        bikeAnimRef.current?.cancel();
+      } catch {}
+      clearTimeout(failsafeTimerRef.current);
+      try {
+        sessionStorage.setItem(SPLASH_STORAGE_KEY, 'true');
+      } catch {}
+      document.body.style.overflow = '';
+      setVisible(false);
+      onFinish?.();
+    };
+
+    // Her koşulda (canvas/animasyon hatası olsa bile) açılış ekranının kapanmasını garantile
+    failsafeTimerRef.current = setTimeout(complete, 4200);
+
+    if (!road || !mud || !bike) {
+      complete();
+      return () => clearTimeout(failsafeTimerRef.current);
+    }
 
     const rc = road.getContext('2d');
     const mc = mud.getContext('2d');
+    if (!rc || !mc) {
+      complete();
+      return () => clearTimeout(failsafeTimerRef.current);
+    }
 
     let W = window.innerWidth;
     let H = window.innerHeight;
@@ -66,7 +94,6 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
     let splats = [];
     let off = 0;
     let burst = false;
-    let isFinished = false;
 
     const rnd = (a, b) => a + Math.random() * (b - a);
     const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
@@ -79,7 +106,10 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
         if (!c) return;
         c.width = W * dpr;
         c.height = H * dpr;
-        c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+        const ctx = c.getContext('2d');
+        if (ctx) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
       });
       hills = [];
       for (let i = 0; i <= 14; i++) {
@@ -156,18 +186,20 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
         });
       }
 
-      if (scene?.animate) {
-        scene.animate(
-          [
-            { transform: 'translate(0,0)' },
-            { transform: 'translate(-12px,8px)' },
-            { transform: 'translate(10px,-9px)' },
-            { transform: 'translate(-7px,6px)' },
-            { transform: 'translate(0,0)' }
-          ],
-          { duration: 480 }
-        );
-      }
+      try {
+        if (scene?.animate) {
+          scene.animate(
+            [
+              { transform: 'translate(0,0)' },
+              { transform: 'translate(-12px,8px)' },
+              { transform: 'translate(10px,-9px)' },
+              { transform: 'translate(-7px,6px)' },
+              { transform: 'translate(0,0)' }
+            ],
+            { duration: 480 }
+          );
+        }
+      } catch {}
 
       try {
         navigator.vibrate?.(70);
@@ -224,20 +256,6 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
       mc.globalAlpha = 1;
     };
 
-    const complete = () => {
-      if (isFinished) return;
-      isFinished = true;
-      cancelAnimationFrame(rafRef.current);
-      bikeAnimRef.current?.cancel();
-      clearTimeout(failsafeTimerRef.current);
-      try {
-        sessionStorage.setItem(SPLASH_STORAGE_KEY, 'true');
-      } catch {}
-      document.body.style.overflow = '';
-      setVisible(false);
-      onFinish?.();
-    };
-
     document.body.style.overflow = 'hidden';
     fit();
 
@@ -247,17 +265,19 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
     const s2 = (H * 2) / 260;
     const ez = 'cubic-bezier(.5,0,.9,.8)';
 
-    if (bike.animate) {
-      bikeAnimRef.current = bike.animate(
-        [
-          { transform: 'translateY(0px) scale(.05)', opacity: 1, offset: 0, easing: ez },
-          { transform: `translateY(${H * 0.05}px) scale(${s1 * 0.35})`, opacity: 1, offset: 0.5, easing: ez },
-          { transform: `translateY(${H * 0.4}px) scale(${s1})`, opacity: 1, offset: 0.82, easing: 'ease-in' },
-          { transform: `translateY(${H * 0.75}px) scale(${s2})`, opacity: 0, offset: 1 }
-        ],
-        { duration: 2900, easing: 'linear', fill: 'forwards' }
-      );
-    }
+    try {
+      if (bike.animate) {
+        bikeAnimRef.current = bike.animate(
+          [
+            { transform: 'translateY(0px) scale(.05)', opacity: 1, offset: 0, easing: ez },
+            { transform: `translateY(${H * 0.05}px) scale(${s1 * 0.35})`, opacity: 1, offset: 0.5, easing: ez },
+            { transform: `translateY(${H * 0.4}px) scale(${s1})`, opacity: 1, offset: 0.82, easing: 'ease-in' },
+            { transform: `translateY(${H * 0.75}px) scale(${s2})`, opacity: 0, offset: 1 }
+          ],
+          { duration: 2900, easing: 'linear', fill: 'forwards' }
+        );
+      }
+    } catch {}
 
     const t0 = performance.now();
     let last = t0;
@@ -283,7 +303,6 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
     };
 
     rafRef.current = requestAnimationFrame(tick);
-    failsafeTimerRef.current = setTimeout(complete, 4200);
 
     const handleResize = () => {
       if (!isFinished) fit();
@@ -292,7 +311,9 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
 
     return () => {
       cancelAnimationFrame(rafRef.current);
-      bikeAnimRef.current?.cancel();
+      try {
+        bikeAnimRef.current?.cancel();
+      } catch {}
       clearTimeout(failsafeTimerRef.current);
       window.removeEventListener('resize', handleResize);
       document.body.style.overflow = '';

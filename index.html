@@ -48,15 +48,6 @@
           }
         } catch (err) {}
       }, true);
-
-      setTimeout(function () {
-        try {
-          var root = document.getElementById('root');
-          if (root && !root.hasChildNodes() && window.location.search.indexOf('v=') === -1) {
-            window.location.replace(window.location.pathname + '?v=' + Date.now() + window.location.hash);
-          }
-        } catch (err) {}
-      }, 2500);
     })();
   </script>
 
