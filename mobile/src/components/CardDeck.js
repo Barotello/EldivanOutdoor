@@ -10,7 +10,6 @@ import {
   Dimensions
 } from 'react-native';
 import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { CARDS_DATA, IMAGES } from '../data/mockData';
@@ -162,22 +161,14 @@ export default function CardDeck() {
                 accessibilityHint="Sağa veya sola kaydırarak diğer etkinliklere geçebilirsin"
               >
                 <Image source={card.image} style={styles.cardImage} resizeMode="cover" />
-                <LinearGradient
-                  // Fotoğrafın üst yarısı açık kalır; koyuluk yalnızca yazıların altında toplanır
-                  colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0.62)', 'rgba(0,0,0,0.92)']}
-                  locations={[0, 0.42, 0.72, 1]}
-                  style={styles.cardGradient}
-                >
-                  <View style={styles.cardTopRow}>
-                    <View style={styles.iconBubble}>
-                      <MaterialCommunityIcons
-                        name={card.icon}
-                        size={17}
-                        color={COLORS.white}
-                      />
-                    </View>
-                  </View>
+                {/* Sağ üst ikon */}
+                <View style={styles.iconBubble}>
+                  <MaterialCommunityIcons name={card.icon} size={17} color={COLORS.white} />
+                </View>
 
+                {/* Yazı bloğu: akış içinde, kartın altında. Karartma bu bloğun kendi arka planı;
+                    absolute/zIndex katmanı ve LinearGradient kullanılmaz (iOS Expo Go'da yazılar kayboluyordu) */}
+                <View style={styles.cardTextBlock}>
                   <View>
                     <Text style={styles.cardTag}>{card.tag}</Text>
                     <Text style={styles.cardTitle}>{card.title}</Text>
@@ -192,7 +183,7 @@ export default function CardDeck() {
                       </View>
                     </View>
                   </View>
-                </LinearGradient>
+                </View>
               </TouchableOpacity>
             </Animated.View>
           );
@@ -301,24 +292,27 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 8
   },
+  // Dokunma alanı, fotoğraf ve yazı katmanı kartın tamamını absolute olarak kaplar.
+  // Böylece Android'de iç içe flex yüksekliği 0 kalsa bile yazılar fotoğrafın üstünde görünür.
   cardTouchable: {
-    flex: 1
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end'
   },
   cardImage: {
     ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%'
   },
-  cardGradient: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 18
-  },
-  cardTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+  cardTextBlock: {
+    paddingHorizontal: 18,
+    paddingTop: 24,
+    paddingBottom: 18,
+    backgroundColor: 'rgba(0,0,0,0.6)'
   },
   iconBubble: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
     width: 34,
     height: 34,
     borderRadius: 17,
@@ -372,8 +366,7 @@ const styles = StyleSheet.create({
   selectBtnText: {
     color: COLORS.accent,
     fontSize: 11,
-    fontWeight: '800',
-    textDecorationLine: 'underline'
+    fontWeight: '800'
   },
   progressWrap: {
     width: '100%',
