@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ArrowRight, Mountain, Bike, Tent, Activity, Compass, MapPin } from 'lucide-react';
-import { CARDS_DATA } from '../data/mockData';
+import { ArrowRight, Mountain, Bike, Tent, Activity, Compass, MapPin, X, ShieldCheck, MessageCircle, Route as RouteIcon } from 'lucide-react';
+import { CARDS_DATA, CLUB_CONFIG } from '../data/mockData';
 
 const ICON_MAP = {
   Mountain,
@@ -14,6 +14,7 @@ const ICON_MAP = {
 export default function CardDeck({ onSelectFilter }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const isAnimatingRef = useRef(false);
   const timerRef = useRef(null);
   const touchStartXRef = useRef(null);
@@ -100,11 +101,36 @@ export default function CardDeck({ onSelectFilter }) {
     resetAutoPlay();
   };
 
-  // Seç ve İncele Aksiyonu: Filtreyi seçer ve Rotalar alanına pürüzsüz kaydırır
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && selectedCard) {
+        setSelectedCard(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    if (selectedCard) {
+      document.body.style.overflow = 'hidden';
+      stopAutoPlay();
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedCard, stopAutoPlay]);
+
+  // Seç ve İncele Aksiyonu: Yapılacak etkinlik detay ekranını açar
   const handleSelectAndInspect = (targetCard) => {
     const cardToSelect = targetCard || activeData;
-    if (onSelectFilter && cardToSelect?.filter) {
-      onSelectFilter(cardToSelect.filter);
+    setSelectedCard(cardToSelect);
+  };
+
+  const handleGoToRoutes = (targetCard) => {
+    const filter = targetCard?.filter;
+    setSelectedCard(null);
+    if (onSelectFilter && filter) {
+      onSelectFilter(filter);
     }
     const elem = document.getElementById('rotalar');
     if (elem) {
@@ -277,12 +303,127 @@ export default function CardDeck({ onSelectFilter }) {
               handleSelectAndInspect(activeData);
             }}
             className="flex-shrink-0 self-center inline-flex items-center justify-center w-10 h-10 rounded-full bg-ink text-white group-hover:bg-accent active:scale-95 transition-all shadow-md cursor-pointer"
-            title="Rotaları İncele"
+            title="Etkinlik Detayını İncele"
           >
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
+
+      {/* Seç & İncele Etkinlik Detay Modalı */}
+      {selectedCard && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${selectedCard.detailTitle} Etkinlik Detayı`}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 font-headline animate-in fade-in duration-200"
+        >
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity cursor-pointer"
+            onClick={() => setSelectedCard(null)}
+          />
+
+          <div
+            className="relative w-full max-w-[400px] max-h-[90vh] bg-white text-ink rounded-3xl shadow-2xl border border-light-outline-variant flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200 select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Üst Çubuk */}
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-light-outline-variant/80 bg-sand-light">
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-forest text-white font-mono-tech text-[10px] font-bold uppercase tracking-wider">
+                  {selectedCard.badge}
+                </span>
+                <span className="font-mono-tech text-[11px] font-bold text-accent">
+                  {selectedCard.dist}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedCard(null)}
+                aria-label="Kapat"
+                className="w-8 h-8 rounded-full bg-sand-dark hover:bg-light-outline-variant text-ink flex items-center justify-center active:scale-95 transition-all border border-light-outline-variant/60 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Gövde */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+              <div className="relative rounded-2xl overflow-hidden h-[185px] border border-light-outline-variant/80 shadow-sm">
+                <img
+                  src={selectedCard.image}
+                  alt={selectedCard.detailTitle}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                <div className="absolute bottom-3.5 left-4 right-4 text-white">
+                  <div className="text-[10px] font-mono-tech uppercase font-bold text-[#E8B07A] tracking-wider">
+                    {selectedCard.tag}
+                  </div>
+                  <h3 className="font-headline font-black text-[20px] leading-tight mt-0.5">
+                    {selectedCard.detailTitle}
+                  </h3>
+                </div>
+              </div>
+
+              {/* Yapılacak Etkinlik Bilgisi */}
+              <div className="p-4 rounded-2xl bg-sand-light border border-light-outline-variant/80 space-y-2">
+                <div className="font-mono-tech text-[10.5px] font-bold uppercase tracking-wider text-accent">
+                  YAPILACAK ETKİNLİK HAKKINDA
+                </div>
+                <p className="text-[13px] text-ink leading-relaxed font-medium">
+                  {selectedCard.activityDetails || selectedCard.desc}
+                </p>
+              </div>
+
+              {/* Gerekli Ekipman */}
+              {selectedCard.equipment && (
+                <div className="p-3.5 rounded-xl bg-sand-light border border-light-outline-variant/80">
+                  <div className="flex items-center gap-1.5 text-forest font-mono-tech font-bold text-[10.5px] uppercase">
+                    <ShieldCheck className="w-3.5 h-3.5 text-accent" />
+                    <span>Gerekli Ekipman &amp; Hazırlık</span>
+                  </div>
+                  <div className="text-[12.5px] text-ink-muted mt-1 leading-relaxed">
+                    {selectedCard.equipment}
+                  </div>
+                </div>
+              )}
+
+              {/* Teknik Özet & Buluşma Noktası */}
+              <div className="p-3.5 rounded-xl bg-forest/5 border border-forest/15 space-y-1.5 font-mono-tech text-[11.5px] text-forest">
+                <div className="font-bold">{selectedCard.meta}</div>
+                <div className="flex items-start gap-1.5 text-ink-muted">
+                  <MapPin className="w-3.5 h-3.5 text-accent flex-shrink-0 mt-0.5" />
+                  <span>Buluşma: {CLUB_CONFIG.address}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Alt Butonlar */}
+            <div className="p-4 border-t border-light-outline-variant/80 bg-sand-light flex items-center justify-between gap-2.5">
+              <button
+                type="button"
+                onClick={() => handleGoToRoutes(selectedCard)}
+                className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl bg-sand-dark hover:bg-light-outline-variant text-ink border border-light-outline-variant font-mono-tech text-xs font-bold active:scale-95 transition-all cursor-pointer"
+              >
+                <RouteIcon className="w-3.5 h-3.5 text-ink" />
+                <span>Rotaları Gör</span>
+              </button>
+
+              <a
+                href={`https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(selectedCard.detailTitle)}%20etkinligi%20hakkinda%20bilgi%20ve%20kayit%20almak%20istiyorum.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 h-11 inline-flex items-center justify-center gap-1.5 rounded-xl bg-forest hover:bg-forest-dark text-white font-mono-tech text-xs font-bold active:scale-95 transition-all shadow-md no-underline cursor-pointer"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Bilgi &amp; Kayıt</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

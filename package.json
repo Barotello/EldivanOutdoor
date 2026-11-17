@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mobile": "npm --prefix mobile start",
+    "expo:login": "npm --prefix mobile exec -- expo login"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.4.0",
