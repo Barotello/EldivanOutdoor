@@ -13,6 +13,8 @@ import BottomDock from './src/components/BottomDock';
 import SidebarDrawer from './src/components/SidebarDrawer';
 import { COLORS } from './src/theme/colors';
 
+const TAB_SECTIONS = ['kesif', 'rotalar', 'etkinlikler'];
+
 export default function App() {
   const scrollRef = useRef(null);
   const sectionYRef = useRef({});
@@ -25,12 +27,22 @@ export default function App() {
     sectionYRef.current[id] = event.nativeEvent.layout.y;
   };
 
-  const scrollToSection = (id) => {
-    if (id === 'kesif' || id === 'rotalar' || id === 'etkinlikler') {
-      setActiveTab(id);
-    }
+  const scrollToSection = (id, options = {}) => {
+    if (options.filter) setSelectedRouteFilter(options.filter);
+    if (TAB_SECTIONS.includes(id)) setActiveTab(id);
     const y = sectionYRef.current[id] ?? 0;
     scrollRef.current?.scrollTo({ y: Math.max(0, y - 6), animated: true });
+  };
+
+  // Kaydırırken alt menüde aktif sekmeyi güncelle
+  const handleScroll = (event) => {
+    const y = event.nativeEvent.contentOffset.y + 120;
+    const sections = sectionYRef.current;
+    let current = 'kesif';
+    TAB_SECTIONS.forEach((id) => {
+      if (sections[id] != null && y >= sections[id]) current = id;
+    });
+    if (current !== activeTab) setActiveTab(current);
   };
 
   const handleCardFilterSelect = (filter) => {
@@ -50,6 +62,8 @@ export default function App() {
             style={styles.scroll}
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
+            onScroll={handleScroll}
+            scrollEventThrottle={100}
           >
             <View onLayout={registerSection('kesif')}>
               <CardDeck onSelectFilter={handleCardFilterSelect} />
@@ -108,6 +122,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollContent: {
-    paddingBottom: 92
+    paddingBottom: 110
   }
 });

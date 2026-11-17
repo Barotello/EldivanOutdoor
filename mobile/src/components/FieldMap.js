@@ -6,13 +6,15 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Linking
+  ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
-import { WEATHER_METRICS, MAP_LOCATIONS, CLUB_CONFIG, IMAGES } from '../data/mockData';
+import { MAP_LOCATIONS, CLUB_CONFIG, IMAGES } from '../data/mockData';
+import useWeather from '../hooks/useWeather';
+import { openUrl } from '../utils/links';
 
 const LEAFLET_HTML = `<!DOCTYPE html>
 <html>
@@ -34,7 +36,8 @@ const LEAFLET_HTML = `<!DOCTYPE html>
   <script>
     var map = L.map('map', { zoomControl: true }).setView([40.5700, 33.5250], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: ''
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     var locations = ${JSON.stringify(MAP_LOCATIONS)};
     var markers = {};
@@ -53,6 +56,31 @@ const LEAFLET_HTML = `<!DOCTYPE html>
 
 export default function FieldMap() {
   const webViewRef = useRef(null);
+  const weather = useWeather(CLUB_CONFIG.weatherCoords);
+  const w = weather.data;
+  const weatherMetrics = [
+    {
+      id: 'temp',
+      label: 'SICAKLIK',
+      value: w ? `${w.temperature}°C` : '—',
+      sub: w ? `HİS: ${w.feelsLike}°C` : ' ',
+      icon: 'thermometer-outline'
+    },
+    {
+      id: 'wind',
+      label: 'RÜZGAR',
+      value: w ? `${w.wind} km/s` : '—',
+      sub: w ? `NEM: %${w.humidity}` : ' ',
+      icon: 'flag-outline'
+    },
+    {
+      id: 'elevation',
+      label: 'RAKIM',
+      value: CLUB_CONFIG.elevation,
+      sub: 'ZİRVE',
+      icon: 'trail-sign-outline'
+    }
+  ];
   const [activeLocId, setActiveLocId] = useState('merkez');
 
   const activeLocation =
@@ -84,8 +112,34 @@ export default function FieldMap() {
           </LinearGradient>
         </View>
 
+        <View style={styles.weatherStatus}>
+          {weather.status === 'loading' && !w ? (
+            <>
+              <ActivityIndicator size="small" color={COLORS.accent} />
+              <Text style={styles.weatherStatusText}>Hava durumu yükleniyor…</Text>
+            </>
+          ) : weather.status === 'error' && !w ? (
+            <>
+              <Ionicons name="cloud-offline-outline" size={16} color={COLORS.accent} />
+              <Text style={styles.weatherStatusText}>Hava verisi alınamadı.</Text>
+              <TouchableOpacity onPress={weather.reload} accessibilityRole="button" hitSlop={8}>
+                <Text style={styles.retryText}>Tekrar dene</Text>
+              </TouchableOpacity>
+            </>
+          ) : w ? (
+            <>
+              <Ionicons name="partly-sunny-outline" size={16} color={COLORS.accent} />
+              <Text style={styles.weatherStatusText}>
+                {w.condition}
+                {w.sunset ? ` · Gün batımı ${w.sunset}` : ''}
+                {w.updatedAt ? ` · ${w.updatedAt} itibarıyla` : ''}
+              </Text>
+            </>
+          ) : null}
+        </View>
+
         <View style={styles.metricsGrid}>
-          {WEATHER_METRICS.map((item) => (
+          {weatherMetrics.map((item) => (
             <View key={item.id} style={styles.metricTile}>
               <Ionicons name={item.icon} size={20} color={COLORS.ink} />
               <Text style={styles.metricLabel}>{item.label}</Text>
@@ -150,7 +204,7 @@ export default function FieldMap() {
           </ScrollView>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL(CLUB_CONFIG.osmFullMapUrl)}
+            onPress={() => openUrl(CLUB_CONFIG.osmFullMapUrl)}
             style={styles.expandBtn}
           >
             <Text style={styles.expandText}>BÜYÜT</Text>
@@ -168,7 +222,7 @@ export default function FieldMap() {
           </View>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL(activeLocation.mapsUrl)}
+            onPress={() => openUrl(activeLocation.mapsUrl)}
             style={styles.dirBtn}
           >
             <Ionicons name="location-outline" size={13} color={COLORS.accent} />
@@ -181,6 +235,25 @@ export default function FieldMap() {
 }
 
 const styles = StyleSheet.create({
+  weatherStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
+    paddingTop: 12
+  },
+  weatherStatusText: {
+    fontSize: 12.5,
+    fontWeight: '700',
+    color: COLORS.inkMuted,
+    flex: 1
+  },
+  retryText: {
+    fontSize: 12.5,
+    fontWeight: '800',
+    color: COLORS.accent,
+    textDecorationLine: 'underline'
+  },
   section: {
     paddingHorizontal: 18,
     paddingVertical: 22,

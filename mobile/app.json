@@ -8,19 +8,23 @@
     "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#1F3A2E",
-      "resizeMode": "contain"
+      "resizeMode": "contain",
+      "image": "./assets/images/app-icon.png"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eldivanoutdoor.app"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#1F3A2E",
         "foregroundImage": "./assets/images/app-icon.png"
-      }
+      },
+      "package": "com.eldivanoutdoor.app"
     },
     "web": {
       "favicon": "./assets/images/favicon-32.png"
-    }
+    },
+    "scheme": "eldivanoutdoor"
   }
 }

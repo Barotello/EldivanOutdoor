@@ -1,11 +1,21 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
-import { PACKAGES_DATA, EVENTS_DATA, CLUB_CONFIG } from '../data/mockData';
+import { PACKAGES_DATA, EVENTS_DATA } from '../data/mockData';
+import { openUrl, openWhatsApp } from '../utils/links';
+
+function getUpcomingEvents(now = new Date()) {
+  return EVENTS_DATA.filter((e) => !e.startsAt || new Date(e.startsAt) >= now).sort(
+    (a, b) => new Date(a.startsAt || 0) - new Date(b.startsAt || 0)
+  );
+}
 
 export default function ClubEvents() {
+  const upcomingEvents = useMemo(() => getUpcomingEvents(), []);
+  const seasonLabel = `${new Date().getFullYear()} SEZONU`;
+
   return (
     <View style={styles.section}>
       {/* Üst Başlık: Kulüp Programları & Paketler */}
@@ -15,7 +25,7 @@ export default function ClubEvents() {
           <Text style={styles.heading}>Kulüp Programları</Text>
         </View>
         <View style={styles.seasonPill}>
-          <Text style={styles.seasonText}>2026 SEZONU</Text>
+          <Text style={styles.seasonText}>{seasonLabel}</Text>
         </View>
       </View>
 
@@ -47,12 +57,10 @@ export default function ClubEvents() {
                 <TouchableOpacity
                   style={styles.ctaBtn}
                   activeOpacity={0.85}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${pkg.title} için rezervasyon yap`}
                   onPress={() =>
-                    Linking.openURL(
-                      `https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(
-                        pkg.title
-                      )}%20programi%20icin%20rezervasyon%20ve%20bilgi%20almak%20istiyorum.`
-                    )
+                    openWhatsApp(`Merhaba, ${pkg.title} programı için rezervasyon ve bilgi almak istiyorum.`)
                   }
                 >
                   <Text style={styles.ctaBtnText}>REZERVASYON</Text>
@@ -80,8 +88,26 @@ export default function ClubEvents() {
         </View>
       </View>
 
+      {upcomingEvents.length === 0 && (
+        <View style={styles.emptyCard}>
+          <Ionicons name="calendar-clear-outline" size={26} color={COLORS.accent} />
+          <Text style={styles.emptyTitle}>Yeni etkinlikler yakında</Text>
+          <Text style={styles.emptyDesc}>
+            Takvim hazırlanıyor. Yeni tarihler açıldığında ilk sen haberdar olmak için bize yaz.
+          </Text>
+          <TouchableOpacity
+            style={styles.ctaBtn}
+            accessibilityRole="button"
+            onPress={() => openWhatsApp('Merhaba, yeni etkinlik tarihlerinden haberdar olmak istiyorum.')}
+          >
+            <Text style={styles.ctaBtnText}>HABER VER</Text>
+            <Ionicons name="logo-whatsapp" size={13} color={COLORS.white} />
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={styles.list}>
-        {EVENTS_DATA.map((event) => (
+        {upcomingEvents.map((event) => (
           <View key={event.id} style={styles.card}>
             {event.image && (
               <Image source={event.image} style={styles.cardImg} resizeMode="cover" />
@@ -120,7 +146,7 @@ export default function ClubEvents() {
                 {event.calendarUrl ? (
                   <TouchableOpacity
                     style={styles.calAddBtn}
-                    onPress={() => Linking.openURL(event.calendarUrl)}
+                    onPress={() => openUrl(event.calendarUrl)}
                   >
                     <Ionicons name="add-circle-outline" size={14} color={COLORS.accent} />
                     <Text style={styles.calAddText}>Takvime Ekle</Text>
@@ -132,13 +158,9 @@ export default function ClubEvents() {
                 <TouchableOpacity
                   style={styles.ctaBtn}
                   activeOpacity={0.85}
-                  onPress={() =>
-                    Linking.openURL(
-                      `https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(
-                        event.title
-                      )}%20etkinligine%20katilmak%20istiyorum.`
-                    )
-                  }
+                  accessibilityRole="button"
+                  accessibilityLabel={`${event.title} etkinliğine katıl`}
+                  onPress={() => openWhatsApp(`Merhaba, ${event.title} etkinliğine katılmak istiyorum.`)}
                 >
                   <Text style={styles.ctaBtnText}>KATIL / BİLGİ AL</Text>
                   <Ionicons
@@ -158,6 +180,27 @@ export default function ClubEvents() {
 }
 
 const styles = StyleSheet.create({
+  emptyCard: {
+    alignItems: 'center',
+    gap: 8,
+    padding: 22,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: COLORS.outline,
+    backgroundColor: COLORS.white
+  },
+  emptyTitle: {
+    fontSize: 17,
+    fontWeight: '900',
+    color: COLORS.ink
+  },
+  emptyDesc: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: COLORS.inkMuted,
+    textAlign: 'center',
+    marginBottom: 6
+  },
   section: {
     paddingHorizontal: 18,
     paddingVertical: 22,

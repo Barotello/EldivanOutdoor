@@ -15,6 +15,7 @@ export const IMAGES = {
   motoIcon: require('../../assets/images/moto-icon.png')
 };
 
+// TODO: Gerçek kulüp numarası girilmeli. Tüm WhatsApp/arama butonları buradan beslenir.
 export const CLUB_CONFIG = {
   whatsappNumber: '905000000000',
   phoneDisplay: '+90 500 000 00 00',
@@ -26,32 +27,10 @@ export const CLUB_CONFIG = {
   address: 'Topraklık Mah. Cevher Dudayev Cad. No:40, Eldivan / Çankırı',
   meetingPointMapsUrl:
     'https://www.google.com/maps/dir/?api=1&destination=Toprakl%C4%B1k+Mah.+Cevher+Dudayev+Cad.+No%3A40,+Eldivan,+%C3%87ank%C4%B1r%C4%B1',
-  osmFullMapUrl: 'https://www.openstreetmap.org/#map=13/40.5750/33.5250'
+  osmFullMapUrl: 'https://www.openstreetmap.org/#map=13/40.5750/33.5250',
+  // Hava durumu için kullanılan nokta (Eldivan zirve hattı)
+  weatherCoords: { latitude: 40.6034, longitude: 33.514 }
 };
-
-export const WEATHER_METRICS = [
-  {
-    id: 'temp',
-    label: 'SICAKLIK',
-    value: '12°C',
-    sub: 'HİS: 9°C',
-    icon: 'thermometer-outline'
-  },
-  {
-    id: 'elevation',
-    label: 'RAKIM',
-    value: '1,420M',
-    sub: 'ZİRVE',
-    icon: 'trail-sign-outline'
-  },
-  {
-    id: 'humidity',
-    label: 'NEM',
-    value: '64%',
-    sub: '18 KM/S',
-    icon: 'speedometer-outline'
-  }
-];
 
 export const MAP_LOCATIONS = [
   {
@@ -92,6 +71,8 @@ export const CARDS_DATA = [
     title: 'Zirve Tırmanışı',
     detailTitle: 'Eldivan Zirve Tırmanışı',
     desc: 'Eldivan Dağı ve yaylalarında çam ormanları eşliğinde teknik doğa yürüyüşü rotası.',
+    activityDetails: 'Sabah kulüp binasında brifing sonrası çam ormanı patikalarından 1.420m zirve hattına rehberli tırmanış gerçekleştirilir. Zirvede panoramik mola ve fotoğraf çekimi yapılır.',
+    equipment: 'Bilekli yürüyüş botu, rüzgarlık, en az 1.5L su',
     meta: 'RAKIM 1.420M · MESAFE 14.2 KM · ORTA SEVİYE',
     dist: '14.2 KM',
     image: IMAGES.grup,
@@ -105,6 +86,8 @@ export const CARDS_DATA = [
     title: 'Enduro Rotaları',
     detailTitle: 'Enduro & Toprak Parkur',
     desc: 'Koyunbaba Barajı ve dik yamaçlarda yüksek adrenalinli motosiklet sürüşü.',
+    activityDetails: 'Koyunbaba Barajı çevresindeki toprak yollar, dere yatakları ve dik tırmanış etaplarında öncü ve artçı ekip eşliğinde grup enduro sürüşü yapılır.',
+    equipment: 'Kask, enduro botu, dizlik/dirseklik ve tam koruma ekipmanı',
     meta: 'MESAFE 18.5 KM · ZORLU ZEMİN · KORUMALI EKİPMAN',
     dist: '18.5 KM',
     image: IMAGES.enduro,
@@ -118,6 +101,8 @@ export const CARDS_DATA = [
     title: 'Yayla Kampı',
     detailTitle: 'Yayla Kampı & Çadır',
     desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır ve karavan kampı deneyimi.',
+    activityDetails: 'Eldivan Yaylası kamp sahasında çadır kurulumu, kontrollü kamp ateşi, doğada gece gökyüzü gözlemi ve sabah yayla yürüyüşü etkinlikleri düzenlenir.',
+    equipment: 'Çadır, uyku tulumu, mat, kafa feneri ve sıcak tutan katmanlı giysi',
     meta: 'ELDİVAN YAYLASI · SU KAYNAĞI MEVCUT · AİLE UYGUN',
     dist: 'YAYLA HATTI',
     image: IMAGES.kamp,
@@ -131,6 +116,8 @@ export const CARDS_DATA = [
     title: 'Dağ Bisikleti',
     detailTitle: 'Rehberli Dağ Bisikleti',
     desc: 'Eldivan köy parkurları ve orman içi single-track parkurlarında bisiklet turları.',
+    activityDetails: 'Orman içi akıcı toprak patikalarda 380m tırmanış ve teknik iniş etaplarını kapsayan tempolu dağ bisikleti sürüşü ve teknik destek molaları yapılır.',
+    equipment: 'Bakımlı MTB bisiklet, kask, eldiven, yedek iç lastik ve pompa',
     meta: 'MESAFE 16.0 KM · İNİŞ / ÇIKIŞ 380M · KASK ZORUNLU',
     dist: '16.0 KM',
     image: IMAGES.bisiklet,
@@ -144,6 +131,8 @@ export const CARDS_DATA = [
     title: 'Off-Road 4x4',
     detailTitle: 'Off-Road & ATV/UTV',
     desc: 'Zorlu arazi şartlarında, dere yatakları ve tepelerde 4x4 arazi aracı keşifleri.',
+    activityDetails: 'Taşlık dere geçişleri, çamurlu orman yolları ve dik yamaçlarda telsiz bağlantılı konvoy sürüşü ile arazi keşif etkinliği gerçekleştirilir.',
+    equipment: '4x4 arazi aracı veya ATV/UTV, çekme halatı ve arazi lastiği',
     meta: 'ÇAMUR / TAŞLIK ZEMİN · VİNÇ & KURTARMA EKİBİ',
     dist: 'KOYUNBABA',
     image: IMAGES.offroad,
@@ -157,11 +146,13 @@ export const CARDS_DATA = [
     title: 'Doğa Parkuru',
     detailTitle: 'Doğa Parkuru & Oryantiring',
     desc: 'Harita ve pusula ile hedefleri bulma, açık hava oryantiring ve takım etkinlikleri.',
+    activityDetails: 'Katılımcılar harita ve pusula kullanarak orman içine yerleştirilmiş 18 kontrol noktasını en kısa sürede bulmaya yönelik takım ve bireysel parkur yarışına katılır.',
+    equipment: 'Rahat spor kıyafet, arazi ayakkabısı (harita ve pusula kulüpçe verilir)',
     meta: 'HEDEF NOKTALARI: 18 · TÜM YAŞ GRUPLARI İÇİN UYGUN',
     dist: '18 NOKTA',
     image: IMAGES.oryantiring,
     icon: 'map-marker',
-    filter: 'all'
+    filter: 'oryantiring'
   }
 ];
 
@@ -175,7 +166,6 @@ export const ROUTES_DATA = [
     duration: '4.5 Saat',
     elevation: '+680m',
     difficulty: 'Orta - Zor',
-    rating: '4.9',
     image: IMAGES.hero,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.6034,33.5140',
     desc: 'Karasenir dağ eteklerinden başlayarak çam ormanları boyunca uzanan panoramik vadi manzaralı tırmanış rotası.'
@@ -189,7 +179,6 @@ export const ROUTES_DATA = [
     duration: '2.5 Saat',
     elevation: '+420m',
     difficulty: 'İleri Seviye',
-    rating: '4.8',
     image: IMAGES.enduro,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5420,33.5510',
     desc: 'Engebeli toprak zemin, keskin virajlar ve çamur geçişleriyle motosiklet tutkunları için özel belirlenmiş hat.'
@@ -203,7 +192,6 @@ export const ROUTES_DATA = [
     duration: '24+ Saat',
     elevation: '1.240m',
     difficulty: 'Kolay / Aile',
-    rating: '5.0',
     image: IMAGES.kamp,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5850,33.5190',
     desc: 'Doğal kaynak suyu, güvenli ateş çukurları ve geniş çadır alanlarıyla gökyüzü gözlemi için ideal kamp noktası.'
@@ -217,7 +205,6 @@ export const ROUTES_DATA = [
     duration: '1.5 Saat',
     elevation: '+380m',
     difficulty: 'Orta',
-    rating: '4.7',
     image: IMAGES.bisiklet,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5700,33.5250',
     desc: 'Orman içi akıcı inişler (singletrack) ve teknik toprak tırmanış etapları içeren yüksek tempolu bisiklet parkuru.'
@@ -231,7 +218,6 @@ export const ROUTES_DATA = [
     duration: '3.0 Saat',
     elevation: '+520m',
     difficulty: 'Zorlu Zemin',
-    rating: '4.9',
     image: IMAGES.offroad,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5550,33.5400',
     desc: 'Yüksek 4x4 araçlar ve ATV turları için taşlık dere yatakları ve dik çakıllı tırmanış etapları.'
@@ -239,13 +225,12 @@ export const ROUTES_DATA = [
   {
     id: 6,
     title: 'Kirazlı Dere Oryantiring Rotası',
-    category: 'zirve',
+    category: 'oryantiring',
     categoryName: 'ORYANTİRİNG',
     distance: '8.5 km',
     duration: '2.0 Saat',
     elevation: '+210m',
     difficulty: 'Başlangıç',
-    rating: '4.6',
     image: IMAGES.oryantiring,
     mapsUrl: 'https://www.google.com/maps/dir/?api=1&destination=40.5910,33.5180',
     desc: 'Harita ve pusula ile 18 kontrol noktasını keşfetmeye dayalı doğa sporu ve takım oyunu rotası.'
@@ -273,11 +258,13 @@ export const PACKAGES_DATA = [
   }
 ];
 
+// startsAt geçmişte kalan etkinlikler uygulamada otomatik gizlenir.
 export const EVENTS_DATA = [
   {
     id: 1,
     title: 'Eldivan Dağı Bahar Zirve Tırmanışı',
     desc: 'Rehber eşliğinde Eldivan Dağı zirvesine bahar yürüyüşü ve panoramik manzara molası.',
+    startsAt: '2026-05-18T08:30:00+03:00',
     date: '18 MAYIS 2026 · CUMARTESİ',
     time: '08:30',
     location: 'Eldivan Merkez Toplanma Alanı',
@@ -291,6 +278,7 @@ export const EVENTS_DATA = [
     id: 2,
     title: 'Gece Gökyüzü & Yayla Kampı',
     desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır kampı, teleskop ve ateş başı deneyimi.',
+    startsAt: '2026-05-25T14:00:00+03:00',
     date: '25-26 MAYIS 2026 · HAFTASONU',
     time: '14:00',
     location: 'Eldivan Yaylası Kamp Alanı',
@@ -304,6 +292,7 @@ export const EVENTS_DATA = [
     id: 3,
     title: 'Koyunbaba Enduro & Toprak Sürüşü',
     desc: 'Zorlu toprak etaplar, çamur geçişleri ve akıcı patikalarda rehberli enduro sürüşü.',
+    startsAt: '2026-06-02T10:00:00+03:00',
     date: '02 HAZİRAN 2026 · PAZAR',
     time: '10:00',
     location: 'Koyunbaba Barajı Parkuru',

@@ -43,7 +43,7 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
     };
 
     // Güvenli kapanış garantisi
-    timerRef.current = setTimeout(finish, 2600);
+    timerRef.current = setTimeout(finish, 1800);
 
     Animated.parallel([
       Animated.spring(scaleAnim, {
@@ -105,6 +105,8 @@ export default function Splash({ replayTrigger = 0, onFinish }) {
       <TouchableOpacity
         style={styles.skipBtn}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel="Açılışı geç"
         onPress={() => {
           if (timerRef.current) clearTimeout(timerRef.current);
           setVisible(false);
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
   },
   skipBtn: {
     position: 'absolute',
-    top: 52,
+    top: 16,
     right: 20,
     flexDirection: 'row',
     alignItems: 'center',

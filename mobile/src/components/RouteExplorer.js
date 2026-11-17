@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
-  StyleSheet,
-  Linking
+  StyleSheet
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { ROUTES_DATA, CLUB_CONFIG } from '../data/mockData';
+import { openUrl, openWhatsApp } from '../utils/links';
 
 const FILTER_CHIPS = [
   { id: 'all', label: 'TÜMÜ' },
@@ -20,7 +20,8 @@ const FILTER_CHIPS = [
   { id: 'enduro', label: 'ENDURO' },
   { id: 'kamp', label: 'KAMP' },
   { id: 'bisiklet', label: 'BİSİKLET' },
-  { id: 'offroad', label: 'OFF-ROAD' }
+  { id: 'offroad', label: 'OFF-ROAD' },
+  { id: 'oryantiring', label: 'ORYANTİRİNG' }
 ];
 
 export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) {
@@ -73,6 +74,8 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
             activeOpacity={0.92}
             onPress={() => setSelectedRoute(route)}
             style={styles.routeCard}
+            accessibilityRole="button"
+            accessibilityLabel={`${route.title} rota detayı`}
           >
             <Image source={route.image} style={styles.routeImg} resizeMode="cover" />
             <LinearGradient
@@ -107,14 +110,16 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
                   </Text>
                 </View>
                 <View style={styles.ratingRow}>
-                  <Ionicons name="star" size={14} color={COLORS.accent} />
-                  <Text style={styles.ratingText}>{selectedRoute?.rating}</Text>
-                  <Text style={styles.diffText}>· {selectedRoute?.difficulty}</Text>
+                  <Ionicons name="speedometer-outline" size={14} color={COLORS.accent} />
+                  <Text style={styles.diffText}>{selectedRoute?.difficulty}</Text>
                 </View>
               </View>
               <TouchableOpacity
                 onPress={() => setSelectedRoute(null)}
                 style={styles.closeBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Kapat"
+                hitSlop={8}
               >
                 <Ionicons name="close" size={18} color={COLORS.ink} />
               </TouchableOpacity>
@@ -160,9 +165,9 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
               </View>
 
               <View style={styles.gpsNote}>
-                <Ionicons name="compass-outline" size={16} color={COLORS.forest} />
+                <Ionicons name="information-circle-outline" size={16} color={COLORS.forest} />
                 <Text style={styles.gpsNoteText}>
-                  Çankırı Eldivan · GPS & Saha Koordinatları Onaylı
+                  Süre ve zorluk tahminidir. Rotaya çıkmadan önce hava durumunu kontrol et ve kulübe haber ver.
                 </Text>
               </View>
             </ScrollView>
@@ -171,9 +176,7 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
             <View style={styles.modalFooter}>
               <TouchableOpacity
                 style={styles.mapsBtn}
-                onPress={() =>
-                  Linking.openURL(selectedRoute?.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl)
-                }
+                onPress={() => openUrl(selectedRoute?.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl)}
               >
                 <Ionicons name="location-outline" size={16} color={COLORS.ink} />
                 <Text style={styles.mapsBtnText}>Yol Tarifi Al</Text>
@@ -182,10 +185,8 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
               <TouchableOpacity
                 style={styles.guideBtn}
                 onPress={() =>
-                  Linking.openURL(
-                    `https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20${encodeURIComponent(
-                      selectedRoute?.title || ''
-                    )}%20rotasi%20hakkinda%20rehberlik%20ve%20detayli%20bilgi%20almak%20istiyorum.`
+                  openWhatsApp(
+                    `Merhaba, ${selectedRoute?.title || ''} rotası hakkında rehberlik ve detaylı bilgi almak istiyorum.`
                   )
                 }
               >

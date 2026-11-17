@@ -6,12 +6,13 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
-  StyleSheet,
-  Linking
+  StyleSheet
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { CLUB_CONFIG, IMAGES } from '../data/mockData';
+import { openUrl, openWhatsApp } from '../utils/links';
 
 export default function SidebarDrawer({
   visible,
@@ -22,54 +23,52 @@ export default function SidebarDrawer({
   const [expandedIndex, setExpandedIndex] = useState(0);
   const [showOsmanModal, setShowOsmanModal] = useState(false);
 
+  const insets = useSafeAreaInsets();
+  const toRoutes = (filter) => () => onNavigate?.('rotalar', { filter });
+
   const navItems = [
     {
       title: 'Rotalar & Parkurlar',
-      icon: 'terminal-outline',
+      icon: 'map-outline',
       items: [
-        { title: 'Zirve & Tırmanış (Çaşnigir)', action: () => onNavigate?.('rotalar') },
-        { title: 'Enduro & Motosiklet Parkuru', action: () => onNavigate?.('rotalar') },
-        { title: 'Kanyon, Vadi & Kamp Yolu', action: () => onNavigate?.('rotalar') },
-        { title: 'Tüm Rotaları İncele', action: () => onNavigate?.('rotalar') }
+        { title: 'Zirve & Tırmanış', action: toRoutes('zirve') },
+        { title: 'Enduro & Motosiklet', action: toRoutes('enduro') },
+        { title: 'Kamp & Karavan', action: toRoutes('kamp') },
+        { title: 'Dağ Bisikleti', action: toRoutes('bisiklet') },
+        { title: 'Off-Road 4x4', action: toRoutes('offroad') },
+        { title: 'Oryantiring', action: toRoutes('oryantiring') },
+        { title: 'Tüm Rotalar', action: toRoutes('all') }
       ]
     },
     {
       title: 'Kulüp & Etkinlikler',
       icon: 'people-outline',
       items: [
-        { title: 'Haftalık Enduro Sürüşü', action: () => onNavigate?.('etkinlikler') },
-        { title: 'Doğada Hayatta Kalma Kampı', action: () => onNavigate?.('etkinlikler') },
-        { title: 'Zirve Foto Safari', action: () => onNavigate?.('etkinlikler') },
-        { title: 'Tüm Program Takvimi', action: () => onNavigate?.('etkinlikler') }
+        { title: 'Kulüp Programları', action: () => onNavigate?.('etkinlikler') },
+        { title: 'Etkinlik Takvimi', action: () => onNavigate?.('etkinlikler') }
       ]
     },
     {
-      title: 'Saha & Canlı Durum',
-      icon: 'book-outline',
+      title: 'Saha & Hava Durumu',
+      icon: 'partly-sunny-outline',
       items: [
-        { title: 'Canlı Hava & Rüzgar (12°C)', action: () => onNavigate?.('saha') },
-        { title: 'Zemin & Parkur Bilgileri', action: () => onNavigate?.('saha') },
-        { title: 'GPS Canlı Saha Haritası', action: () => onNavigate?.('saha') }
+        { title: 'Hava Durumu', action: () => onNavigate?.('saha') },
+        { title: 'Saha Haritası', action: () => onNavigate?.('saha') }
       ]
     },
     {
-      title: 'Ayarlar & İletişim',
-      icon: 'options-outline',
+      title: 'İletişim',
+      icon: 'chatbubbles-outline',
       items: [
         {
           title: 'WhatsApp İletişim Hattı',
-          action: () =>
-            Linking.openURL(
-              `https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20Eldivan%20Outdoor%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.`
-            )
+          action: () => openWhatsApp('Merhaba, Eldivan Outdoor hakkında bilgi almak istiyorum.')
         },
+        { title: 'Telefonla Ara', action: () => openUrl(CLUB_CONFIG.phoneHref) },
         { title: 'Buluşma Noktası & Konum', action: () => onNavigate?.('iletisim') },
         {
           title: 'Açılış Animasyonunu Oynat',
-          action: () => {
-            onClose?.();
-            onReplaySplash?.();
-          }
+          action: () => onReplaySplash?.()
         }
       ]
     }
@@ -88,27 +87,40 @@ export default function SidebarDrawer({
 
           <View style={styles.drawer}>
             {/* Üst Header */}
-            <View style={styles.header}>
-              <TouchableOpacity
-                style={styles.brandBtn}
-                onPress={() => onNavigate?.('kesif')}
-              >
-                <View style={styles.brandIconWrap}>
-                  <Image source={IMAGES.appIcon} style={styles.brandIcon} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.brandTitle}>Eldivan Outdoor</Text>
-                  <Text style={styles.brandSub}>Doğa & Motor Sporları</Text>
-                </View>
-                <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <View style={[styles.header, { paddingTop: Math.max(insets.top, 16) + 12 }]}>
+              <View style={styles.brandBtn}>
+                <TouchableOpacity
+                  style={styles.brandLink}
+                  accessibilityRole="button"
+                  accessibilityLabel="Ana sayfaya dön"
+                  onPress={() => {
+                    onClose?.();
+                    setTimeout(() => onNavigate?.('kesif'), 120);
+                  }}
+                >
+                  <View style={styles.brandIconWrap}>
+                    <Image source={IMAGES.appIcon} style={styles.brandIcon} />
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.brandTitle}>Eldivan Outdoor</Text>
+                    <Text style={styles.brandSub}>Doğa & Motor Sporları</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={onClose}
+                  style={styles.closeBtn}
+                  accessibilityRole="button"
+                  accessibilityLabel="Menüyü kapat"
+                  hitSlop={8}
+                >
                   <Ionicons name="close" size={18} color={COLORS.white} />
                 </TouchableOpacity>
-              </TouchableOpacity>
+              </View>
             </View>
 
             {/* Menü Ağacı */}
             <ScrollView style={styles.content} contentContainerStyle={{ paddingBottom: 20 }}>
-              <Text style={styles.groupLabel}>PLATFORM</Text>
+              <Text style={styles.groupLabel}>MENÜ</Text>
 
               {navItems.map((group, idx) => {
                 const isOpen = expandedIndex === idx;
@@ -117,6 +129,8 @@ export default function SidebarDrawer({
                     <TouchableOpacity
                       style={styles.groupBtn}
                       onPress={() => setExpandedIndex(isOpen ? -1 : idx)}
+                      accessibilityRole="button"
+                      accessibilityState={{ expanded: isOpen }}
                     >
                       <View style={styles.groupLeft}>
                         <Ionicons
@@ -226,13 +240,18 @@ const styles = StyleSheet.create({
     borderLeftColor: 'rgba(255,255,255,0.1)'
   },
   header: {
-    paddingTop: 48,
     paddingHorizontal: 14,
     paddingBottom: 14,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255,255,255,0.1)'
   },
   brandBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10
+  },
+  brandLink: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10

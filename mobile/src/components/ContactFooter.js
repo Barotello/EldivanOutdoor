@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { CLUB_CONFIG, IMAGES } from '../data/mockData';
+import { openUrl, openWhatsApp } from '../utils/links';
 
 export default function ContactFooter() {
   return (
@@ -26,11 +27,8 @@ export default function ContactFooter() {
         <TouchableOpacity
           style={styles.waBtn}
           activeOpacity={0.9}
-          onPress={() =>
-            Linking.openURL(
-              `https://wa.me/${CLUB_CONFIG.whatsappNumber}?text=Merhaba,%20Eldivan%20Outdoor%20etkinliklerine%20kat%C4%B1lmak%20istiyorum.`
-            )
-          }
+          accessibilityRole="button"
+          onPress={() => openWhatsApp()}
         >
           <Text style={styles.waBtnText}>WHATSAPP İLE İLETİŞİME GEÇ</Text>
           <Ionicons name="arrow-forward" size={16} color={COLORS.white} />
@@ -39,7 +37,8 @@ export default function ContactFooter() {
         <View style={styles.quickRow}>
           <TouchableOpacity
             style={styles.quickBtn}
-            onPress={() => Linking.openURL(CLUB_CONFIG.phoneHref)}
+            accessibilityRole="button"
+            onPress={() => openUrl(CLUB_CONFIG.phoneHref)}
           >
             <Ionicons name="call-outline" size={14} color={COLORS.accent} />
             <Text style={styles.quickBtnText}>Hemen Ara</Text>
@@ -47,7 +46,8 @@ export default function ContactFooter() {
 
           <TouchableOpacity
             style={styles.quickBtn}
-            onPress={() => Linking.openURL(CLUB_CONFIG.meetingPointMapsUrl)}
+            accessibilityRole="button"
+            onPress={() => openUrl(CLUB_CONFIG.meetingPointMapsUrl)}
           >
             <Ionicons name="location-outline" size={14} color={COLORS.accent} />
             <Text style={styles.quickBtnText}>Yol Tarifi Al</Text>
@@ -56,8 +56,8 @@ export default function ContactFooter() {
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.copyright}>© 2026 EDMSK HOBİ KULÜBÜ</Text>
-        <Image source={IMAGES.ataturk} style={styles.ataturkImg} resizeMode="cover" />
+        <Text style={styles.copyright}>© {new Date().getFullYear()} EDMSK HOBİ KULÜBÜ</Text>
+        <Image source={IMAGES.ataturk} style={styles.ataturkImg} resizeMode="cover" accessibilityLabel="Atatürk" />
       </View>
     </View>
   );
