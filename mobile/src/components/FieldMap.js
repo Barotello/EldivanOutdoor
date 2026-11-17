@@ -9,53 +9,17 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { WebView } from 'react-native-webview';
+import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { MAP_LOCATIONS, CLUB_CONFIG, IMAGES } from '../data/mockData';
 import useWeather from '../hooks/useWeather';
 import { openUrl } from '../utils/links';
+import LeafletMap from './LeafletMap';
 
-const LEAFLET_HTML = `<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <style>
-    html, body, #map { margin: 0; padding: 0; width: 100%; height: 100%; background: #EFECE2; }
-    .leaflet-popup-content-wrapper {
-      background: #1F3A2E; color: #F5F2EA; border-radius: 14px; font-family: sans-serif;
-    }
-    .leaflet-popup-tip { background: #1F3A2E; }
-    .leaflet-popup-content b { color: #E8B07A; }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
-  <script>
-    var map = L.map('map', { zoomControl: true }).setView([40.5700, 33.5250], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-    var locations = ${JSON.stringify(MAP_LOCATIONS)};
-    var markers = {};
-    locations.forEach(function(loc) {
-      markers[loc.id] = L.marker(loc.coords).addTo(map).bindPopup('<b>' + loc.title + '</b><br>' + loc.subtitle);
-    });
-    window.focusLocation = function(id) {
-      var loc = locations.find(function(l) { return l.id === id; });
-      if (!loc) return;
-      map.flyTo(loc.coords, loc.zoom || 14, { duration: 0.7 });
-      if (markers[id]) markers[id].openPopup();
-    };
-  </script>
-</body>
-</html>`;
 
 export default function FieldMap() {
-  const webViewRef = useRef(null);
+  const mapRef = useRef(null);
   const weather = useWeather(CLUB_CONFIG.weatherCoords);
   const w = weather.data;
   const weatherMetrics = [
@@ -86,21 +50,21 @@ export default function FieldMap() {
   const activeLocation =
     MAP_LOCATIONS.find((l) => l.id === activeLocId) || MAP_LOCATIONS[1];
 
+  const openFullMap = () => router.push({ pathname: '/harita-tam', params: { loc: activeLocId } });
+
   const handleFocusLocation = (loc) => {
     setActiveLocId(loc.id);
-    webViewRef.current?.injectJavaScript(
-      `window.focusLocation && window.focusLocation('${loc.id}'); true;`
-    );
+    mapRef.current?.focus(loc.id);
   };
 
   return (
     <View style={styles.section}>
       <Text style={styles.heading}>
-        Saha ve Hava {'\n'}
+        Harita ve Hava {'\n'}
         <Text style={styles.headingMuted}>koşulları.</Text>
       </Text>
 
-      {/* Saha Görseli ve İklim Metrikleri Kartı */}
+      {/* Bölge Görseli ve İklim Metrikleri Kartı */}
       <View style={styles.weatherCard}>
         <View style={styles.heroWrap}>
           <Image source={IMAGES.yuruyus} style={styles.heroImg} resizeMode="cover" />
@@ -150,25 +114,36 @@ export default function FieldMap() {
         </View>
       </View>
 
-      {/* İnteraktif Saha Haritası */}
+      {/* İnteraktif Harita */}
       <View style={styles.mapCard}>
         <View style={styles.mapHeader}>
           <View style={styles.mapTagRow}>
             <Ionicons name="navigate-outline" size={14} color={COLORS.accent} />
-            <Text style={styles.mapTagText}>İNTERAKTİF SAHA HARİTASI</Text>
+            <Text style={styles.mapTagText}>İNTERAKTİF HARİTA</Text>
           </View>
           <Text style={styles.mapTitle}>Eldivan Parkur & Arazi Konumu</Text>
         </View>
 
         <View style={styles.mapFrame}>
-          <WebView
-            ref={webViewRef}
-            originWhitelist={['*']}
-            source={{ html: LEAFLET_HTML }}
+          <LeafletMap
+            ref={mapRef}
+            initialLocationId={activeLocId}
+            showZoom={false}
             style={styles.webview}
-            scrollEnabled={false}
-            nestedScrollEnabled
           />
+          {/* Küçük harita önizleme: üstüne dokununca tam ekran harita açılır */}
+          <TouchableOpacity
+            style={styles.mapTapLayer}
+            activeOpacity={0.85}
+            onPress={openFullMap}
+            accessibilityRole="button"
+            accessibilityLabel="Haritayı tam ekran aç"
+          >
+            <View style={styles.mapTapHint}>
+              <Ionicons name="expand-outline" size={14} color={COLORS.white} />
+              <Text style={styles.mapTapHintText}>Dokun, tam ekran aç</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         {/* Hızlı Odak Butonları */}
@@ -204,11 +179,14 @@ export default function FieldMap() {
           </ScrollView>
 
           <TouchableOpacity
-            onPress={() => openUrl(CLUB_CONFIG.osmFullMapUrl)}
+            onPress={openFullMap}
             style={styles.expandBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Haritayı tam ekran aç"
+            hitSlop={6}
           >
-            <Text style={styles.expandText}>BÜYÜT</Text>
-            <Ionicons name="open-outline" size={12} color={COLORS.accent} />
+            <Ionicons name="expand-outline" size={13} color={COLORS.accent} />
+            <Text style={styles.expandText}>TAM EKRAN</Text>
           </TouchableOpacity>
         </View>
 
@@ -235,6 +213,27 @@ export default function FieldMap() {
 }
 
 const styles = StyleSheet.create({
+  mapTapLayer: {
+    ...StyleSheet.absoluteFillObject,
+    // İpucu üstte: alttaki OpenStreetMap atfı görünür kalmalı
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    padding: 10
+  },
+  mapTapHint: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 999,
+    backgroundColor: 'rgba(20, 32, 26, 0.85)'
+  },
+  mapTapHintText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '800'
+  },
   weatherStatus: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Modal,
-  StyleSheet
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { COLORS } from '../theme/colors';
-import { ROUTES_DATA, CLUB_CONFIG } from '../data/mockData';
-import { openUrl, openWhatsApp } from '../utils/links';
+import { ROUTES_DATA } from '../data/mockData';
 
-const FILTER_CHIPS = [
+export const FILTER_CHIPS = [
   { id: 'all', label: 'TÜMÜ' },
   { id: 'zirve', label: 'ZİRVE' },
   { id: 'enduro', label: 'ENDURO' },
@@ -25,11 +16,18 @@ const FILTER_CHIPS = [
 ];
 
 export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) {
-  const [selectedRoute, setSelectedRoute] = useState(null);
-  const filter = activeFilter || 'all';
+  const filter = FILTER_CHIPS.some((c) => c.id === activeFilter) ? activeFilter : 'all';
+  const chipsRef = useRef(null);
+  const chipX = useRef({});
 
   const filteredRoutes =
     filter === 'all' ? ROUTES_DATA : ROUTES_DATA.filter((r) => r.category === filter);
+
+  // Menüden gelen filtre ekran dışındaysa çipi görünür alana kaydır
+  useEffect(() => {
+    const x = chipX.current[filter];
+    if (x != null) chipsRef.current?.scrollTo({ x: Math.max(0, x - 18), animated: true });
+  }, [filter]);
 
   return (
     <View style={styles.section}>
@@ -39,12 +37,10 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
           <Text style={styles.countText}>{filteredRoutes.length} PARKUR</Text>
         </View>
       </View>
-      <Text style={styles.subtitle}>
-        Eldivan'ın keşfedilmiş resmi dağ, toprak ve doğa rotaları.
-      </Text>
+      <Text style={styles.subtitle}>Eldivan'ın dağ, toprak ve doğa rotaları.</Text>
 
-      {/* Filtre Çipleri */}
       <ScrollView
+        ref={chipsRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.chipsScroll}
@@ -55,8 +51,13 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
             <TouchableOpacity
               key={chip.id}
               activeOpacity={0.8}
+              onLayout={(e) => {
+                chipX.current[chip.id] = e.nativeEvent.layout.x;
+              }}
               onPress={() => onFilterChange?.(chip.id)}
               style={[styles.chip, isActive ? styles.chipActive : styles.chipIdle]}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isActive }}
             >
               <Text style={[styles.chipText, isActive ? styles.chipTextActive : styles.chipTextIdle]}>
                 {chip.label}
@@ -66,137 +67,54 @@ export default function RouteExplorer({ activeFilter = 'all', onFilterChange }) 
         })}
       </ScrollView>
 
-      {/* Rota Kartları */}
       <View style={styles.list}>
         {filteredRoutes.map((route) => (
           <TouchableOpacity
             key={route.id}
-            activeOpacity={0.92}
-            onPress={() => setSelectedRoute(route)}
+            activeOpacity={0.9}
+            onPress={() => router.push(`/rota/${route.id}`)}
             style={styles.routeCard}
             accessibilityRole="button"
-            accessibilityLabel={`${route.title} rota detayı`}
+            accessibilityLabel={`${route.title}, ${route.distance}, ${route.difficulty}. Detayı aç`}
           >
-            <Image source={route.image} style={styles.routeImg} resizeMode="cover" />
-            <LinearGradient
-              colors={['transparent', 'rgba(0,0,0,0.35)', 'rgba(0,0,0,0.92)']}
-              style={styles.routeGradient}
-            >
-              <Text style={styles.routeTitle}>{route.title}</Text>
-              <View style={styles.detailPill}>
-                <Text style={styles.detailPillText}>DETAY</Text>
-                <Ionicons name="arrow-up-outline" size={12} color={COLORS.white} style={{ transform: [{ rotate: '45deg' }] }} />
+            <View style={styles.imageWrap}>
+              <Image source={route.image} style={styles.routeImg} resizeMode="cover" />
+              <View style={styles.categoryChip}>
+                <Text style={styles.categoryText} maxFontSizeMultiplier={1.3}>
+                  {route.categoryName}
+                </Text>
               </View>
-            </LinearGradient>
+            </View>
+
+            <View style={styles.cardBody}>
+              <Text style={styles.routeTitle}>{route.title}</Text>
+              <Text style={styles.routeDesc} numberOfLines={2}>
+                {route.desc}
+              </Text>
+
+              <View style={styles.statsRow}>
+                <View style={styles.stat}>
+                  <Ionicons name="resize-outline" size={14} color={COLORS.accent} />
+                  <Text style={styles.statText}>{route.distance}</Text>
+                </View>
+                <View style={styles.stat}>
+                  <Ionicons name="time-outline" size={14} color={COLORS.accent} />
+                  <Text style={styles.statText}>{route.duration}</Text>
+                </View>
+                <View style={styles.stat}>
+                  <Ionicons name="speedometer-outline" size={14} color={COLORS.accent} />
+                  <Text style={styles.statText}>{route.difficulty}</Text>
+                </View>
+              </View>
+
+              <View style={styles.cardFooter}>
+                <Text style={styles.detailLink}>Rotayı incele</Text>
+                <Ionicons name="arrow-forward" size={16} color={COLORS.accent} />
+              </View>
+            </View>
           </TouchableOpacity>
         ))}
       </View>
-
-      {/* Rota Detay Modalı */}
-      <Modal
-        visible={!!selectedRoute}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setSelectedRoute(null)}
-      >
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            {/* Modal Üst Çubuk */}
-            <View style={styles.modalHeader}>
-              <View style={styles.modalBadges}>
-                <View style={styles.catBadge}>
-                  <Text style={styles.catBadgeText}>
-                    {selectedRoute?.categoryName || selectedRoute?.category}
-                  </Text>
-                </View>
-                <View style={styles.ratingRow}>
-                  <Ionicons name="speedometer-outline" size={14} color={COLORS.accent} />
-                  <Text style={styles.diffText}>{selectedRoute?.difficulty}</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                onPress={() => setSelectedRoute(null)}
-                style={styles.closeBtn}
-                accessibilityRole="button"
-                accessibilityLabel="Kapat"
-                hitSlop={8}
-              >
-                <Ionicons name="close" size={18} color={COLORS.ink} />
-              </TouchableOpacity>
-            </View>
-
-            {/* Modal Gövde */}
-            <ScrollView style={styles.modalBody} contentContainerStyle={{ paddingBottom: 16 }}>
-              {selectedRoute?.image && (
-                <View style={styles.modalHero}>
-                  <Image source={selectedRoute.image} style={styles.modalImg} resizeMode="cover" />
-                  <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.85)']}
-                    style={styles.modalHeroGrad}
-                  >
-                    <Text style={styles.modalHeroTag}>ELDİVAN DOĞA & MOTOR PARKURU</Text>
-                    <Text style={styles.modalHeroTitle}>{selectedRoute.title}</Text>
-                  </LinearGradient>
-                </View>
-              )}
-
-              <View style={styles.descBox}>
-                <Text style={styles.descText}>{selectedRoute?.desc}</Text>
-              </View>
-
-              <View style={styles.metricsRow}>
-                <View style={styles.metricBox}>
-                  <View style={styles.metricLabelRow}>
-                    <Ionicons name="time-outline" size={14} color={COLORS.accent} />
-                    <Text style={styles.metricLabel}>MESAFE & SÜRE</Text>
-                  </View>
-                  <Text style={styles.metricValue}>{selectedRoute?.distance}</Text>
-                  <Text style={styles.metricSub}>Tahmini: {selectedRoute?.duration}</Text>
-                </View>
-
-                <View style={styles.metricBox}>
-                  <View style={styles.metricLabelRow}>
-                    <Ionicons name="trending-up-outline" size={14} color={COLORS.accent} />
-                    <Text style={styles.metricLabel}>İRTİFA & ZORLUK</Text>
-                  </View>
-                  <Text style={styles.metricValue}>{selectedRoute?.elevation}</Text>
-                  <Text style={styles.metricSub}>Zorluk: {selectedRoute?.difficulty}</Text>
-                </View>
-              </View>
-
-              <View style={styles.gpsNote}>
-                <Ionicons name="information-circle-outline" size={16} color={COLORS.forest} />
-                <Text style={styles.gpsNoteText}>
-                  Süre ve zorluk tahminidir. Rotaya çıkmadan önce hava durumunu kontrol et ve kulübe haber ver.
-                </Text>
-              </View>
-            </ScrollView>
-
-            {/* Modal Alt Butonları */}
-            <View style={styles.modalFooter}>
-              <TouchableOpacity
-                style={styles.mapsBtn}
-                onPress={() => openUrl(selectedRoute?.mapsUrl || CLUB_CONFIG.meetingPointMapsUrl)}
-              >
-                <Ionicons name="location-outline" size={16} color={COLORS.ink} />
-                <Text style={styles.mapsBtnText}>Yol Tarifi Al</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.guideBtn}
-                onPress={() =>
-                  openWhatsApp(
-                    `Merhaba, ${selectedRoute?.title || ''} rotası hakkında rehberlik ve detaylı bilgi almak istiyorum.`
-                  )
-                }
-              >
-                <Ionicons name="chatbubble-outline" size={16} color={COLORS.white} />
-                <Text style={styles.guideBtnText}>Rehber Talep Et</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -205,9 +123,7 @@ const styles = StyleSheet.create({
   section: {
     paddingHorizontal: 18,
     paddingVertical: 22,
-    backgroundColor: COLORS.sandLight,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.outline
+    backgroundColor: COLORS.sandLight
   },
   headerRow: {
     flexDirection: 'row',
@@ -267,245 +183,79 @@ const styles = StyleSheet.create({
     gap: 14
   },
   routeCard: {
-    height: 205,
     borderRadius: 18,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: COLORS.outline,
-    backgroundColor: COLORS.ink
+    backgroundColor: COLORS.white
+  },
+  imageWrap: {
+    height: 150,
+    backgroundColor: COLORS.forest
   },
   routeImg: {
-    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%'
   },
-  routeGradient: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    padding: 18,
-    gap: 10
-  },
-  routeTitle: {
-    flex: 1,
-    fontSize: 18,
-    fontWeight: '900',
-    color: COLORS.white
-  },
-  detailPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
+  categoryChip: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.28)'
+    backgroundColor: 'rgba(20, 32, 26, 0.85)'
   },
-  detailPillText: {
+  categoryText: {
     color: COLORS.white,
-    fontSize: 10,
-    fontWeight: '800'
-  },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.72)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16
-  },
-  modalCard: {
-    width: '100%',
-    maxWidth: 400,
-    maxHeight: '88%',
-    backgroundColor: COLORS.white,
-    borderRadius: 24,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.outline
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: COLORS.sandLight,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.outline
-  },
-  modalBadges: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    flex: 1
-  },
-  catBadge: {
-    backgroundColor: COLORS.forest,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999
-  },
-  catBadgeText: {
-    color: COLORS.white,
-    fontSize: 10,
-    fontWeight: '800'
-  },
-  ratingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4
-  },
-  ratingText: {
-    fontSize: 12,
+    fontSize: 10.5,
     fontWeight: '800',
-    color: COLORS.accent
+    letterSpacing: 0.5
   },
-  diffText: {
-    fontSize: 11,
-    color: COLORS.muted
-  },
-  closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: COLORS.sandDark,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  modalBody: {
-    padding: 16
-  },
-  modalHero: {
-    height: 180,
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginBottom: 14
-  },
-  modalImg: {
-    width: '100%',
-    height: '100%'
-  },
-  modalHeroGrad: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    padding: 14
-  },
-  modalHeroTag: {
-    color: COLORS.gold,
-    fontSize: 10,
-    fontWeight: '800'
-  },
-  modalHeroTitle: {
-    color: COLORS.white,
-    fontSize: 19,
-    fontWeight: '900',
-    marginTop: 2
-  },
-  descBox: {
+  cardBody: {
     padding: 14,
-    borderRadius: 16,
-    backgroundColor: COLORS.sandLight,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    marginBottom: 12
+    gap: 8
   },
-  descText: {
-    fontSize: 13,
-    lineHeight: 20,
-    color: COLORS.inkMuted
-  },
-  metricsRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginBottom: 12
-  },
-  metricBox: {
-    flex: 1,
-    padding: 12,
-    borderRadius: 14,
-    backgroundColor: COLORS.sandLight,
-    borderWidth: 1,
-    borderColor: COLORS.outline
-  },
-  metricLabelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4
-  },
-  metricLabel: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: COLORS.accent
-  },
-  metricValue: {
-    fontSize: 15,
+  routeTitle: {
+    fontSize: 17,
+    lineHeight: 22,
     fontWeight: '900',
-    color: COLORS.ink,
-    marginTop: 4
-  },
-  metricSub: {
-    fontSize: 11,
-    color: COLORS.muted,
-    marginTop: 2
-  },
-  gpsNote: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    padding: 12,
-    borderRadius: 12,
-    backgroundColor: 'rgba(27, 59, 43, 0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(27, 59, 43, 0.16)'
-  },
-  gpsNoteText: {
-    fontSize: 11.5,
-    fontWeight: '700',
-    color: COLORS.forest,
-    flex: 1
-  },
-  modalFooter: {
-    flexDirection: 'row',
-    gap: 10,
-    padding: 14,
-    backgroundColor: COLORS.sandLight,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.outline
-  },
-  mapsBtn: {
-    flex: 1,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.sandDark,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6
-  },
-  mapsBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
     color: COLORS.ink
   },
-  guideBtn: {
-    flex: 1,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.forest,
+  routeDesc: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: COLORS.inkMuted
+  },
+  statsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8
+  },
+  stat: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6
+    gap: 4,
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+    borderRadius: 999,
+    backgroundColor: COLORS.sand
   },
-  guideBtnText: {
+  statText: {
     fontSize: 12,
+    fontWeight: '700',
+    color: COLORS.ink
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 4,
+    paddingTop: 2
+  },
+  detailLink: {
+    fontSize: 13,
     fontWeight: '800',
-    color: COLORS.white
+    color: COLORS.accent
   }
 });
-

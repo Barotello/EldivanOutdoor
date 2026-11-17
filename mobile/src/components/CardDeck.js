@@ -7,33 +7,34 @@ import {
   StyleSheet,
   PanResponder,
   Animated,
-  Dimensions,
-  Modal,
-  ScrollView
+  Dimensions
 } from 'react-native';
+import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
-import { CARDS_DATA, IMAGES, CLUB_CONFIG } from '../data/mockData';
-import { openWhatsApp } from '../utils/links';
+import { CARDS_DATA, IMAGES } from '../data/mockData';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = Math.min(width - 44, 345);
 
-export default function CardDeck({ onSelectFilter }) {
+export default function CardDeck() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedCard, setSelectedCard] = useState(null);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const timerRef = useRef(null);
   const isAnimatingRef = useRef(false);
+  // Kaydırma bitince parmak kalkarken oluşan "dokunma" detay ekranını açmasın
+  const swipingRef = useRef(false);
 
+  // direction  1 → sonraki kart: üstteki kart SOLA çıkar (sola kaydırma)
+  // direction -1 → önceki kart: üstteki kart SAĞA çıkar (sağa kaydırma)
   const changeCard = useCallback(
     (direction = 1) => {
       if (isAnimatingRef.current) return;
       isAnimatingRef.current = true;
       Animated.timing(slideAnim, {
-        toValue: direction > 0 ? 1 : -1,
-        duration: 240,
+        toValue: direction > 0 ? -1 : 1,
+        duration: 220,
         useNativeDriver: true
       }).start(() => {
         setCurrentIndex((prev) => (prev + direction + CARDS_DATA.length) % CARDS_DATA.length);
@@ -52,8 +53,9 @@ export default function CardDeck({ onSelectFilter }) {
 
   const openDetail = useCallback(
     (card) => {
+      if (swipingRef.current) return;
       stopAutoPlay();
-      setSelectedCard(card);
+      router.push(`/aktivite/${card.id}`);
     },
     [stopAutoPlay]
   );
@@ -74,16 +76,35 @@ export default function CardDeck({ onSelectFilter }) {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gesture) => Math.abs(gesture.dx) > 15,
+      // Sadece yatay hareketi yakala; dikey kaydırma sayfayı kaydırmaya devam etsin
+      onMoveShouldSetPanResponder: (_, g) =>
+        !isAnimatingRef.current && Math.abs(g.dx) > 12 && Math.abs(g.dx) > Math.abs(g.dy),
+      onPanResponderTerminationRequest: () => false,
       onPanResponderGrant: () => {
+        swipingRef.current = true;
         if (timerRef.current) clearInterval(timerRef.current);
+        timerRef.current = null;
       },
-      onPanResponderRelease: (_, gesture) => {
-        if (gesture.dx < -40) {
+      // Kart parmağı takip eder: sağa çekince sağa, sola çekince sola gider
+      onPanResponderMove: (_, g) => {
+        slideAnim.setValue(Math.max(-1, Math.min(1, g.dx / 220)));
+      },
+      onPanResponderRelease: (_, g) => {
+        setTimeout(() => {
+          swipingRef.current = false;
+        }, 350);
+        const swipedFast = Math.abs(g.vx) > 0.5;
+        if (g.dx < -60 || (swipedFast && g.dx < 0)) {
           changeCard(1);
-        } else if (gesture.dx > 40) {
+        } else if (g.dx > 60 || (swipedFast && g.dx > 0)) {
           changeCard(-1);
+        } else {
+          Animated.spring(slideAnim, { toValue: 0, friction: 6, useNativeDriver: true }).start();
         }
+      },
+      onPanResponderTerminate: () => {
+        swipingRef.current = false;
+        Animated.spring(slideAnim, { toValue: 0, friction: 6, useNativeDriver: true }).start();
       }
     })
   ).current;
@@ -142,7 +163,9 @@ export default function CardDeck({ onSelectFilter }) {
               >
                 <Image source={card.image} style={styles.cardImage} resizeMode="cover" />
                 <LinearGradient
-                  colors={['rgba(0,0,0,0.2)', 'rgba(0,0,0,0.42)', 'rgba(0,0,0,0.94)']}
+                  // Fotoğrafın üst yarısı açık kalır; koyuluk yalnızca yazıların altında toplanır
+                  colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0.62)', 'rgba(0,0,0,0.92)']}
+                  locations={[0, 0.42, 0.72, 1]}
                   style={styles.cardGradient}
                 >
                   <View style={styles.cardTopRow}>
@@ -158,6 +181,9 @@ export default function CardDeck({ onSelectFilter }) {
                   <View>
                     <Text style={styles.cardTag}>{card.tag}</Text>
                     <Text style={styles.cardTitle}>{card.title}</Text>
+                    <Text style={styles.cardDesc} numberOfLines={2}>
+                      {card.desc}
+                    </Text>
                     <View style={styles.cardBottomRow}>
                       <Text style={styles.cardDist}>{card.dist}</Text>
                       <View style={styles.selectBtn}>
@@ -214,120 +240,6 @@ export default function CardDeck({ onSelectFilter }) {
         </View>
       </View>
 
-      {/* Aktif Kart Bilgi Banner'ı */}
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => openDetail(activeData)}
-        style={styles.banner}
-        accessibilityRole="button"
-        accessibilityLabel={`${activeData.detailTitle} detaylarını incele`}
-      >
-        <View style={styles.bannerBody}>
-          <Text style={styles.bannerBadge}>{activeData.badge}</Text>
-          <Text style={styles.bannerTitle}>{activeData.detailTitle}</Text>
-          <Text style={styles.bannerDesc}>{activeData.desc}</Text>
-          <Text style={styles.bannerMeta}>{activeData.meta}</Text>
-        </View>
-        <View style={styles.bannerArrow}>
-          <Ionicons name="arrow-forward" size={18} color={COLORS.white} />
-        </View>
-      </TouchableOpacity>
-
-      {/* Seç & İncele Etkinlik Detay Modalı */}
-      <Modal
-        visible={!!selectedCard}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setSelectedCard(null)}
-      >
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <View style={styles.modalBadges}>
-                <View style={styles.catBadge}>
-                  <Text style={styles.catBadgeText}>{selectedCard?.badge}</Text>
-                </View>
-                <Text style={styles.distBadge}>{selectedCard?.dist}</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setSelectedCard(null)}
-                style={styles.closeBtn}
-                accessibilityRole="button"
-                accessibilityLabel="Kapat"
-                hitSlop={8}
-              >
-                <Ionicons name="close" size={18} color={COLORS.ink} />
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView style={styles.modalBody} contentContainerStyle={{ paddingBottom: 16 }}>
-              {selectedCard?.image && (
-                <View style={styles.modalHero}>
-                  <Image source={selectedCard.image} style={styles.modalImg} resizeMode="cover" />
-                  <LinearGradient
-                    colors={['transparent', 'rgba(0,0,0,0.85)']}
-                    style={styles.modalHeroGrad}
-                  >
-                    <Text style={styles.modalHeroTag}>{selectedCard.tag}</Text>
-                    <Text style={styles.modalHeroTitle}>{selectedCard.detailTitle}</Text>
-                  </LinearGradient>
-                </View>
-              )}
-
-              <View style={styles.detailBox}>
-                <Text style={styles.detailHeading}>YAPILACAK ETKİNLİK HAKKINDA</Text>
-                <Text style={styles.detailText}>
-                  {selectedCard?.activityDetails || selectedCard?.desc}
-                </Text>
-              </View>
-
-              {selectedCard?.equipment && (
-                <View style={styles.equipBox}>
-                  <View style={styles.equipLabelRow}>
-                    <Ionicons name="shield-checkmark-outline" size={15} color={COLORS.accent} />
-                    <Text style={styles.equipLabel}>GEREKLİ EKİPMAN & HAZIRLIK</Text>
-                  </View>
-                  <Text style={styles.equipText}>{selectedCard.equipment}</Text>
-                </View>
-              )}
-
-              <View style={styles.infoNote}>
-                <Text style={styles.infoNoteMeta}>{selectedCard?.meta}</Text>
-                <View style={styles.infoNoteLocRow}>
-                  <Ionicons name="location-outline" size={14} color={COLORS.accent} />
-                  <Text style={styles.infoNoteLoc}>Buluşma: {CLUB_CONFIG.address}</Text>
-                </View>
-              </View>
-            </ScrollView>
-
-            <View style={styles.modalFooter}>
-              <TouchableOpacity
-                style={styles.routesBtn}
-                onPress={() => {
-                  const filter = selectedCard?.filter;
-                  setSelectedCard(null);
-                  if (filter) onSelectFilter?.(filter);
-                }}
-              >
-                <Ionicons name="map-outline" size={15} color={COLORS.ink} />
-                <Text style={styles.routesBtnText}>Rotaları Gör</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.waBtn}
-                onPress={() =>
-                  openWhatsApp(
-                    `Merhaba, ${selectedCard?.detailTitle || ''} etkinliği hakkında bilgi ve kayıt almak istiyorum.`
-                  )
-                }
-              >
-                <Ionicons name="chatbubble-outline" size={15} color={COLORS.white} />
-                <Text style={styles.waBtnText}>Bilgi & Kayıt</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -369,7 +281,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white
   },
   deckContainer: {
-    height: 350,
+    height: 445,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 4
@@ -377,7 +289,7 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     width: CARD_WIDTH,
-    height: 325,
+    height: 420,
     borderRadius: 26,
     overflow: 'hidden',
     borderWidth: 2,
@@ -417,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   cardTag: {
-    color: COLORS.accent,
+    color: COLORS.gold,
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 1
@@ -426,6 +338,12 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 20,
     fontWeight: '900',
+    marginTop: 4
+  },
+  cardDesc: {
+    color: 'rgba(255,255,255,0.86)',
+    fontSize: 12.5,
+    lineHeight: 18,
     marginTop: 4
   },
   cardBottomRow: {
@@ -528,249 +446,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: COLORS.inkMuted,
     maxWidth: 160
-  },
-  banner: {
-    padding: 16,
-    borderRadius: 18,
-    backgroundColor: COLORS.white,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2
-  },
-  bannerBody: {
-    flex: 1
-  },
-  bannerBadge: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: COLORS.accent,
-    letterSpacing: 0.8,
-    marginBottom: 4
-  },
-  bannerTitle: {
-    fontSize: 17,
-    fontWeight: '900',
-    color: COLORS.ink
-  },
-  bannerDesc: {
-    fontSize: 12.5,
-    color: COLORS.muted,
-    lineHeight: 18,
-    marginTop: 4
-  },
-  bannerMeta: {
-    fontSize: 10,
-    fontWeight: '700',
-    color: COLORS.muted,
-    marginTop: 8
-  },
-  bannerArrow: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: COLORS.ink,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.72)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16
-  },
-  modalCard: {
-    width: '100%',
-    maxWidth: 400,
-    maxHeight: '88%',
-    backgroundColor: COLORS.white,
-    borderRadius: 24,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: COLORS.outline
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: COLORS.sandLight,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.outline
-  },
-  modalBadges: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    flex: 1
-  },
-  catBadge: {
-    backgroundColor: COLORS.forest,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 999
-  },
-  catBadgeText: {
-    color: COLORS.white,
-    fontSize: 10,
-    fontWeight: '800'
-  },
-  distBadge: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: COLORS.accent
-  },
-  closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: COLORS.sandDark,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  modalBody: {
-    padding: 16
-  },
-  modalHero: {
-    height: 180,
-    borderRadius: 16,
-    overflow: 'hidden',
-    marginBottom: 14
-  },
-  modalImg: {
-    width: '100%',
-    height: '100%'
-  },
-  modalHeroGrad: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    padding: 14
-  },
-  modalHeroTag: {
-    color: COLORS.gold,
-    fontSize: 10,
-    fontWeight: '800'
-  },
-  modalHeroTitle: {
-    color: COLORS.white,
-    fontSize: 19,
-    fontWeight: '900',
-    marginTop: 2
-  },
-  detailBox: {
-    padding: 14,
-    borderRadius: 16,
-    backgroundColor: COLORS.sandLight,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    marginBottom: 12
-  },
-  detailHeading: {
-    fontSize: 10.5,
-    fontWeight: '800',
-    color: COLORS.accent,
-    marginBottom: 6,
-    letterSpacing: 0.6
-  },
-  detailText: {
-    fontSize: 13,
-    lineHeight: 20,
-    color: COLORS.ink
-  },
-  equipBox: {
-    padding: 13,
-    borderRadius: 14,
-    backgroundColor: COLORS.sandLight,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    marginBottom: 12
-  },
-  equipLabelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5
-  },
-  equipLabel: {
-    fontSize: 10.5,
-    fontWeight: '800',
-    color: COLORS.forest
-  },
-  equipText: {
-    fontSize: 12.5,
-    color: COLORS.inkMuted,
-    lineHeight: 18,
-    marginTop: 5
-  },
-  infoNote: {
-    padding: 12,
-    borderRadius: 12,
-    backgroundColor: 'rgba(27, 59, 43, 0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(27, 59, 43, 0.16)',
-    gap: 6
-  },
-  infoNoteMeta: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: COLORS.forest
-  },
-  infoNoteLocRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 5
-  },
-  infoNoteLoc: {
-    flex: 1,
-    fontSize: 11.5,
-    color: COLORS.inkMuted,
-    lineHeight: 16
-  },
-  modalFooter: {
-    flexDirection: 'row',
-    gap: 10,
-    padding: 14,
-    backgroundColor: COLORS.sandLight,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.outline
-  },
-  routesBtn: {
-    flex: 1,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.sandDark,
-    borderWidth: 1,
-    borderColor: COLORS.outline,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6
-  },
-  routesBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: COLORS.ink
-  },
-  waBtn: {
-    flex: 1,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: COLORS.forest,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6
-  },
-  waBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: COLORS.white
   }
 });

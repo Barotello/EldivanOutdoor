@@ -279,6 +279,7 @@ export const EVENTS_DATA = [
     title: 'Gece Gökyüzü & Yayla Kampı',
     desc: 'Yıldızların altında, doğanın kalbinde huzurlu çadır kampı, teleskop ve ateş başı deneyimi.',
     startsAt: '2026-05-25T14:00:00+03:00',
+    endsAt: '2026-05-26T15:00:00+03:00',
     date: '25-26 MAYIS 2026 · HAFTASONU',
     time: '14:00',
     location: 'Eldivan Yaylası Kamp Alanı',

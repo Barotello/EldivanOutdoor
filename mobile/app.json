@@ -6,14 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/images/app-icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "backgroundColor": "#1F3A2E",
-      "resizeMode": "contain",
-      "image": "./assets/images/app-icon.png"
-    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.eldivanoutdoor.app"
+      "bundleIdentifier": "com.eldivanoutdoor.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +23,24 @@
     "web": {
       "favicon": "./assets/images/favicon-32.png"
     },
-    "scheme": "eldivanoutdoor"
+    "scheme": "eldivanoutdoor",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Acil durumda konumunu görüntüleyip paylaşabilmen için konum erişimi gerekir."
+        }
+      ],
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1F3A2E",
+          "image": "./assets/images/app-icon.png",
+          "imageWidth": 180
+        }
+      ]
+    ]
   }
 }

@@ -13,18 +13,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../theme/colors';
 import { CLUB_CONFIG, IMAGES } from '../data/mockData';
 import { openUrl, openWhatsApp } from '../utils/links';
+import { router } from 'expo-router';
+import { useAppUi } from '../context/AppUiContext';
 
-export default function SidebarDrawer({
-  visible,
-  onClose,
-  onNavigate,
-  onReplaySplash
-}) {
+function go(path, params) {
+  router.navigate(params ? { pathname: path, params } : path);
+}
+
+export default function SidebarDrawer({ visible, onClose }) {
+  const { replaySplash } = useAppUi();
   const [expandedIndex, setExpandedIndex] = useState(0);
   const [showOsmanModal, setShowOsmanModal] = useState(false);
 
   const insets = useSafeAreaInsets();
-  const toRoutes = (filter) => () => onNavigate?.('rotalar', { filter });
+  const toRoutes = (filter) => () => go('/rotalar', { filter });
 
   const navItems = [
     {
@@ -44,17 +46,22 @@ export default function SidebarDrawer({
       title: 'Kulüp & Etkinlikler',
       icon: 'people-outline',
       items: [
-        { title: 'Kulüp Programları', action: () => onNavigate?.('etkinlikler') },
-        { title: 'Etkinlik Takvimi', action: () => onNavigate?.('etkinlikler') }
+        { title: 'Kulüp Programları', action: () => go('/etkinlikler') },
+        { title: 'Etkinlik Takvimi', action: () => go('/etkinlikler') }
       ]
     },
     {
-      title: 'Saha & Hava Durumu',
+      title: 'Harita & Hava Durumu',
       icon: 'partly-sunny-outline',
       items: [
-        { title: 'Hava Durumu', action: () => onNavigate?.('saha') },
-        { title: 'Saha Haritası', action: () => onNavigate?.('saha') }
+        { title: 'Hava Durumu', action: () => go('/harita') },
+        { title: 'Etkileşimli Harita', action: () => go('/harita') }
       ]
+    },
+    {
+      title: 'Güvenlik',
+      icon: 'shield-checkmark-outline',
+      items: [{ title: 'Güvenlik & SOS', action: () => router.push('/guvenlik') }]
     },
     {
       title: 'İletişim',
@@ -65,10 +72,10 @@ export default function SidebarDrawer({
           action: () => openWhatsApp('Merhaba, Eldivan Outdoor hakkında bilgi almak istiyorum.')
         },
         { title: 'Telefonla Ara', action: () => openUrl(CLUB_CONFIG.phoneHref) },
-        { title: 'Buluşma Noktası & Konum', action: () => onNavigate?.('iletisim') },
+        { title: 'Buluşma Noktası (Yol Tarifi)', action: () => openUrl(CLUB_CONFIG.meetingPointMapsUrl) },
         {
           title: 'Açılış Animasyonunu Oynat',
-          action: () => onReplaySplash?.()
+          action: () => replaySplash()
         }
       ]
     }
@@ -95,7 +102,7 @@ export default function SidebarDrawer({
                   accessibilityLabel="Ana sayfaya dön"
                   onPress={() => {
                     onClose?.();
-                    setTimeout(() => onNavigate?.('kesif'), 120);
+                    setTimeout(() => go('/'), 120);
                   }}
                 >
                   <View style={styles.brandIconWrap}>

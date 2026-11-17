@@ -3,65 +3,68 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../theme/colors';
-import { openWhatsApp } from '../utils/links';
+import { useAppUi } from '../context/AppUiContext';
 
-export default function BottomDock({ activeTab, onTabPress, onMenuPress }) {
+const TAB_ICONS = {
+  index: { icon: 'compass-outline', activeIcon: 'compass' },
+  rotalar: { icon: 'map-outline', activeIcon: 'map' },
+  etkinlikler: { icon: 'calendar-outline', activeIcon: 'calendar' },
+  harita: { icon: 'navigate-outline', activeIcon: 'navigate' }
+};
+
+// Expo Router Tabs için özel alt menü (tabBar).
+// Not: Expo Router 58'de tabBar'a `navigation` değil `emitter` ve `navigateToTab` gelir.
+export default function BottomDock({ state, descriptors, emitter, navigateToTab }) {
   const insets = useSafeAreaInsets();
-  const navItems = [
-    { id: 'kesif', label: 'Keşif', icon: 'compass-outline', activeIcon: 'compass' },
-    { id: 'rotalar', label: 'Rotalar', icon: 'map-outline', activeIcon: 'map' },
-    { id: 'etkinlikler', label: 'Etkinlik', icon: 'calendar-outline', activeIcon: 'calendar' }
-  ];
+  const { openMenu } = useAppUi();
 
   return (
     <View style={[styles.wrapper, { bottom: Math.max(insets.bottom, 12) }]} pointerEvents="box-none">
       <View style={styles.dock}>
-        {navItems.map((item) => {
-          const isActive = activeTab === item.id;
+        {state.routes.map((route, index) => {
+          const isActive = state.index === index;
+          const { options } = descriptors[route.key];
+          const label = options.title ?? route.name;
+          const icons = TAB_ICONS[route.name] ?? TAB_ICONS.index;
+
+          const onPress = () => {
+            const event = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+            if (!isActive && !event.defaultPrevented) navigateToTab(route.key);
+          };
+
           return (
             <TouchableOpacity
-              key={item.id}
+              key={route.key}
               activeOpacity={0.8}
-              onPress={() => onTabPress?.(item.id)}
+              onPress={onPress}
               style={[styles.tabBtn, isActive && styles.tabBtnActive]}
               accessibilityRole="tab"
               accessibilityState={{ selected: isActive }}
-              accessibilityLabel={item.label}
+              accessibilityLabel={label}
             >
               <Ionicons
-                name={isActive ? item.activeIcon : item.icon}
+                name={isActive ? icons.activeIcon : icons.icon}
                 size={20}
                 color={isActive ? COLORS.ink : COLORS.muted}
               />
-              <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
-                {item.label}
+              <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]} numberOfLines={1} maxFontSizeMultiplier={1.2}>
+                {label}
               </Text>
             </TouchableOpacity>
           );
         })}
 
-        {/* WhatsApp */}
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => openWhatsApp()}
-          style={styles.tabBtn}
-          accessibilityRole="button"
-          accessibilityLabel="WhatsApp ile yaz"
-        >
-          <Ionicons name="logo-whatsapp" size={19} color={COLORS.whatsapp} />
-          <Text style={[styles.tabLabel, styles.waLabel]}>WhatsApp</Text>
-        </TouchableOpacity>
-
-        {/* Menü */}
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={onMenuPress}
+          onPress={openMenu}
           style={styles.tabBtn}
           accessibilityRole="button"
           accessibilityLabel="Menüyü aç"
         >
           <Ionicons name="menu-outline" size={21} color={COLORS.muted} />
-          <Text style={styles.tabLabel}>Menü</Text>
+          <Text style={styles.tabLabel} numberOfLines={1} maxFontSizeMultiplier={1.2}>
+            Menü
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
