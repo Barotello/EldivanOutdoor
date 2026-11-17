@@ -183,6 +183,14 @@
   z-index: 30 !important;
 }
 
+/* Sola kaydırma: üstteki kart sola çıkar, sonraki kart gelir */
+.spread-card.card-slide-out-left {
+  transform: translate3d(-240px, -20px, 40px) rotate(-14deg) scale(0.96) !important;
+  opacity: 0 !important;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease !important;
+  z-index: 30 !important;
+}
+
 .spread-card[data-depth="0"] {
   transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
   z-index: 12;
